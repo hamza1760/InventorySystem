@@ -25,9 +25,10 @@ public class ItemServiceImpl implements ItemService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public List<ItemDto> getItem() {
+	public List<Item> getItem() {
 
-		return itemDao.findAll().stream().map(this::itemToItemDto).collect(Collectors.toList());
+		return itemDao.findAll();
+//		return itemDao.findAll().stream().map(this::itemToItemDto).collect(Collectors.toList());
 
 	}
 
@@ -67,11 +68,10 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ItemDto getItemById(int itemId) {
+	public Item getItemById(int itemId) {
 
 		Item item = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
-		ItemDto itemDto = itemToItemDto(item);
-		return itemDto;
+		return item;
 
 	}
 

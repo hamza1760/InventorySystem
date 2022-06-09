@@ -1,7 +1,8 @@
 package com.inventory.system.InventorySystem.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 @Entity
 public class InventoryDetail {
@@ -16,15 +17,18 @@ public class InventoryDetail {
 	private int quantityPerBox;
 	private int reorderPoint;
 
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "item_id")
+	private Item item;
+
 	public InventoryDetail() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public InventoryDetail(int inventoryId, String size, int inStock, int avlQty, int inTransit, int minOrderQuantity,
+	public InventoryDetail(String size, int inStock, int avlQty, int inTransit, int minOrderQuantity,
 			int quantityPerBox, int reorderPoint) {
-		super();
-		this.inventoryId = inventoryId;
 		this.size = size;
 		this.inStock = inStock;
 		this.avlQty = avlQty;
@@ -39,6 +43,7 @@ public class InventoryDetail {
 	}
 
 	public void setInventoryId(int inventoryId) {
+
 		this.inventoryId = inventoryId;
 	}
 
@@ -98,4 +103,13 @@ public class InventoryDetail {
 		this.reorderPoint = reorderPoint;
 	}
 
+	public Item getItem() {
+
+		return item;
+	}
+
+	public void setItemToInventory(Item item) {
+
+		this.item = item;
+	}
 }
