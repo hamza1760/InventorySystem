@@ -1,14 +1,10 @@
 package com.inventory.system.InventorySystem.entities;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 
@@ -28,6 +24,9 @@ public class Item {
 
 	private String password;
 
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item",cascade = CascadeType.REMOVE)
+	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "item")
 	private List<Warehouse> warehouse;
@@ -46,14 +45,17 @@ public class Item {
 	}
 
 	public int getItemId() {
+
 		return itemId;
 	}
 
 	public void setItemId(int itemId) {
+
 		this.itemId = itemId;
 	}
 
 	public String getItemName() {
+
 		return itemName;
 	}
 
@@ -81,4 +83,11 @@ public class Item {
 		return warehouse;
 	}
 
+	public Set<InventoryDetail> getInventoryDetail() {
+		return inventoryDetail;
+	}
+
+	public void mapInventorytoItem(InventoryDetail inventoryDetail1) {
+		inventoryDetail.add(inventoryDetail1);
+	}
 }

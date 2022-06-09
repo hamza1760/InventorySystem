@@ -9,7 +9,7 @@ import com.inventory.system.InventorySystem.pojo.ItemDto;
 
 public interface ItemService {
 	
-	public List<ItemDto> getItem();
+	public List<Item> getItem();
 	
 	public Item addItem(Item item);
 	
@@ -19,7 +19,7 @@ public interface ItemService {
 
 	public Item viewSize(int itemId);
 	
-	public ItemDto getItemById (int itemId);
+	public Item getItemById (int itemId);
 	
 	public Item itemDtoToItem(ItemDto itemDto);
 	

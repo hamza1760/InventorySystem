@@ -25,7 +25,7 @@ public class ItemController {
 
     /* Item Controller */
     @GetMapping("/item")
-    public List<ItemDto> getItem() {
+    public List<Item> getItem() {
         return itemService.getItem();
 
     }
@@ -33,9 +33,9 @@ public class ItemController {
     @GetMapping("/item/{itemId}")
     public ResponseEntity<?> getItemById(@PathVariable int itemId) {
 
-        ItemDto itemDto = itemService.getItemById(itemId);
+        Item item = itemService.getItemById(itemId);
         logger.debug("error1");
-        return new ResponseEntity<>(itemDto, HttpStatus.FOUND);
+        return new ResponseEntity<>(item, HttpStatus.FOUND);
 
     }
 
@@ -60,4 +60,8 @@ public class ItemController {
         return new ResponseEntity<>(new ApiResponseItem("Item deleted successfully ", itemId), HttpStatus.FOUND);
 
     }
+
+    /* map inventory to item */
+
+
 }

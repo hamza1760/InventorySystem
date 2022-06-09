@@ -1,8 +1,11 @@
 package com.inventory.system.InventorySystem.pojo;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Warehouse;
 
 public class ItemDto {
@@ -10,6 +13,8 @@ public class ItemDto {
 	private int itemId;
 	private String itemName;
 	private String itemColor;
+
+	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
 	@JsonIgnore
 	private List<Warehouse> warehouse;
@@ -54,4 +59,7 @@ public class ItemDto {
 		return warehouse;
 	}
 
+	public Set<InventoryDetail> getInventoryDetail() {
+		return inventoryDetail;
+	}
 }
