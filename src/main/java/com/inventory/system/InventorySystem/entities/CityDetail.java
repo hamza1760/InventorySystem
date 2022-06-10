@@ -7,6 +7,7 @@ import javax.persistence.Id;
 public class CityDetail {
 
 	@Id
+	private int cityId;
 	private String cityCode;
 	private String cityName;
 
@@ -15,10 +16,18 @@ public class CityDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CityDetail(String cityCode, String cityName) {
-		super();
+	public CityDetail(int cityId, String cityCode, String cityName) {
+		this.cityId = cityId;
 		this.cityCode = cityCode;
 		this.cityName = cityName;
+	}
+
+	public int getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
 	}
 
 	public String getCityCode() {

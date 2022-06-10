@@ -5,11 +5,11 @@ public class ApiResponseCountry {
 
 
     String message;
-    String countryCode;
+    int countryId;
 
-    public ApiResponseCountry(String message, String countryCode) {
+    public ApiResponseCountry(String message, int countryId) {
         this.message = message;
-        this.countryCode = countryCode;
+        this.countryId = countryId;
     }
 
     public String getMessage() {
@@ -20,12 +20,12 @@ public class ApiResponseCountry {
         this.message = message;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public int getCountryId() {
+        return countryId;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
     }
 }
 

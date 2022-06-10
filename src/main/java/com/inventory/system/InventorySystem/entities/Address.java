@@ -4,23 +4,32 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class WarehouseAddress {
+public class Address {
 
 	@Id
+	private int addressId;
 	private long postalCode;
 	private String areaName;
 	private String street;
 
-	public WarehouseAddress() {
+	public Address() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public WarehouseAddress(long postalCode, String areaName, String street) {
-		super();
+	public Address(int addressId, long postalCode, String areaName, String street) {
+		this.addressId = addressId;
 		this.postalCode = postalCode;
 		this.areaName = areaName;
 		this.street = street;
+	}
+
+	public int getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
 	}
 
 	public long getPostalCode() {
