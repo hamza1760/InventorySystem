@@ -11,7 +11,7 @@ public interface CityDetailService {
 	
 public List<CityDetail> getCity();
 	
-	public CityDetail getCityById();
+	public CityDetail getCityById(int cityId);
 	
 	public CityDetail addCity(CityDetail cityDetail);
 	

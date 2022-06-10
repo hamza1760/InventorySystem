@@ -5,6 +5,7 @@ import java.util.List;
 import com.inventory.system.InventorySystem.dao.CityDetailDao;
 import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.CityAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.CityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,9 @@ public class CityDetailServiceImpl implements CityDetailService {
 	}
 
 	@Override
-	public CityDetail getCityById() {
-		// TODO Auto-generated method stub
-		return null;
+	public CityDetail getCityById(int cityId) {
+		CityDetail cityDetail = cityDetailDao.findById(cityId).orElseThrow(()-> new CityNotFoundException(cityId));
+		return  cityDetail;
 	}
 
 	@Override

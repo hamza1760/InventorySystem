@@ -10,7 +10,7 @@ public interface BrandService {
 	
 	public List<BrandDetail> getBrand();
 	
-	public BrandDetail getBrandById();
+	public BrandDetail getBrandById(int brandId);
 	
 	public BrandDetail addBrand(BrandDetail brandDetail);
 	

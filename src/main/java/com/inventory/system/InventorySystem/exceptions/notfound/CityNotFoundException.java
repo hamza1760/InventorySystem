@@ -1,10 +1,10 @@
 package com.inventory.system.InventorySystem.exceptions.notfound;
 
-public class ItemNotFoundException extends RuntimeException {
+public class CityNotFoundException extends RuntimeException {
 
 	public int id;
 
-	public ItemNotFoundException(int id) {
+	public CityNotFoundException(int id) {
 		super();
 		this.id = id;
 	}

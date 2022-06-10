@@ -11,7 +11,7 @@ public interface CountryDetailService {
 	
 public List<CountryDetail> getCountry();
 	
-	public CountryDetail getCountryById();
+	public CountryDetail getCountryById(int countryId);
 	
 	public CountryDetail addCountry(CountryDetail countryDetail);
 	

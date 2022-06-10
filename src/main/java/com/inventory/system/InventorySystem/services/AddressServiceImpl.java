@@ -7,6 +7,8 @@ import com.inventory.system.InventorySystem.dao.AddressDao;
 import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AddressAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,9 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public Address getAddressById() {
-		// TODO Auto-generated method stub
-		return null;
+	public Address getAddressById(int addressId) {
+		Address address = addressDao.findById(addressId).orElseThrow(()->new AddressNotFoundException(addressId));
+		return address;
 	}
 
 	@Override

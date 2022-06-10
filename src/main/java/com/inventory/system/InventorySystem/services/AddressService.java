@@ -9,7 +9,7 @@ public interface AddressService {
 	
 public List<Address> getAddress();
 	
-	public Address getAddressById();
+	public Address getAddressById(int addressId);
 	
 	public Address addAddress(Address address);
 	

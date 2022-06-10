@@ -3,8 +3,11 @@ package com.inventory.system.InventorySystem.services;
 import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.BrandDetailDao;
+import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.BrandAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.BrandNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +23,9 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 	@Override
-	public BrandDetail getBrandById() {
-		// TODO Auto-generated method stub
-		return null;
+	public BrandDetail getBrandById(int brandId) {
+		BrandDetail brandDetail = brandDetailDao.findById(brandId).orElseThrow(()-> new BrandNotFoundException(brandId));
+		return brandDetail;
 	}
 
 	@Override

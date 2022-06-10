@@ -24,9 +24,9 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 	}
 
 	@Override
-	public ItemType getItemTypeById() {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemType getItemTypeById(int itemTypeId) {
+		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeAlreadyExists(itemTypeId));
+		return itemType;
 	}
 
 	@Override

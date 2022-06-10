@@ -10,7 +10,7 @@ public interface ItemTypeService {
 	
 public List<ItemType> getItemType();
 	
-	public ItemType getItemTypeById();
+	public ItemType getItemTypeById(int itemTypeId);
 	
 	public ItemType addItemType(ItemType itemType);
 	

@@ -4,10 +4,6 @@ public class WarehouseNotFoundException extends RuntimeException {
 
 	
 	public int id;
-	public WarehouseNotFoundException() {
-
-		super();
-	}
 	public WarehouseNotFoundException(int id) {
 		super();
 		this.id = id;
