@@ -51,20 +51,20 @@ public class HandlingException {
 
     @ExceptionHandler(CountryAlreadyExists.class)
     public ResponseEntity<?> countryAlreadyExistsException(CountryAlreadyExists ex){
-        String countryCode = ex.countryCode;
-        return  new ResponseEntity<>(new ApiResponseCountry("Country already exists",countryCode),HttpStatus.CONFLICT);
+        int countryId = ex.countryId;
+        return  new ResponseEntity<>(new ApiResponseCountry("Country already exists",countryId),HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(CityAlreadyExists.class)
     public ResponseEntity<?> cityAlreadyExistsException(CityAlreadyExists ex){
-        String cityCode = ex.cityCode;
-        return  new ResponseEntity<>(new ApiResponseCity("City already exists",cityCode),HttpStatus.CONFLICT);
+        int cityId = ex.cityId;
+        return  new ResponseEntity<>(new ApiResponseCity("City already exists",cityId),HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(WarehouseAddressAlreadyExists.class)
-    public ResponseEntity<?> warehouseAddressAlreadyExistsException(WarehouseAddressAlreadyExists ex){
-        long postalCode = ex.postalCode;
-        return  new ResponseEntity<>(new ApiResponseWarehouseAddress("WarehouseAddress already exists",postalCode),HttpStatus.CONFLICT);
+    @ExceptionHandler(AddressAlreadyExists.class)
+    public ResponseEntity<?> warehouseAddressAlreadyExistsException(AddressAlreadyExists ex){
+        int addressId = ex.addressId;
+        return  new ResponseEntity<>(new ApiResponseWarehouseAddress("WarehouseAddress already exists",addressId),HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(WarehouseAlreadyExists.class)

@@ -29,10 +29,10 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 
 	@Override
 	public CountryDetail addCountry(CountryDetail countryDetail) {
-		String countryCode = countryDetail.getCountryCode();
-		boolean checkCode = countryDetailDao.findById(countryCode).isPresent();
+		int countryId = countryDetail.getCountryId();
+		boolean checkCode = countryDetailDao.findById(countryId).isPresent();
 		if(checkCode==true){
-			throw new CountryAlreadyExists(countryCode);
+			throw new CountryAlreadyExists(countryId);
 		}
 		else {
 			return countryDetailDao.save(countryDetail);

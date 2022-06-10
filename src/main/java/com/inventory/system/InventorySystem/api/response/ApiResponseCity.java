@@ -5,12 +5,7 @@ public class ApiResponseCity {
 	
 	
 	String message;
-	String cityCode;
-
-	public ApiResponseCity(String message, String cityCode) {
-		this.message = message;
-		this.cityCode = cityCode;
-	}
+	int cityId;
 
 	public String getMessage() {
 		return message;
@@ -20,11 +15,16 @@ public class ApiResponseCity {
 		this.message = message;
 	}
 
-	public String getCityCode() {
-		return cityCode;
+	public int getCityId() {
+		return cityId;
 	}
 
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
+	}
+
+	public ApiResponseCity(String message, int cityId) {
+		this.message = message;
+		this.cityId = cityId;
 	}
 }

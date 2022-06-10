@@ -6,35 +6,44 @@ import javax.persistence.Id;
 @Entity
 public class CountryDetail {
 
-	@Id
-	private String countryCode;
-	private String countryName;
+    @Id
+    private int countryId;
+    private String countryCode;
+    private String countryName;
 
-	public CountryDetail() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public CountryDetail() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public CountryDetail(String countryCode, String countryName) {
-		super();
-		this.countryCode = countryCode;
-		this.countryName = countryName;
-	}
+    public CountryDetail(int countryId, String countryCode, String countryName) {
+        this.countryId = countryId;
+        this.countryCode = countryCode;
+        this.countryName = countryName;
+    }
 
-	public String getCountryCode() {
-		return countryCode;
-	}
+    public int getCountryId() {
+        return countryId;
+    }
 
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
+    }
 
-	public String getCountryName() {
-		return countryName;
-	}
+    public String getCountryCode() {
+        return countryCode;
+    }
 
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
 
 }

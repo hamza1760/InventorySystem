@@ -28,10 +28,10 @@ public class CityDetailServiceImpl implements CityDetailService {
 
 	@Override
 	public CityDetail addCity(CityDetail cityDetail) {
-		String cityCode = cityDetail.getCityCode();
-		boolean checkCode = cityDetailDao.findById(cityCode).isPresent();
+		int cityId = cityDetail.getCityId();
+		boolean checkCode = cityDetailDao.findById(cityId).isPresent();
 		if(checkCode==true){
-			throw new CityAlreadyExists(cityCode);
+			throw new CityAlreadyExists(cityId);
 		}
 		else {
 			return cityDetailDao.save(cityDetail);

@@ -5,11 +5,11 @@ public class ApiResponseWarehouseAddress {
 	
 	
 	String message;
-	long postalCode;
+	int addressId;
 
-	public ApiResponseWarehouseAddress(String message, long postalCode) {
+	public ApiResponseWarehouseAddress(String message, int addressId) {
 		this.message = message;
-		this.postalCode = postalCode;
+		this.addressId = addressId;
 	}
 
 	public String getMessage() {
@@ -20,11 +20,11 @@ public class ApiResponseWarehouseAddress {
 		this.message = message;
 	}
 
-	public long getPostalCode() {
-		return postalCode;
+	public int getAddressId() {
+		return addressId;
 	}
 
-	public void setPostalCode(long postalCode) {
-		this.postalCode = postalCode;
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
 	}
 }

@@ -2,13 +2,9 @@ package com.inventory.system.InventorySystem.exceptions.alreadyexists;
 
 public class CityAlreadyExists extends RuntimeException {
 	
-	public String cityCode;
+	public int cityId;
 
-	public CityAlreadyExists(String cityCode) {
-		super();
-		this.cityCode = cityCode;
+	public CityAlreadyExists(int cityId) {
+		this.cityId = cityId;
 	}
-
-	
-
 }
