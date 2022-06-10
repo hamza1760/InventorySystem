@@ -2,9 +2,7 @@ package com.inventory.system.InventorySystem.exceptions;
 
 import com.inventory.system.InventorySystem.api.response.*;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.*;
-import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.ItemNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,7 +64,7 @@ public class HandlingException {
     @ExceptionHandler(AddressAlreadyExists.class)
     public ResponseEntity<?> warehouseAddressAlreadyExistsException(AddressAlreadyExists ex){
         int addressId = ex.addressId;
-        return  new ResponseEntity<>(new ApiResponseWarehouseAddress("WarehouseAddress already exists",addressId),HttpStatus.CONFLICT);
+        return  new ResponseEntity<>(new ApiResponseAddress("WarehouseAddress already exists",addressId),HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(WarehouseAlreadyExists.class)
@@ -76,14 +74,64 @@ public class HandlingException {
     }
 
 
+    @ExceptionHandler(CountryNotFoundException.class)
+    public ResponseEntity<?> CountryNotFoundException(CountryNotFoundException ex) {
+
+        int countryId = ex.id;
+        return new ResponseEntity<>(new ApiResponseCountry("Country not found", countryId), HttpStatus.NOT_FOUND);
+
+    }
+    @ExceptionHandler(CityNotFoundException.class)
+    public ResponseEntity<?> CityNotFoundException(CityNotFoundException ex) {
+
+        int cityId = ex.id;
+        return new ResponseEntity<>(new ApiResponseCity("City not found", cityId), HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(AddressNotFoundException.class)
+    public ResponseEntity<?> AddressNotFoundException(AddressNotFoundException ex) {
+
+        int addressId = ex.id;
+        return new ResponseEntity<>(new ApiResponseAddress("Address not found", addressId), HttpStatus.NOT_FOUND);
+
+    }
+
 
     @ExceptionHandler(WarehouseNotFoundException.class)
     public ResponseEntity<?> warehouseNotFoundException(WarehouseNotFoundException ex) {
 
         int warehouseId = ex.id;
-        return new ResponseEntity<>(new ApiResponseWarehouse("warehouse not exist", warehouseId), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponseWarehouse("warehouse not found", warehouseId), HttpStatus.NOT_FOUND);
 
     }
+
+    @ExceptionHandler(BrandNotFoundException.class)
+    public ResponseEntity<?> BrandNotFoundException(BrandNotFoundException ex) {
+
+        int BrandId = ex.id;
+        return new ResponseEntity<>(new ApiResponseBrand("Brand not found", BrandId), HttpStatus.NOT_FOUND);
+
+    }
+
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<?> ProductNotFoundException(ProductNotFoundException ex) {
+
+        int productId = ex.id;
+        return new ResponseEntity<>(new ApiResponseProductDetail("Product not found", productId), HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(ItemTypeNotFoundException.class)
+    public ResponseEntity<?> ItemTypeNotFoundException(ItemTypeNotFoundException ex) {
+
+        int itemTypeId = ex.id;
+        return new ResponseEntity<>(new ApiResponseItemType("ItemType not found", itemTypeId), HttpStatus.NOT_FOUND);
+
+    }
+
+
 
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<?> itemNotFoundException(ItemNotFoundException ex) {
@@ -96,7 +144,7 @@ public class HandlingException {
     @ExceptionHandler(InventoryNotFoundException.class)
     public ResponseEntity<?> inventoryNotFoundException(InventoryNotFoundException ex){
         int inventoryId = ex.id;
-        return new ResponseEntity<>(new ApiResponseInventory("inventory not found", inventoryId),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponseInventory("Inventory not found", inventoryId),HttpStatus.NOT_FOUND);
     }
 
 

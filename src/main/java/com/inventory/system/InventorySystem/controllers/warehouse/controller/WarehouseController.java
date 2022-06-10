@@ -25,6 +25,14 @@ public class WarehouseController {
 
     /* Warehouse Controller */
 
+
+
+    @PostMapping("/warehouse")
+    public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
+
+        return warehouseService.addWarehouse(warehouse);
+    }
+
     @GetMapping("/warehouse")
     public List<Warehouse> getWarehouse() {
 
@@ -32,10 +40,9 @@ public class WarehouseController {
 
     }
 
-    @PostMapping("/warehouse")
-    public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
-
-        return warehouseService.addWarehouse(warehouse);
+    @GetMapping("/warehouse/{warehouseId}")
+    public Warehouse getWarehouseById(@PathVariable int warehouseId){
+        return warehouseService.getWarehouseById(warehouseId);
     }
 
     @DeleteMapping("/warehouse/{warehouseId}")

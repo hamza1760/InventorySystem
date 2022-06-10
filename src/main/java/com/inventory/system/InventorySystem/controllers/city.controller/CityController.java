@@ -26,7 +26,7 @@ public class CityController {
         return cityDetailService.getCity();
     }
 
-    @GetMapping("/city/{cityid}")
+    @GetMapping("/city/{cityId}")
     public CityDetail getCityById(@PathVariable int cityId){
         return cityDetailService.getCityById(cityId);
     }

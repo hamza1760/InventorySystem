@@ -25,7 +25,7 @@ public class BrandController {
     public List<BrandDetail> getBrand() {
         return brandService.getBrand();
     }
-    @GetMapping("/brand{brandId}")
+    @GetMapping("/brand/{brandId}")
     public BrandDetail getBrandById(@PathVariable int brandId) {
         return brandService.getBrandById(brandId);
     }

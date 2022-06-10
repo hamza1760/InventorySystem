@@ -1,13 +1,13 @@
 package com.inventory.system.InventorySystem.api.response;
 
 
-public class ApiResponseWarehouseAddress {
+public class ApiResponseAddress {
 	
 	
 	String message;
 	int addressId;
 
-	public ApiResponseWarehouseAddress(String message, int addressId) {
+	public ApiResponseAddress(String message, int addressId) {
 		this.message = message;
 		this.addressId = addressId;
 	}

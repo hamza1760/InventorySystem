@@ -7,6 +7,7 @@ import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemTypeAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
 import com.inventory.system.InventorySystem.services.ItemTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
 	@Override
 	public ItemType getItemTypeById(int itemTypeId) {
-		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeAlreadyExists(itemTypeId));
+		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeNotFoundException(itemTypeId));
 		return itemType;
 	}
 

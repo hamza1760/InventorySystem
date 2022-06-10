@@ -50,7 +50,7 @@ public class InventoryController {
         return inventoryService.getInventory();
     }
 
-    @GetMapping("/inventory{inventoryId}")
+    @GetMapping("/inventory/{inventoryId}")
     public InventoryDetail getInventoryById(@PathVariable int inventoryId){
         return inventoryService.getInventoryById(inventoryId);
     }
