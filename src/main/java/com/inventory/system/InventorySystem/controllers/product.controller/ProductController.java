@@ -3,10 +3,7 @@ package com.inventory.system.InventorySystem.controllers.product.controller;
 import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,12 @@ public class ProductController {
     @GetMapping("/product")
     public List<ProductDetail> getProduct(){
         return productService.getProduct();
+
+
+    }
+    @GetMapping("/product/{productId}")
+    public ProductDetail getProductById(@PathVariable int productId){
+        return productService.getProductById(productId);
     }
 
 }

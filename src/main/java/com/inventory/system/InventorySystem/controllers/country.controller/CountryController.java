@@ -3,10 +3,7 @@ package com.inventory.system.InventorySystem.controllers.country.controller;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.services.CountryDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,14 @@ public class CountryController {
     }
 
     @GetMapping("/country")
-    public List<CountryDetail> getCountry(){
+    public List<CountryDetail> getCountry() {
         return countryDetailService.getCountry();
+    }
+
+    @GetMapping("/country/{countryId}")
+    public CountryDetail getCountryById(@PathVariable int countryId) {
+        return countryDetailService.getCountryById(countryId);
+
+
     }
 }
