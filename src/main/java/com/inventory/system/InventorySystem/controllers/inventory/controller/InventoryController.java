@@ -22,20 +22,21 @@ public class InventoryController {
     private ItemService itemService;
 
     /*mapping inventory and item*/
-    @PostMapping("/{inventoryId}/inventory/item/{itemId}")
-    public InventoryDetail addInventory(@PathVariable int inventoryId, @RequestBody InventoryDetail inventoryDetail, @PathVariable int itemId){
+    @PostMapping("/inventory/item/{itemId}")
+    public InventoryDetail addInventory(@RequestBody InventoryDetail inventoryDetail, @PathVariable int itemId){
 
         /*setting inventory id*/
-        inventoryDetail.setInventoryId(inventoryId);
+//        inventoryDetail.setInventoryId(inventoryId);
 
 
 
         /*setting inventory to particular item*/
         Item item = itemService.getItemById(itemId);
         inventoryDetail.setItemToInventory(item);
-        inventoryService.addInventory(inventoryId,inventoryDetail,itemId);
+        inventoryService.addInventory(inventoryDetail,itemId);
 
        /* mapping item to inventory*/
+        int inventoryId = inventoryDetail.getInventoryId();
          inventoryDetail = inventoryService.getInventoryById(inventoryId);
         item.mapInventorytoItem(inventoryDetail);
 

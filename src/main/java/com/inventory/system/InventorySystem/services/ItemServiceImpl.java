@@ -46,11 +46,11 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Item updateItem(Item item, int itemId) {
-		Item item1 = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
-		item1.setPassword(item.getPassword());
-		item1.setItemName(item.getItemName());
-		item1.setItemColor(item.getItemColor());
-		Item updatedItem = itemDao.save(item1);
+		Item updateItem = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
+		updateItem.setPassword(item.getPassword());
+		updateItem.setItemName(item.getItemName());
+		updateItem.setItemColor(item.getItemColor());
+		Item updatedItem = itemDao.save(updateItem);
 		return updatedItem;
 	}
 

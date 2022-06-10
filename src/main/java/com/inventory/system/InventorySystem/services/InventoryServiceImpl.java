@@ -36,14 +36,18 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public InventoryDetail addInventory(int inventoryId,InventoryDetail inventoryDetail,int itemId){
+	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId){
+
 		boolean checkItemId = itemDao.findById(itemId).isPresent();
-		Item item = itemDao.getReferenceById(itemId);
-		String itemname = item.getItemName();
+		int inventoryId = inventoryDetail.getInventoryId();
+		InventoryDetail inventoryDetail1 = inventoryDetailDao.getReferenceById(inventoryId);
+		Item item = inventoryDetail1.getItem();
+		int id =item.getItemId();
+		String name = item.getItemName();
 		if (checkItemId == true){
 		boolean checkInventoryId = inventoryDetailDao.findById(inventoryId).isPresent();
 		if (checkInventoryId == true) {
-			throw new InventoryAlreadyExists(inventoryId,itemId,itemname);
+			throw new InventoryAlreadyExists(inventoryId,id,name);
 		} else {
 			return inventoryDetailDao.save(inventoryDetail);
 		}

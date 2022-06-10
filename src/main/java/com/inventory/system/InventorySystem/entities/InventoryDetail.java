@@ -1,10 +1,12 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
 @Entity
+@Proxy(lazy = false)
 public class InventoryDetail {
 
 	@Id
@@ -27,8 +29,9 @@ public class InventoryDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public InventoryDetail(String size, int inStock, int avlQty, int inTransit, int minOrderQuantity,
+	public InventoryDetail(int inventoryId ,String size, int inStock, int avlQty, int inTransit, int minOrderQuantity,
 			int quantityPerBox, int reorderPoint) {
+		this.inventoryId = inventoryId;
 		this.size = size;
 		this.inStock = inStock;
 		this.avlQty = avlQty;
