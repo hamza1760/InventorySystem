@@ -12,7 +12,7 @@ public List<InventoryDetail> getInventory();
 	
 	public InventoryDetail getInventoryById(int inventoryId);
 	
-	public InventoryDetail addInventory(int inventoryId,InventoryDetail inventoryDetail,int itemId);
+	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId);
 	
 	public InventoryDetail updateInventoryById();
 	
