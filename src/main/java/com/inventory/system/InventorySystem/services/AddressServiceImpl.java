@@ -43,8 +43,10 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public void deleteAddress() {
-		// TODO Auto-generated method stub
+	public void deleteAddress(int addressId){
+
+		Address address = addressDao.findById(addressId).orElseThrow(()-> new AddressNotFoundException(addressId));
+		addressDao.delete(address);
 		
 	}
 

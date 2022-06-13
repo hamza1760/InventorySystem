@@ -13,6 +13,6 @@ public List<Address> getAddress();
 	
 	public Address addAddress(Address address);
 	
-	public void deleteAddress();
+	public void deleteAddress(int addressId);
 
 }

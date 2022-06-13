@@ -3,8 +3,12 @@ package com.inventory.system.InventorySystem.services;
 import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.ProductDetailDao;
+import com.inventory.system.InventorySystem.entities.Address;
+import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ProductAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +44,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteProduct() {
-		// TODO Auto-generated method stub
+	public void deleteProduct(int productId) {
+		ProductDetail productDetail = productDetailDao.findById(productId).orElseThrow(()-> new ProductNotFoundException(productId));
+		productDetailDao.delete(productDetail);
 
 	}
 

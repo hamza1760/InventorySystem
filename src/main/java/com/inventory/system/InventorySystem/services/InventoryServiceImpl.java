@@ -6,8 +6,10 @@ import java.util.List;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
+import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.InventoryAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +65,9 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public void deleteInventory() {
-		// TODO Auto-generated method stub
+	public void deleteInventory(int inventoryId) {
+		InventoryDetail inventoryDetail = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
+		inventoryDetailDao.delete(inventoryDetail);
 		
 	}
 

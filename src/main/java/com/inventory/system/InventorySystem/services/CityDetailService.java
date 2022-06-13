@@ -15,7 +15,7 @@ public List<CityDetail> getCity();
 	
 	public CityDetail addCity(CityDetail cityDetail);
 	
-	public void deleteCity();
+	public void deleteCity(int cityId);
 	
 	
 

@@ -13,7 +13,7 @@ public List<ProductDetail> getProduct();
 	
 	public ProductDetail addProduct(ProductDetail productDetail);
 	
-	public void deleteProduct();
+	public void deleteProduct(int  productId);
 	
 
 }

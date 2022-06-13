@@ -14,7 +14,7 @@ public interface BrandService {
 	
 	public BrandDetail addBrand(BrandDetail brandDetail);
 	
-	public void deleteBrand();
+	public void deleteBrand(int brandId);
 	
 	
 

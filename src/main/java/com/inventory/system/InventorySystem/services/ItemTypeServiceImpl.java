@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemTypeAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
 import com.inventory.system.InventorySystem.services.ItemTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +45,9 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 	}
 
 	@Override
-	public void deleteItemType() {
-		// TODO Auto-generated method stub
+	public void deleteItemType(int itemTypeId) {
+		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
+		itemTypeDao.delete(itemType);
 		
 	}
 

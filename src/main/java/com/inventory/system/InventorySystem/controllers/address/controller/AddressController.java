@@ -1,9 +1,12 @@
 package com.inventory.system.InventorySystem.controllers.address.controller;
 
+import com.inventory.system.InventorySystem.api.response.ApiResponseAddress;
 import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,4 +34,12 @@ public class AddressController {
     public Address getAddressById(@PathVariable int addressId){
         return addressService.getAddressById(addressId);
     }
+
+    @DeleteMapping("/address/{addressId}")
+    public ResponseEntity<?> deleteAddressById(@PathVariable int addressId){
+        addressService.deleteAddress(addressId);
+        return new ResponseEntity<>((new ApiResponseAddress("Address Deleted",addressId)),HttpStatus.FOUND);
+    }
 }
+
+

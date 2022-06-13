@@ -3,8 +3,10 @@ package com.inventory.system.InventorySystem.services;
 import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.CityDetailDao;
+import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.CityAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.CityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,9 @@ public class CityDetailServiceImpl implements CityDetailService {
 	}
 
 	@Override
-	public void deleteCity() {
-		// TODO Auto-generated method stub
+	public void deleteCity(int cityId) {
+		CityDetail cityDetail = cityDetailDao.findById(cityId).orElseThrow(()-> new CityNotFoundException(cityId));
+		cityDetailDao.delete(cityDetail);
 		
 	}
 

@@ -16,7 +16,7 @@ public List<InventoryDetail> getInventory();
 	
 	public InventoryDetail updateInventoryById();
 	
-	public void deleteInventory();
+	public void deleteInventory(int inventoryId);
 	
 	
 	

@@ -1,8 +1,11 @@
 package com.inventory.system.InventorySystem.controllers.country.controller;
 
+import com.inventory.system.InventorySystem.api.response.ApiResponseCountry;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.services.CountryDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +32,12 @@ public class CountryController {
     @GetMapping("/country/{countryId}")
     public CountryDetail getCountryById(@PathVariable int countryId) {
         return countryDetailService.getCountryById(countryId);
+        
+    }
 
-
+    @DeleteMapping("/country/{countryId}")
+    public ResponseEntity<?> deleteCountryById(@PathVariable int countryId){
+        countryDetailService.deleteCountry(countryId);
+        return new ResponseEntity<>((new ApiResponseCountry("Country Deleted",countryId)), HttpStatus.FOUND);
     }
 }

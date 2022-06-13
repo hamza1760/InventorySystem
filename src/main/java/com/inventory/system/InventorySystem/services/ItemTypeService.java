@@ -14,7 +14,7 @@ public List<ItemType> getItemType();
 	
 	public ItemType addItemType(ItemType itemType);
 	
-	public void deleteItemType();
+	public void deleteItemType(int itemTypeId);
 	
 
 }

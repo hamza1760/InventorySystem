@@ -41,8 +41,10 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 	@Override
-	public void deleteBrand() {
-		// TODO Auto-generated method stub
+	public void deleteBrand(int brandId) {
+		BrandDetail brandDetail = brandDetailDao.findById(brandId).orElseThrow(()-> new BrandNotFoundException(brandId));
+		brandDetailDao.delete(brandDetail);
+
 		
 	}
 

@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
+import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.CountryAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.CountryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.CountryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +44,9 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 	}
 
 	@Override
-	public void deleteCountry() {
-		// TODO Auto-generated method stub
+	public void deleteCountry(int countryId) {
+		CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(()-> new CountryNotFoundException(countryId));
+		countryDetailDao.delete(countryDetail);
 		
 	}
 

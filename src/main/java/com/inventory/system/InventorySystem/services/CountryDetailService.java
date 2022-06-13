@@ -15,7 +15,7 @@ public List<CountryDetail> getCountry();
 	
 	public CountryDetail addCountry(CountryDetail countryDetail);
 	
-	public void deleteCountry();
+	public void deleteCountry(int countryId);
 	
 	
 
