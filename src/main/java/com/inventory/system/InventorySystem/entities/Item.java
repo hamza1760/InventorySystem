@@ -9,10 +9,14 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import org.hibernate.sql.Update;
 
 @Entity
 @Table(name = "item")
 @Proxy(lazy = false)
+@SQLDelete(sql = "UPDATE inventory_detail SET status ='deleted' WHERE item_id =?")
 public class Item {
 
 	@Id
@@ -24,11 +28,11 @@ public class Item {
 
 	private String password;
 
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item",cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
 	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "item")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "item",cascade = CascadeType.REMOVE)
 	private List<Warehouse> warehouse;
 
 	public Item(int itemId, String itemName, String itemColor, String password) {
@@ -79,6 +83,8 @@ public class Item {
 		this.password = password;
 	}
 
+
+
 	public List<Warehouse> getWarehouse() {
 		return warehouse;
 	}
@@ -87,7 +93,12 @@ public class Item {
 		return inventoryDetail;
 	}
 
+
 	public void mapInventorytoItem(InventoryDetail inventoryDetail1) {
 		inventoryDetail.add(inventoryDetail1);
 	}
+
+
+
+
 }

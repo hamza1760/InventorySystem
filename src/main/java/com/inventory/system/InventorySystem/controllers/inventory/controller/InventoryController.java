@@ -6,6 +6,7 @@ import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.ItemService;
+import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,7 @@ public class InventoryController {
     public List<InventoryDetail> getInventory(){
         return inventoryService.getInventory();
     }
+
 
     @GetMapping("/inventory/{inventoryId}")
     public InventoryDetail getInventoryById(@PathVariable int inventoryId){

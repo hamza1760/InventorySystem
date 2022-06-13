@@ -1,12 +1,16 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.Where;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 
 @Entity
 @Proxy(lazy = false)
+@Where(clause = "status='active'")
 public class InventoryDetail {
 
 	@Id
@@ -18,6 +22,8 @@ public class InventoryDetail {
 	private int minOrderQuantity;
 	private int quantityPerBox;
 	private int reorderPoint;
+	@JsonIgnore
+	private String status = "active";
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -29,7 +35,7 @@ public class InventoryDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public InventoryDetail(int inventoryId ,String size, int inStock, int avlQty, int inTransit, int minOrderQuantity,
+	public InventoryDetail(String status ,int inventoryId ,String size, int inStock, int avlQty, int inTransit, int minOrderQuantity,
 			int quantityPerBox, int reorderPoint) {
 		this.inventoryId = inventoryId;
 		this.size = size;
@@ -39,6 +45,7 @@ public class InventoryDetail {
 		this.minOrderQuantity = minOrderQuantity;
 		this.quantityPerBox = quantityPerBox;
 		this.reorderPoint = reorderPoint;
+		this.status = status;
 	}
 
 	public int getInventoryId() {
@@ -106,6 +113,14 @@ public class InventoryDetail {
 		this.reorderPoint = reorderPoint;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status ;
+	}
+
 	public Item getItem() {
 
 		return item;
@@ -115,4 +130,6 @@ public class InventoryDetail {
 
 		this.item = item;
 	}
+
+
 }

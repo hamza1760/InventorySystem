@@ -1,9 +1,11 @@
 package com.inventory.system.InventorySystem.controllers.item.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
+import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.ItemService;
+import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class ItemController {
@@ -56,12 +59,16 @@ public class ItemController {
 
     public ResponseEntity<ApiResponseItem> deleteItemById(@PathVariable int itemId) {
 
+
         itemService.deleteItemById(itemId);
         return new ResponseEntity<>(new ApiResponseItem("Item deleted successfully ", itemId), HttpStatus.FOUND);
 
     }
 
-    /* map inventory to item */
+
+
+
+
 
 
 }

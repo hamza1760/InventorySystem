@@ -1,10 +1,13 @@
 package com.inventory.system.InventorySystem.services;
 
+import java.util.Iterator;
 import java.util.List;
 
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,7 @@ public class ItemServiceImpl implements ItemService {
 			return itemDao.save(item);
 		}
 
+
 	}
 
 	@Override
@@ -61,6 +65,7 @@ public class ItemServiceImpl implements ItemService {
 		itemDao.delete(item);
 
 	}
+
 
 	@Override
 	public Item viewSize(int itemId) {
