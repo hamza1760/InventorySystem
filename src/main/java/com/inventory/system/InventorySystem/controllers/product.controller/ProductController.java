@@ -27,26 +27,20 @@ public class ProductController {
     @PostMapping("/product/brand/{brandId}")
     public ProductDetail addProduct(@RequestBody ProductDetail productDetail,@PathVariable int brandId){
 
-        BrandDetail brand = brandService.getBrandById(brandId);
-         productService.addProduct(productDetail,brandId);
+        /*adding product to database*/
+        productService.addProduct(productDetail,brandId);
 
-         int productId= productDetail.getProductId();
-         productDetail = getProductById(productId);
-         brand.setProduct(productDetail);
-         brandService.addBrand(brand);
+
+
+        /*mapping product to brand*/
+        BrandDetail brand = brandService.getBrandById(brandId);
+          brand.setProduct(productDetail);
+         brandService.saveBrand(brand);
+
           return productDetail;
 
 
     }
-//    @PutMapping("/brand/{brandId}/product/{productId}")
-//    public ProductDetail putProductInBrand(@PathVariable int brandId,@PathVariable int productId){
-//        BrandDetail brand = brandService.getBrandById(brandId);
-//        ProductDetail product = productService.getProductById(productId);
-//
-//        brand.setProduct(product);
-//        brandService.addBrand(brand);
-//        return product;
-//    }
     @GetMapping("/product")
     public List<ProductDetail> getProduct(){
         return productService.getProduct();

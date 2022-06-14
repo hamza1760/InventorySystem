@@ -2,10 +2,7 @@ package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +16,13 @@ public class ProductDetail {
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
 	private Set<BrandDetail> brands = new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			joinColumns = {@JoinColumn(name = "product_id")},
+			inverseJoinColumns = {@JoinColumn(name = "item_type_id")}
+	)
+	private Set<ItemType> itemTypeSet = new HashSet<>();
 
 	public ProductDetail() {
 		super();
@@ -51,7 +55,15 @@ public class ProductDetail {
 		return brands;
 	}
 
-	public void setBrand(BrandDetail brand) {
-		brands.add(brand);
+
+	public void setItemType(ItemType itemType) {
+		itemTypeSet.add(itemType);
 	}
+
+
+	public Set<ItemType> getItemTypeSet() {
+		return itemTypeSet;
+	}
+
+
 }

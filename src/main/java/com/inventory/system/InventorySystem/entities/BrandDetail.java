@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +12,7 @@ public class BrandDetail {
 	@Id
 	private int brandId;
 	private String brandName;
+
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -45,11 +48,15 @@ public class BrandDetail {
 		this.brandName = brandName;
 	}
 
-	public Set<ProductDetail> getProducts() {
-		return products;
-	}
 
 	public void setProduct(ProductDetail productDetail) {
 		products.add(productDetail);
 	}
+
+
+	public Set<ProductDetail> getProducts() {
+		return products;
+	}
+
+
 }

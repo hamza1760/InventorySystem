@@ -39,17 +39,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDetail addProduct(ProductDetail productDetail,int brandId) {
 
-		BrandDetail brandDetail = brandDetailDao.findById(brandId).orElseThrow(()-> new BrandNotFoundException(brandId));
-
-		int productId= productDetail.getProductId();
-		boolean checkId = productDetailDao.findById(productId).isPresent();
-		if(checkId==true){
-			throw new ProductAlreadyExists(productId);
-		}
-		else {
 			return productDetailDao.save(productDetail);
-		}
 	}
+
+	@Override
+	public ProductDetail saveProduct(ProductDetail productDetail) {
+		return productDetailDao.save(productDetail);
+	}
+
 
 	@Override
 	public void deleteProduct(int productId) {

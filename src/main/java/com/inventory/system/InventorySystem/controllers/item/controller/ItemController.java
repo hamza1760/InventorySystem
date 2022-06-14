@@ -3,8 +3,10 @@ package com.inventory.system.InventorySystem.controllers.item.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
+import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.ItemService;
+import com.inventory.system.InventorySystem.services.ItemTypeService;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,9 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private ItemTypeService itemTypeService;
+
 
 
     /* Item Controller */
@@ -42,9 +47,18 @@ public class ItemController {
 
     }
 
-    @PostMapping("/item")
-    public Item addItem(@RequestBody Item item) {
-        return itemService.addItem(item);
+    @PostMapping("/item/itemtype/{itemTypeId}")
+    public Item addItem(@RequestBody Item item,@PathVariable int itemTypeId) {
+        /*adding item to database*/
+        itemService.addItem(item,itemTypeId);
+
+        /*mapping item to itemtype*/
+        ItemType itemType = itemTypeService.getItemTypeById(itemTypeId);
+        itemType.setItems(item);
+        itemTypeService.saveItemType(itemType);
+
+        return item;
+
 
     }
 

@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ public class CountryDetail {
     private int countryId;
     private String countryCode;
     private String countryName;
+
 
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "country")
     private Set<CityDetail> cityDetails = new HashSet<>();

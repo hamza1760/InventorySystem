@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
+import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,9 @@ public class ItemServiceImpl implements ItemService {
 	private ItemDao itemDao;
 
 	@Autowired
+	private ItemTypeDao itemTypeDao;
+
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
@@ -35,18 +41,18 @@ public class ItemServiceImpl implements ItemService {
 
 	}
 
-	public Item addItem(Item item) {
+	public Item addItem(Item item,int itemTypeId) {
 
-		int id = item.getItemId();
-		boolean check = itemDao.findById(id).isPresent();
-		if (check == true) {
-			throw new ItemAlreadyExists(id);
-		} else {
-			return itemDao.save(item);
-		}
+		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
 
-
+		return itemDao.save(item);
 	}
+
+	@Override
+	public Item saveItem(Item item) {
+		return itemDao.save(item);
+	}
+
 
 	@Override
 	public Item updateItem(Item item, int itemId) {

@@ -31,11 +31,6 @@ public class AddressController {
         address.setCity(city);
         addressService.addAddress(address,cityId);
 
-        /*mapping address to city*/
-        int addressId = address.getAddressId();
-        address = addressService.getAddressById(addressId);
-        city.setAddress(address);
-
         return address;
 
 

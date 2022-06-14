@@ -13,6 +13,7 @@ public interface BrandService {
 	public BrandDetail getBrandById(int brandId);
 	
 	public BrandDetail addBrand(BrandDetail brandDetail);
+	public BrandDetail saveBrand(BrandDetail brandDetail);
 	
 	public void deleteBrand(int brandId);
 	

@@ -11,7 +11,9 @@ public interface ItemService {
 	
 	public List<Item> getItem();
 	
-	public Item addItem(Item item);
+	public Item addItem(Item item,int itemTypeId);
+
+	public Item saveItem(Item item);
 	
 	public Item updateItem (Item item,int Itemid);
 	

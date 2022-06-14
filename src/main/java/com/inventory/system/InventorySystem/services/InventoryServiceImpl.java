@@ -39,32 +39,33 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId){
+	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId) {
 
-		boolean checkItemId = itemDao.findById(itemId).isPresent();
+		Item item = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
+
 		int inventoryId = inventoryDetail.getInventoryId();
-		if (checkItemId == true){
 		boolean checkInventoryId = inventoryDetailDao.findById(inventoryId).isPresent();
 		if (checkInventoryId == true) {
-				InventoryDetail inventoryDetail1 = inventoryDetailDao.getReferenceById(inventoryId);
-					Item item = inventoryDetail1.getItem();
-				int id = item.getItemId();
-				String name = item.getItemName();
-				throw new InventoryAlreadyExists(inventoryId, id, name);
+			InventoryDetail inventoryDetail1 = inventoryDetailDao.getReferenceById(inventoryId);
+			Item item1 = inventoryDetail1.getItem();
+			int id = item1.getItemId();
+			String name = item.getItemName();
+			throw new InventoryAlreadyExists(inventoryId, id, name);
 
-		}
-		else
+		} else
 			try {
-				 inventoryDetailDao.save(inventoryDetail);
+				inventoryDetailDao.save(inventoryDetail);
 				return inventoryDetailDao.save(inventoryDetail);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				throw new DataIntegrityViolationException("inventory is soft deleted");
 			}
 	}
-		else
-			throw new ItemNotFoundException(itemId);
+
+	@Override
+	public InventoryDetail saveInventory(InventoryDetail inventoryDetail) {
+		return inventoryDetailDao.save(inventoryDetail);
 	}
+
 
 	@Override
 	public InventoryDetail updateInventoryById() {

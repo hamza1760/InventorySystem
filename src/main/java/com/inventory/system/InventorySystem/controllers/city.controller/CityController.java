@@ -31,11 +31,6 @@ public class CityController {
         cityDetail.setCountry(country);
         cityDetailService.addCity(cityDetail,countryId);
 
-        /*mapping city to country*/
-        int cityId=cityDetail.getCityId();
-        cityDetail = cityDetailService.getCityById(cityId);
-        country.setCity(cityDetail);
-
         return cityDetail;
 
 

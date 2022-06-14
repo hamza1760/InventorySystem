@@ -12,7 +12,9 @@ public List<ProductDetail> getProduct();
 	public ProductDetail getProductById(int productId);
 	
 	public ProductDetail addProduct(ProductDetail productDetail,int brandId);
-	
+
+	public ProductDetail saveProduct(ProductDetail productDetail);
+
 	public void deleteProduct(int  productId);
 	
 

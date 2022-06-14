@@ -4,12 +4,15 @@ import java.util.List;
 
 
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
+import com.inventory.system.InventorySystem.dao.ProductDetailDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ItemTypeAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
 import com.inventory.system.InventorySystem.services.ItemTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
 	@Autowired
 	private ItemTypeDao itemTypeDao;
+
+	@Autowired
+	private ProductDetailDao productDetailDao;
 
 
 	@Override
@@ -33,16 +39,19 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 	}
 
 	@Override
-	public ItemType addItemType(ItemType itemType) {
-		int itemId= itemType.getItemTypeId();
-		boolean checkId = itemTypeDao.findById(itemId).isPresent();
-		if(checkId==true){
-			throw new ItemTypeAlreadyExists(itemId);
-		}
-		else {
+	public ItemType addItemType(ItemType itemType,int productId) {
+
+		ProductDetail productDetail = productDetailDao.findById(productId).orElseThrow(()-> new ProductNotFoundException(productId));
+
 			return itemTypeDao.save(itemType);
-		}
+
 	}
+
+	@Override
+	public ItemType saveItemType(ItemType itemType) {
+		return itemTypeDao.save(itemType);
+	}
+
 
 	@Override
 	public void deleteItemType(int itemTypeId) {

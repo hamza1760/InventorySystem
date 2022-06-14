@@ -3,7 +3,9 @@ package com.inventory.system.InventorySystem.controllers.itemtype.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseItemType;
 import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.services.ItemTypeService;
+import com.inventory.system.InventorySystem.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,24 @@ public class ItemTypeController {
     @Autowired
     private ItemTypeService itemTypeService;
 
-    @PostMapping("/itemtype")
-    public ItemType addItemType(@RequestBody ItemType itemType){
+    @Autowired
+    private ProductService productService;
 
-        return itemTypeService.addItemType(itemType);
+    @PostMapping("/itemtype/product/{productId}")
+    public ItemType addItemType(@RequestBody ItemType itemType, @PathVariable int productId){
+
+        /*adding itemtype to database*/
+        itemTypeService.addItemType(itemType,productId);
+
+        /*mapping itemtype to products*/
+        ProductDetail product = productService.getProductById(productId);
+        product.setItemType(itemType);
+        productService.saveProduct(product);
+
+        return itemType;
+
+
+
     }
 
     @GetMapping("/itemtype")

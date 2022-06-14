@@ -31,6 +31,10 @@ public class Item {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
 	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "items")
+	private Set<ItemType> itemTypeSet = new HashSet<>();
+
 	public Item(int itemId, String itemName, String itemColor, String password) {
 		super();
 		this.itemId = itemId;
@@ -82,16 +86,13 @@ public class Item {
 
 
 
+	public Set<ItemType> getItemTypeSet() {
+		return itemTypeSet;
+	}
+
+
+
 	public Set<InventoryDetail> getInventoryDetail() {
 		return inventoryDetail;
 	}
-
-
-	public void mapInventorytoItem(InventoryDetail inventoryDetail1) {
-		inventoryDetail.add(inventoryDetail1);
-	}
-
-
-
-
 }

@@ -31,9 +31,20 @@ public class BrandServiceImpl implements BrandService {
 
 	@Override
 	public BrandDetail addBrand(BrandDetail brandDetail) {
-
-		return brandDetailDao.save(brandDetail);
+		int brandId= brandDetail.getBrandId();
+		boolean checkId = brandDetailDao.findById(brandId).isPresent();
+		if(checkId==true){
+			throw new BrandAlreadyExists(brandId);
 		}
+		else {
+			return brandDetailDao.save(brandDetail);
+		}
+		}
+
+	@Override
+	public BrandDetail saveBrand(BrandDetail brandDetail) {
+		return brandDetailDao.save(brandDetail);
+	}
 
 
 	@Override
