@@ -1,7 +1,10 @@
 package com.inventory.system.InventorySystem.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class CityDetail {
@@ -10,6 +13,15 @@ public class CityDetail {
 	private int cityId;
 	private String cityCode;
 	private String cityName;
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "country_id_fk")
+	private CountryDetail country;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "city")
+	private Set<Address> address = new HashSet<>();
+
 
 	public CityDetail() {
 		super();
@@ -46,4 +58,19 @@ public class CityDetail {
 		this.cityName = cityName;
 	}
 
+	public CountryDetail getCountry() {
+		return country;
+	}
+
+	public void setCountry(CountryDetail country) {
+		this.country = country;
+	}
+
+	public Set<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address.add(address);
+	}
 }

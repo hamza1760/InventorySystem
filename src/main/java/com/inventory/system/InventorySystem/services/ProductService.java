@@ -11,7 +11,7 @@ public List<ProductDetail> getProduct();
 	
 	public ProductDetail getProductById(int productId);
 	
-	public ProductDetail addProduct(ProductDetail productDetail);
+	public ProductDetail addProduct(ProductDetail productDetail,int brandId);
 	
 	public void deleteProduct(int  productId);
 	

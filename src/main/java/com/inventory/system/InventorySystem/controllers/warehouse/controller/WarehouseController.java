@@ -2,9 +2,11 @@ package com.inventory.system.InventorySystem.controllers.warehouse.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
 import com.inventory.system.InventorySystem.api.response.ApiResponseWarehouse;
+import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
+import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.ItemService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +20,31 @@ import java.util.List;
 public class WarehouseController {
 
     @Autowired
-    private ItemService itemService;
-
-    @Autowired
     private WarehouseService warehouseService;
 
+    @Autowired
+    private AddressService addressService;
+
+
+
+
+
     /* Warehouse Controller */
+    @PostMapping("/warehouse/address/{addressId}")
+    public Warehouse addWarehouse(@RequestBody Warehouse warehouse, @PathVariable int addressId) {
 
+        /*mapping address to warehouse*/
+        Address address = addressService.getAddressById(addressId);
+        warehouse.setAddress(address);
+        warehouseService.addWarehouse(warehouse,addressId);
 
+        /*mapping warehouse to address*/
+        int warehouseId = warehouse.getWarehouseId();
+        warehouse = warehouseService.getWarehouseById(warehouseId);
+        address.setWarehouse(warehouse);
 
-    @PostMapping("/warehouse")
-    public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
+        return warehouse;
 
-        return warehouseService.addWarehouse(warehouse);
     }
 
     @GetMapping("/warehouse")

@@ -1,7 +1,11 @@
 package com.inventory.system.InventorySystem.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class CountryDetail {
@@ -10,6 +14,9 @@ public class CountryDetail {
     private int countryId;
     private String countryCode;
     private String countryName;
+
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "country")
+    private Set<CityDetail> cityDetails = new HashSet<>();
 
     public CountryDetail() {
         super();
@@ -21,6 +28,8 @@ public class CountryDetail {
         this.countryCode = countryCode;
         this.countryName = countryName;
     }
+
+
 
     public int getCountryId() {
         return countryId;
@@ -46,4 +55,11 @@ public class CountryDetail {
         this.countryName = countryName;
     }
 
+    public Set<CityDetail> getCityDetails() {
+        return cityDetails;
+    }
+
+    public  void setCity(CityDetail cityDetail) {
+        cityDetails.add(cityDetail);
+    }
 }

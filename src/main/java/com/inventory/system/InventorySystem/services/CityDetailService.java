@@ -13,7 +13,7 @@ public List<CityDetail> getCity();
 	
 	public CityDetail getCityById(int cityId);
 	
-	public CityDetail addCity(CityDetail cityDetail);
+	public CityDetail addCity(CityDetail cityDetail , int countryId);
 	
 	public void deleteCity(int cityId);
 	

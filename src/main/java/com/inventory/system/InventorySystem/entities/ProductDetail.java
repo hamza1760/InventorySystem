@@ -1,7 +1,13 @@
 package com.inventory.system.InventorySystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class ProductDetail {
@@ -9,6 +15,10 @@ public class ProductDetail {
 	@Id
 	private int productId;
 	private String productType;
+
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
+	private Set<BrandDetail> brands = new HashSet<>();
 
 	public ProductDetail() {
 		super();
@@ -37,4 +47,11 @@ public class ProductDetail {
 		this.productType = productType;
 	}
 
+	public Set<BrandDetail> getBrands() {
+		return brands;
+	}
+
+	public void setBrand(BrandDetail brand) {
+		brands.add(brand);
+	}
 }

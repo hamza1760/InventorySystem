@@ -13,6 +13,7 @@ import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoun
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,7 +59,7 @@ public class InventoryServiceImpl implements InventoryService {
 				return inventoryDetailDao.save(inventoryDetail);
 			}
 			catch (Exception e) {
-				throw new InventoryNotFoundException(inventoryId);
+				throw new DataIntegrityViolationException("inventory is soft deleted");
 			}
 	}
 		else

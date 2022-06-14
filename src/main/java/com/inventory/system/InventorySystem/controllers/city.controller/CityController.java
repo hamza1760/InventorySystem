@@ -2,7 +2,9 @@ package com.inventory.system.InventorySystem.controllers.city.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseCity;
 import com.inventory.system.InventorySystem.entities.CityDetail;
+import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.services.CityDetailService;
+import com.inventory.system.InventorySystem.services.CountryDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,26 @@ public class CityController {
     @Autowired
     private CityDetailService cityDetailService;
 
+    @Autowired
+    private CountryDetailService countryDetailService;
 
-    @PostMapping("/city")
-    public CityDetail addCity(@RequestBody CityDetail cityDetail) {
 
-        return cityDetailService.addCity(cityDetail);
+    @PostMapping("/city/country/{countryId}")
+    public CityDetail addCity(@RequestBody CityDetail cityDetail,  @PathVariable int countryId) {
+
+        /*mapping country to city*/
+        CountryDetail country = countryDetailService.getCountryById(countryId);
+        cityDetail.setCountry(country);
+        cityDetailService.addCity(cityDetail,countryId);
+
+        /*mapping city to country*/
+        int cityId=cityDetail.getCityId();
+        cityDetail = cityDetailService.getCityById(cityId);
+        country.setCity(cityDetail);
+
+        return cityDetail;
+
+
     }
 
     @GetMapping("/city")

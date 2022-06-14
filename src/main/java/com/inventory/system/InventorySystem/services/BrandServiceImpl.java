@@ -9,6 +9,7 @@ import com.inventory.system.InventorySystem.exceptions.alreadyexists.BrandAlread
 import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.BrandNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,15 +31,10 @@ public class BrandServiceImpl implements BrandService {
 
 	@Override
 	public BrandDetail addBrand(BrandDetail brandDetail) {
-		int brandId= brandDetail.getBrandId();
-		boolean checkId = brandDetailDao.findById(brandId).isPresent();
-		if(checkId==true){
-			throw new BrandAlreadyExists(brandId);
+
+		return brandDetailDao.save(brandDetail);
 		}
-		else {
-			return brandDetailDao.save(brandDetail);
-		}
-	}
+
 
 	@Override
 	public void deleteBrand(int brandId) {

@@ -11,7 +11,7 @@ public List<Address> getAddress();
 	
 	public Address getAddressById(int addressId);
 	
-	public Address addAddress(Address address);
+	public Address addAddress(Address address,int cityId);
 	
 	public void deleteAddress(int addressId);
 

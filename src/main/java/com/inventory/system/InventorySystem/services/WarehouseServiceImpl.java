@@ -3,8 +3,10 @@ package com.inventory.system.InventorySystem.services;
 import java.util.List;
 
 
-
+import com.inventory.system.InventorySystem.dao.AddressDao;
+import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.WarehouseAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 	@Autowired
 	private WarehouseDao warehouseDao;
+
+	@Autowired
+	private AddressDao addressDao;
 	
 	
 	
@@ -27,7 +32,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 
 	@Override
-	public Warehouse addWarehouse(Warehouse warehouse) {
+	public Warehouse addWarehouse(Warehouse warehouse, int addressId) {
+		Address address = addressDao.findById(addressId).orElseThrow(()-> new AddressNotFoundException(addressId));
+
 		int warehouseId = warehouse.getWarehouseId();
 		boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
 		if(checkWarehouseId==true){
@@ -60,22 +67,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public void deleteWarehouse(int warehouseId) {
 		Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(()->new WarehouseNotFoundException(warehouseId));
-		
 
 		warehouseDao.delete(warehouse);
 		
 		
 	}
 
-	@Override
-	public  void getItemFromWarehouse(Warehouse warehouse,int warehouseId,int itemId) {
-		
-		 warehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
-		 Warehouse item = warehouseDao.findById(itemId).orElseThrow(()->new ItemNotFoundException(itemId));
-		 warehouseDao.delete(item);
-		
-		
-	}
+
 	
 	
 

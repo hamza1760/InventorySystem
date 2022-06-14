@@ -2,7 +2,9 @@ package com.inventory.system.InventorySystem.controllers.address.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseAddress;
 import com.inventory.system.InventorySystem.entities.Address;
+import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.services.AddressService;
+import com.inventory.system.InventorySystem.services.CityDetailService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,25 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    @PostMapping("/address")
-    public Address addWaddress(@RequestBody Address address){
+    @Autowired
+    private CityDetailService cityDetailService;
 
-        return addressService.addAddress(address);
+    @PostMapping("/address/city/{cityId}")
+    public Address addAddress(@RequestBody Address address, @PathVariable int cityId){
+
+        /*mapping city to address*/
+        CityDetail city = cityDetailService.getCityById(cityId);
+        address.setCity(city);
+        addressService.addAddress(address,cityId);
+
+        /*mapping address to city*/
+        int addressId = address.getAddressId();
+        address = addressService.getAddressById(addressId);
+        city.setAddress(address);
+
+        return address;
+
+
     }
 
     @GetMapping("/address")

@@ -2,12 +2,15 @@ package com.inventory.system.InventorySystem.services;
 
 import java.util.List;
 
+import com.inventory.system.InventorySystem.dao.BrandDetailDao;
 import com.inventory.system.InventorySystem.dao.ProductDetailDao;
 import com.inventory.system.InventorySystem.entities.Address;
+import com.inventory.system.InventorySystem.entities.BrandDetail;
 import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.ProductAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.BrandNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDetailDao productDetailDao;
+
+	@Autowired
+	private BrandDetailDao brandDetailDao;
 
 	@Override
 	public List<ProductDetail> getProduct() {
@@ -31,7 +37,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDetail addProduct(ProductDetail productDetail) {
+	public ProductDetail addProduct(ProductDetail productDetail,int brandId) {
+
+		BrandDetail brandDetail = brandDetailDao.findById(brandId).orElseThrow(()-> new BrandNotFoundException(brandId));
 
 		int productId= productDetail.getProductId();
 		boolean checkId = productDetailDao.findById(productId).isPresent();

@@ -31,10 +31,6 @@ public class Item {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
 	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "item",cascade = CascadeType.REMOVE)
-	private List<Warehouse> warehouse;
-
 	public Item(int itemId, String itemName, String itemColor, String password) {
 		super();
 		this.itemId = itemId;
@@ -85,9 +81,6 @@ public class Item {
 
 
 
-	public List<Warehouse> getWarehouse() {
-		return warehouse;
-	}
 
 	public Set<InventoryDetail> getInventoryDetail() {
 		return inventoryDetail;
