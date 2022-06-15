@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.inventory.system.InventorySystem.entities.Warehouse;
+import com.inventory.system.InventorySystem.entities.WarehouseAddress;
 
 public interface WarehouseService {
 	
@@ -14,7 +15,7 @@ public interface WarehouseService {
 	public Warehouse updateWarehouse(Warehouse warehouse,int warehouseId);
 	public void deleteWarehouse(int warehouseId);
 
-	
-	
+
+	public List<WarehouseAddress> getWarehouseAddress(int countryId, int cityId, int addressId);
 
 }

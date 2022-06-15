@@ -1,15 +1,17 @@
 package com.inventory.system.InventorySystem.entities;
 
-public class CountryCity {
+public class WarehouseAddress {
 
     private String countryName;
     private String cityName;
     private String areaName;
+    private String warehouseName;
 
-    public CountryCity(String countryName, String cityName, String areaName) {
+    public WarehouseAddress(String countryName, String cityName, String areaName, String warehouseName) {
         this.countryName = countryName;
         this.cityName = cityName;
         this.areaName = areaName;
+        this.warehouseName = warehouseName;
     }
 
     public String getCountryName() {
@@ -35,7 +37,16 @@ public class CountryCity {
     public void setAreaName(String areaName) {
         this.areaName = areaName;
     }
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
 }
+
 
 
 

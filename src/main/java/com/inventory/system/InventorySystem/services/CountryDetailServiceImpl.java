@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CityDetail;
-import com.inventory.system.InventorySystem.entities.CountryCity;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.CountryAlreadyExists;
@@ -52,9 +51,7 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 		
 	}
 
-	public List<CountryCity> getCountryCity(int countryId,int cityId){
-		return countryDetailDao.getCountryAndCity(countryId,cityId);
-	}
+
 
 }
 

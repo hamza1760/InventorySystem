@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.inventory.system.InventorySystem.dao.AddressDao;
 import com.inventory.system.InventorySystem.entities.Address;
+import com.inventory.system.InventorySystem.entities.WarehouseAddress;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.WarehouseAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 		warehouseDao.delete(warehouse);
 		
 		
+	}
+
+	public List<WarehouseAddress> getWarehouseAddress(int countryId, int cityId, int addressId){
+		return warehouseDao.getWarehouseAddress(countryId,cityId,addressId);
 	}
 
 

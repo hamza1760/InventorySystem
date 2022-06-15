@@ -3,7 +3,6 @@ package com.inventory.system.InventorySystem.services;
 import java.util.List;
 
 import com.inventory.system.InventorySystem.entities.CityDetail;
-import com.inventory.system.InventorySystem.entities.CountryCity;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 
 
@@ -18,7 +17,7 @@ public List<CountryDetail> getCountry();
 	
 	public void deleteCountry(int countryId);
 
-	public List<CountryCity> getCountryCity(int countryId,int cityId);
+
 	
 	
 

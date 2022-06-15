@@ -5,6 +5,7 @@ import com.inventory.system.InventorySystem.api.response.ApiResponseWarehouse;
 import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.Warehouse;
+import com.inventory.system.InventorySystem.entities.WarehouseAddress;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.ItemService;
@@ -59,6 +60,12 @@ public class WarehouseController {
         return warehouseService.getWarehouseById(warehouseId);
     }
 
+    @GetMapping("/country/{countryId}/city/{cityId}/address/{addressId}")
+    public List<WarehouseAddress> getCountryById(@PathVariable int countryId, @PathVariable int cityId, @PathVariable int addressId) {
+        return warehouseService.getWarehouseAddress(countryId,cityId,addressId);
+
+    }
+
     @DeleteMapping("/warehouse/{warehouseId}")
     public ResponseEntity<?> deleteWarehouse(@PathVariable int warehouseId) {
 
@@ -67,33 +74,5 @@ public class WarehouseController {
                 HttpStatus.FOUND);
     }
 
-    /* Put item in warehouse */
 
-//    @PutMapping("warehouse/{warehouseId}/item/{itemId}")
-//    public ResponseEntity<?> addItemIntoWarehouse(@PathVariable int warehouseId, @PathVariable int itemId) {
-//        Warehouse warehouse = warehouseService.getWarehouseById(warehouseId);
-//        ItemDto itemDto = itemService.getItemById(itemId);
-//        Item item = itemService.itemDtoToItem(itemDto);
-//        warehouse.putItemIntoWareHouse(item);
-//        warehouseService.addWarehouse(warehouse);
-//        return new ResponseEntity<>(warehouse, HttpStatus.OK);
-//
-//    }
-
-    /* delete item from warehouse */
-
-//    @DeleteMapping("warehouse/{warehouseId}/item/{itemId}")
-//    public ResponseEntity<?> deleteItemFromWarehouse(@PathVariable int warehouseId, @PathVariable int itemId) {
-//
-//        Warehouse warehouse = warehouseService.getWarehouseById(warehouseId);
-//        ItemDto itemDto = itemService.getItemById(itemId);
-//        Item item = itemService.itemDtoToItem(itemDto);
-//        List<Item> itemList = warehouse.getItem();
-//        boolean tellME = itemList.contains(item);
-//        System.out.println(tellME);
-//
-//        return new ResponseEntity<>(new ApiResponseItem("item from warehouse deleted succesfully", itemId),
-//                HttpStatus.FOUND);
-//
-//    }
 }

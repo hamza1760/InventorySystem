@@ -3,7 +3,6 @@ package com.inventory.system.InventorySystem.controllers.country.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponseCountry;
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CityDetail;
-import com.inventory.system.InventorySystem.entities.CountryCity;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.services.CountryDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +32,12 @@ public class CountryController {
         return countryDetailService.getCountry();
     }
 
-//    @GetMapping("/country/{countryId}")
-//    public CountryDetail getCountryById(@PathVariable int countryId) {
-//        return countryDetailService.getCountryById(countryId);
-//
-//    }
-    @GetMapping("/country/{countryId}/city/{cityId}")
-    public List<CountryCity> getCountryById(@PathVariable int countryId,@PathVariable int cityId) {
-        return countryDetailService.getCountryCity(countryId,cityId);
+    @GetMapping("/country/{countryId}")
+    public CountryDetail getCountryById(@PathVariable int countryId) {
+        return countryDetailService.getCountryById(countryId);
 
     }
+
 
     @DeleteMapping("/country/{countryId}")
     public ResponseEntity<?> deleteCountryById(@PathVariable int countryId){
