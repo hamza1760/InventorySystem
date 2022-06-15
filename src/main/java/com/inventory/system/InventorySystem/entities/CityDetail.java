@@ -1,18 +1,23 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+
 public class CityDetail {
 
 	@Id
 	private int cityId;
 	private String cityCode;
 	private String cityName;
+	@JsonIgnore
+	private String status = "active";
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -28,10 +33,11 @@ public class CityDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CityDetail(int cityId, String cityCode, String cityName) {
+	public CityDetail(String status,int cityId, String cityCode, String cityName) {
 		this.cityId = cityId;
 		this.cityCode = cityCode;
 		this.cityName = cityName;
+		this.status = status;
 	}
 
 	public int getCityId() {
@@ -70,4 +76,11 @@ public class CityDetail {
 		return address;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

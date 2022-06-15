@@ -1,17 +1,23 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+
 public class BrandDetail {
 
 	@Id
 	private int brandId;
 	private String brandName;
+
+	@JsonIgnore
+	private String status = "active";
 
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -26,10 +32,11 @@ public class BrandDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BrandDetail(int brandId, String brandName) {
+	public BrandDetail(String status,int brandId, String brandName) {
 		super();
 		this.brandId = brandId;
 		this.brandName = brandName;
+		this.status = status;
 	}
 
 	public int getBrandId() {
@@ -58,5 +65,11 @@ public class BrandDetail {
 		return products;
 	}
 
+	public String getStatus() {
+		return status;
+	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

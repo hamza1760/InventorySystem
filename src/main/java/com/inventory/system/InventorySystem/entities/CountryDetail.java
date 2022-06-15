@@ -1,6 +1,8 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,12 +12,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+
 public class CountryDetail {
 
     @Id
     private int countryId;
     private String countryCode;
     private String countryName;
+    @JsonIgnore
+    private String status = "active";
 
 
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "country")
@@ -26,10 +31,11 @@ public class CountryDetail {
         // TODO Auto-generated constructor stub
     }
 
-    public CountryDetail(int countryId, String countryCode, String countryName) {
+    public CountryDetail(String status,int countryId, String countryCode, String countryName) {
         this.countryId = countryId;
         this.countryCode = countryCode;
         this.countryName = countryName;
+        this.status = status;
     }
 
 
@@ -64,5 +70,13 @@ public class CountryDetail {
 
     public  void setCity(CityDetail cityDetail) {
         cityDetails.add(cityDetail);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

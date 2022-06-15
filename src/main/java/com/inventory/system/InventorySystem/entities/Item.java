@@ -16,7 +16,7 @@ import org.hibernate.sql.Update;
 @Entity
 @Table(name = "item")
 @Proxy(lazy = false)
-@SQLDelete(sql = "UPDATE inventory_detail SET status ='deleted' WHERE item_id =?")
+
 public class Item {
 
 	@Id
@@ -25,8 +25,9 @@ public class Item {
 
 	private String itemName;
 	private String itemColor;
-
 	private String password;
+
+	private String status = "active";
 
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
 	private Set<InventoryDetail> inventoryDetail = new HashSet<>();

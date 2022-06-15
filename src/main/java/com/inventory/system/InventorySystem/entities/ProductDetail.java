@@ -1,6 +1,8 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +14,9 @@ public class ProductDetail {
 	@Id
 	private int productId;
 	private String productType;
+
+	@JsonIgnore
+	private String status = "active";
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
@@ -29,10 +34,11 @@ public class ProductDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductDetail(int productId, String productType) {
+	public ProductDetail(String status ,int productId, String productType) {
 		super();
 		this.productId = productId;
 		this.productType = productType;
+		this.status = status;
 	}
 
 	public int getProductId() {

@@ -1,6 +1,8 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,6 +18,9 @@ public class Address {
 	private String street;
 
 	@JsonIgnore
+	private String status = "active";
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "city_id_fk")
 	private CityDetail city;
@@ -28,11 +33,12 @@ public class Address {
 		super();
 	}
 
-	public Address(int addressId, long postalCode, String areaName, String street) {
+	public Address(String status ,int addressId, long postalCode, String areaName, String street) {
 		this.addressId = addressId;
 		this.postalCode = postalCode;
 		this.areaName = areaName;
 		this.street = street;
+		this.status = status;
 	}
 
 	public int getAddressId() {
@@ -81,5 +87,13 @@ public class Address {
 
 	public void setWarehouse(Warehouse warehouse) {
 		warehouses.add(warehouse);
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

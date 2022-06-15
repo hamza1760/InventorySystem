@@ -4,6 +4,8 @@ import java.util.List;
 
 
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
+import com.inventory.system.InventorySystem.entities.CityDetail;
+import com.inventory.system.InventorySystem.entities.CountryCity;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.CountryAlreadyExists;
@@ -27,7 +29,7 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 	@Override
 	public CountryDetail getCountryById(int countryId) {
 		CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(()->new CountryNotFoundException(countryId));
-		return countryDetail;
+		return countryDetailDao.getCountryById(countryId);
 	}
 
 	@Override
@@ -46,8 +48,12 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 	@Override
 	public void deleteCountry(int countryId) {
 		CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(()-> new CountryNotFoundException(countryId));
-		countryDetailDao.delete(countryDetail);
+		countryDetailDao.softDelete(countryId);
 		
+	}
+
+	public List<CountryCity> getCountryCity(int countryId,int cityId){
+		return countryDetailDao.getCountryAndCity(countryId,cityId);
 	}
 
 }
