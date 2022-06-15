@@ -4,6 +4,7 @@ import com.inventory.system.InventorySystem.api.response.ApiResponseCountry;
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
+import com.inventory.system.InventorySystem.services.CityDetailService;
 import com.inventory.system.InventorySystem.services.CountryDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class CountryController {
 
     @Autowired
     private CountryDetailService countryDetailService;
+
+    @Autowired
+    private CityDetailService cityDetailService;
 
 
     @PostMapping("/country")
