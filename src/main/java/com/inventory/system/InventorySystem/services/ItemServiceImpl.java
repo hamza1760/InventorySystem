@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
+import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -37,9 +38,9 @@ public class ItemServiceImpl implements ItemService {
 	public List<Item> getItem() {
 
 		return itemDao.findAll();
-//		return itemDao.findAll().stream().map(this::itemToItemDto).collect(Collectors.toList());
-
 	}
+
+
 
 	public Item addItem(Item item,int itemTypeId) {
 
@@ -74,17 +75,26 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public Item viewSize(int itemId) {
-		return itemDao.getReferenceById(itemId);
-	}
-
-	@Override
 	public Item getItemById(int itemId) {
 
 		Item item = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
 		return item;
 
 	}
+
+
+
+	@Override
+	public ItemSize getItemSize(int itemId) {
+		Item item = itemDao.findById(itemId).orElseThrow(()-> new ItemNotFoundException(itemId));
+		return itemDao.getItemSize(itemId);
+	}
+
+	@Override
+	public List<ItemSize> getAllItemSize() {
+		return itemDao.getAllItemSize();
+	}
+
 
 	public ItemDto itemToItemDto(Item item) {
 		ItemDto itemDto = new ItemDto();
