@@ -10,6 +10,7 @@ import com.inventory.system.InventorySystem.entities.WarehouseAddress;
 public interface WarehouseService {
 	
 	public Warehouse addWarehouse(Warehouse warehouse,int addressId);
+	public Warehouse saveWarehouse(Warehouse warehouse);
 	public List<Warehouse> getWarehouse();
 	public Warehouse getWarehouseById(int warehouseId);
 	public Warehouse updateWarehouse(Warehouse warehouse,int warehouseId);

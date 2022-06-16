@@ -1,6 +1,8 @@
 package com.inventory.system.InventorySystem.entities;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -24,6 +26,13 @@ public class Warehouse {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id_fk")
 	private Address address;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			joinColumns = {@JoinColumn(name = "warehouse_id")},
+			inverseJoinColumns = {@JoinColumn(name = "inventory_id")}
+	)
+	private Set<InventoryDetail> inventory = new HashSet<>();
 
 
 
@@ -70,5 +79,13 @@ public class Warehouse {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public void setInventory(InventoryDetail inventory){
+		this.inventory.add(inventory);
+	}
+
+	public Set<InventoryDetail> getInventory() {
+		return inventory;
 	}
 }

@@ -25,7 +25,7 @@ public class Item {
 
 	private String itemName;
 	private String itemColor;
-	private String itemSize;
+
 	@JsonIgnore
 	private String password;
 
@@ -39,12 +39,11 @@ public class Item {
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "items")
 	private Set<ItemType> itemTypeSet = new HashSet<>();
 
-	public Item(int itemId, String itemName, String itemColor, String itemSize,String password) {
+	public Item(int itemId, String itemName, String itemColor, String password) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.itemColor = itemColor;
-		this.itemSize = itemSize;
 		this.password = password;
 	}
 
@@ -89,13 +88,7 @@ public class Item {
 	}
 
 
-	public String getItemSize() {
-		return itemSize;
-	}
 
-	public void setItemSize(String itemSize) {
-		this.itemSize = itemSize;
-	}
 
 	public Set<ItemType> getItemTypeSet() {
 		return itemTypeSet;

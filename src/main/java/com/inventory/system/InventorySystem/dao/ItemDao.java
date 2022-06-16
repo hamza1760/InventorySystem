@@ -12,19 +12,21 @@ public interface ItemDao extends JpaRepository<Item, Integer>{
 
 
 
-    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.itemName,A.itemSize,B.itemType,C.productType,D.brandName) " +
-            "FROM Item A " +
-            "JOIN A.itemTypeSet B " +
-            "JOIN B.products C " +
-            "JOIN C.brands D "+
-            "where A.itemId =?1")
+    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+            "FROM InventoryDetail A " +
+            "JOIN A.item B " +
+            "JOIN B.itemTypeSet C " +
+            "JOIN C.products D "+
+            "JOIN D.brands E "+
+             "where B.itemId =?1" )
     public ItemSize getItemSize(int itemId);
 
-    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.itemName,A.itemSize,B.itemType,C.productType,D.brandName) " +
-            "FROM Item A " +
-            "JOIN A.itemTypeSet B " +
-            "JOIN B.products C " +
-            "JOIN C.brands D ")
+    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+            "FROM InventoryDetail A " +
+            "JOIN A.item B " +
+            "JOIN B.itemTypeSet C " +
+            "JOIN C.products D "+
+            "JOIN D.brands E ")
     public List<ItemSize> getAllItemSize();
 	
 
