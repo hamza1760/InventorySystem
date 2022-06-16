@@ -1,14 +1,13 @@
 package com.inventory.system.InventorySystem.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
 import com.inventory.system.InventorySystem.dao.AddressDao;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
-import com.inventory.system.InventorySystem.entities.Address;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.WarehouseAddress;
+import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.WarehouseAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.system.InventorySystem.dao.WarehouseDao;
 
-import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
 
@@ -74,35 +72,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return null;
 	}
 
-//	@Override
-//	public Warehouse setItemQuantityInSingleWarehouse(Warehouse warehouseInventory, int warehouseId, int inventoryId) {
-//		Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
-//		InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
-//		Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
-//		for(InventoryDetail setItemQuantity: inventoryDetails ) {
-//			if(setItemQuantity.getInventoryId()==inventoryId) {
-//
-//				setItemQuantity.setInStock(setItemQuantity.getInStock());
-//				setItemQuantity.setAvlQty(setItemQuantity.getAvlQty());
-//				InventoryDetail updatedInventory = inventoryDetailDao.save(setItemQuantity);
-//				warehouse.setInventory(updatedInventory);
-//				return warehouseDao.save(warehouse);
-//
-//
-//
-//			}
-//			else
-//			{
-//				throw new InventoryNotFoundException(inventoryId);
-//
-//			}
-//
-//
-//		}
-//		return null;
-//
-//
-//	}
 
 	@Override
 	public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId) {
@@ -134,6 +103,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 
 	}
+
+	@Override
+	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
+		warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
+	}
+
 
 	@Override
 	public void deleteWarehouse(int warehouseId) {

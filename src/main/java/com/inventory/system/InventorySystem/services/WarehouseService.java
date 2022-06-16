@@ -1,11 +1,10 @@
 package com.inventory.system.InventorySystem.services;
 
+import java.util.HashSet;
 import java.util.List;
 
 
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.entities.WarehouseAddress;
+import com.inventory.system.InventorySystem.entities.*;
 
 public interface WarehouseService {
 	
@@ -15,6 +14,7 @@ public interface WarehouseService {
 	public Warehouse getWarehouseById(int warehouseId);
 	public Warehouse updateWarehouse(Warehouse warehouse,int warehouseId);
 	public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
+	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
 	public void deleteWarehouse(int warehouseId);
 
 
