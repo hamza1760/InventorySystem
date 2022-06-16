@@ -85,9 +85,9 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public ItemSize getItemSize(int itemId) {
+	public List<ItemSize> getItemSizeById(int itemId) {
 		Item item = itemDao.findById(itemId).orElseThrow(()-> new ItemNotFoundException(itemId));
-		return itemDao.getItemSize(itemId);
+		return itemDao.getItemSizeById(itemId);
 	}
 
 	@Override

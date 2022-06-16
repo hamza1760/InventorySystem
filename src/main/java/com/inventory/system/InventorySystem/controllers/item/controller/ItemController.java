@@ -55,8 +55,8 @@ public class ItemController {
     }
 
     @GetMapping("/item/size/{itemId}")
-    public ItemSize getItemSize(@PathVariable int itemId){
-        ItemSize itemSize = itemService.getItemSize(itemId);
+    public List<ItemSize> getItemSizeById(@PathVariable int itemId){
+        List<ItemSize> itemSize = itemService.getItemSizeById(itemId);
         return itemSize;
     }
 
