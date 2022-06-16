@@ -82,10 +82,16 @@ public class WarehouseController {
 
         InventoryDetail inventory = inventoryService.getInventoryById(inventoryId);
 
-        warehouse.setInventory(inventory);
-        warehouseService.saveWarehouse(warehouse);
+        inventory.setWarehouse(warehouse);
+        inventoryService.saveInventory(inventory);
 
         return warehouse;
+    }
+
+    @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
+    public Warehouse setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId,@PathVariable int warehouseId){
+       Warehouse updatedItemQuantity = warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail,warehouseId,inventoryId);
+        return updatedItemQuantity;
     }
 
 

@@ -3,6 +3,7 @@ package com.inventory.system.InventorySystem.controllers.inventory.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponseInventory;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
+import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.ItemService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /* inventory detail Controller*/
@@ -32,7 +34,6 @@ public class InventoryController {
         Item item = itemService.getItemById(itemId);
         inventoryDetail.setItemToInventory(item);
         inventoryService.addInventory(inventoryDetail,itemId);
-
         return inventoryDetail;
 
 
@@ -48,6 +49,13 @@ public class InventoryController {
     public InventoryDetail getInventoryById(@PathVariable int inventoryId){
         return inventoryService.getInventoryById(inventoryId);
     }
+
+    @PutMapping("/inventory/{inventoryId}")
+    public InventoryDetail setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId){
+        InventoryDetail updatedItemQuantity = inventoryService.setItemQuantityInAllWarehouses(inventoryDetail,inventoryId);
+        return updatedItemQuantity;
+    }
+
 
     @DeleteMapping("/inventory/{inventoryId}")
     public ResponseEntity<?> deleteinventoryById(@PathVariable int inventoryId){

@@ -1,15 +1,15 @@
 package com.inventory.system.InventorySystem.entities;
 
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import javax.persistence.*;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+
 
 @Entity
 @Proxy(lazy = false)
@@ -19,6 +19,7 @@ public class Warehouse {
 	private int warehouseId;
 	private String warehouseName;
 
+
 	@JsonIgnore
 	private String status = "active";
 
@@ -27,11 +28,7 @@ public class Warehouse {
 	@JoinColumn(name = "address_id_fk")
 	private Address address;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			joinColumns = {@JoinColumn(name = "warehouse_id")},
-			inverseJoinColumns = {@JoinColumn(name = "inventory_id")}
-	)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "warehouse")
 	private Set<InventoryDetail> inventory = new HashSet<>();
 
 
@@ -84,6 +81,8 @@ public class Warehouse {
 	public void setInventory(InventoryDetail inventory){
 		this.inventory.add(inventory);
 	}
+
+
 
 	public Set<InventoryDetail> getInventory() {
 		return inventory;
