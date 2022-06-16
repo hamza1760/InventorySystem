@@ -1,26 +1,28 @@
 package com.inventory.system.InventorySystem.entities;
 
 public class ItemSize {
-    private String itemName;
+    private int inventoryId;
     private String itemSize;
+    private String itemName;
     private String itemType;
     private String productType;
     private String brandName;
 
-    public ItemSize(String itemName, String itemSize, String itemType, String productType, String brandName) {
-        this.itemName = itemName;
+    public ItemSize(int inventoryId, String itemSize, String itemName, String itemType, String productType, String brandName) {
+        this.inventoryId = inventoryId;
         this.itemSize = itemSize;
+        this.itemName = itemName;
         this.itemType = itemType;
         this.productType = productType;
         this.brandName = brandName;
     }
 
-    public String getItemName() {
-        return itemName;
+    public int getInventoryId() {
+        return inventoryId;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
     }
 
     public String getItemSize() {
@@ -29,6 +31,14 @@ public class ItemSize {
 
     public void setItemSize(String itemSize) {
         this.itemSize = itemSize;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getItemType() {
@@ -55,3 +65,4 @@ public class ItemSize {
         this.brandName = brandName;
     }
 }
+

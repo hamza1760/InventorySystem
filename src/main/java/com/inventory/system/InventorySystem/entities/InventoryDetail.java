@@ -17,6 +17,7 @@ public class InventoryDetail {
 
 	@Id
 	private int inventoryId;
+	private String itemSize;
 	private int inStock;
 	private int avlQty;
 	private int inTransit;
@@ -40,9 +41,10 @@ public class InventoryDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public InventoryDetail(String status ,int inventoryId ,int inStock, int avlQty, int inTransit, int minOrderQuantity,
-			int quantityPerBox, int reorderPoint) {
+	public InventoryDetail(int inventoryId ,String itemSize,int inStock, int avlQty, int inTransit, int minOrderQuantity,
+			int quantityPerBox, int reorderPoint,String status) {
 		this.inventoryId = inventoryId;
+		this.itemSize = itemSize;
 		this.inStock = inStock;
 		this.avlQty = avlQty;
 		this.inTransit = inTransit;
@@ -115,6 +117,14 @@ public class InventoryDetail {
 
 	public void setStatus(String status) {
 		this.status = status ;
+	}
+
+	public String getItemSize() {
+		return itemSize;
+	}
+
+	public void setItemSize(String itemSize) {
+		this.itemSize = itemSize;
 	}
 
 	public Item getItem() {
