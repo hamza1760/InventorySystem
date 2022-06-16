@@ -18,10 +18,11 @@ public class ProductDetail {
 	@JsonIgnore
 	private String status = "active";
 
-	@JsonIgnore
+
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
 	private Set<BrandDetail> brands = new HashSet<>();
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			joinColumns = {@JoinColumn(name = "product_id")},

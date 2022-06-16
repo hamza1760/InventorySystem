@@ -23,6 +23,7 @@ public class CountryDetail {
     private String status = "active";
 
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "country")
     private Set<CityDetail> cityDetails = new HashSet<>();
 

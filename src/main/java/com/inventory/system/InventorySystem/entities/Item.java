@@ -29,10 +29,11 @@ public class Item {
 
 	private String status = "active";
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
 	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
-	@JsonIgnore
+
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "items")
 	private Set<ItemType> itemTypeSet = new HashSet<>();
 

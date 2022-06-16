@@ -25,7 +25,7 @@ public class InventoryDetail {
 	@JsonIgnore
 	private String status = "active";
 
-	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id")
 	private Item item;

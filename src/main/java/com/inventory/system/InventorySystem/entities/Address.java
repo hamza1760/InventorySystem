@@ -20,11 +20,12 @@ public class Address {
 	@JsonIgnore
 	private String status = "active";
 
-	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "city_id_fk")
 	private CityDetail city;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "address")
 	private Set<Warehouse> warehouses = new HashSet<>();
 

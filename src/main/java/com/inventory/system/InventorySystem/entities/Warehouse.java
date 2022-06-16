@@ -20,7 +20,7 @@ public class Warehouse {
 	@JsonIgnore
 	private String status = "active";
 
-	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id_fk")
 	private Address address;

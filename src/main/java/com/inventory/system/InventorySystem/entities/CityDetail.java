@@ -19,11 +19,12 @@ public class CityDetail {
 	@JsonIgnore
 	private String status = "active";
 
-	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id_fk")
 	private CountryDetail country;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "city")
 	private Set<Address> address = new HashSet<>();
 

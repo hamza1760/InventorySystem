@@ -20,6 +20,7 @@ public class BrandDetail {
 	private String status = "active";
 
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			joinColumns = {@JoinColumn(name = "brand_id")},
