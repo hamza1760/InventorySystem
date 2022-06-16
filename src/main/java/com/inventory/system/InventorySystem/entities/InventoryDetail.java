@@ -7,6 +7,8 @@ import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Proxy(lazy = false)
@@ -28,6 +30,10 @@ public class InventoryDetail {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id")
 	private Item item;
+
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "inventory")
+	private Set<Warehouse> warehouses= new HashSet<>();
 
 	public InventoryDetail() {
 		super();
@@ -121,5 +127,7 @@ public class InventoryDetail {
 		this.item = item;
 	}
 
-
+	public Set<Warehouse> getWarehouses() {
+		return warehouses;
+	}
 }

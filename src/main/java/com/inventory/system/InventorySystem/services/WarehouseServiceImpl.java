@@ -47,6 +47,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 	}
 
+
+
 	@Override
 	public List<Warehouse> getWarehouse() {
 
@@ -77,6 +79,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public List<WarehouseAddress> getWarehouseAddress(int countryId, int cityId, int addressId){
 		return warehouseDao.getWarehouseAddress(countryId,cityId,addressId);
 	}
+
+	@Override
+	public Warehouse saveWarehouse(Warehouse warehouse) {
+		return warehouseDao.save(warehouse);
+	}
+
+
 
 
 	
