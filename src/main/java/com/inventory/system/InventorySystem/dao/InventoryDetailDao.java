@@ -6,4 +6,7 @@ import com.inventory.system.InventorySystem.entities.InventoryDetail;
 
 public interface InventoryDetailDao extends JpaRepository<InventoryDetail, Integer>  {
 
+
+
+
 }

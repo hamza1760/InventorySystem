@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.inventory.system.InventorySystem.entities.Item;
+import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 
 public interface ItemService {
@@ -19,9 +20,12 @@ public interface ItemService {
 	
 	public void deleteItemById(int itemId);
 
-	public Item viewSize(int itemId);
 	
 	public Item getItemById (int itemId);
+
+	public ItemSize getItemSize(int itemId);
+
+	public List<ItemSize> getAllItemSize();
 	
 	public Item itemDtoToItem(ItemDto itemDto);
 	

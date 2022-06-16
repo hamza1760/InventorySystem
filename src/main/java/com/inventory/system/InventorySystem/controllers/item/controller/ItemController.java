@@ -3,6 +3,7 @@ package com.inventory.system.InventorySystem.controllers.item.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
+import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.ItemService;
@@ -45,6 +46,18 @@ public class ItemController {
         logger.debug("error1");
         return new ResponseEntity<>(item, HttpStatus.FOUND);
 
+    }
+
+    @GetMapping("/item/size/")
+    public List<ItemSize> getItemSize(){
+        List<ItemSize> itemSize = itemService.getAllItemSize();
+        return itemSize;
+    }
+
+    @GetMapping("/item/size/{itemId}")
+    public ItemSize getItemSize(@PathVariable int itemId){
+        ItemSize itemSize = itemService.getItemSize(itemId);
+        return itemSize;
     }
 
     @PostMapping("/item/itemtype/{itemTypeId}")
