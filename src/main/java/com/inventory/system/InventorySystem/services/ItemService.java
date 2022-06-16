@@ -23,7 +23,7 @@ public interface ItemService {
 	
 	public Item getItemById (int itemId);
 
-	public ItemSize getItemSize(int itemId);
+	public List<ItemSize> getItemSizeById(int itemId);
 
 	public List<ItemSize> getAllItemSize();
 	

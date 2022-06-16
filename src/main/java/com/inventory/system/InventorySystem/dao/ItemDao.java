@@ -19,7 +19,7 @@ public interface ItemDao extends JpaRepository<Item, Integer>{
             "JOIN C.products D "+
             "JOIN D.brands E "+
              "where B.itemId =?1" )
-    public ItemSize getItemSize(int itemId);
+    public List<ItemSize> getItemSizeById(int itemId);
 
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
             "FROM InventoryDetail A " +
