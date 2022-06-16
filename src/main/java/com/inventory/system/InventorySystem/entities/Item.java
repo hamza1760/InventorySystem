@@ -9,9 +9,6 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-import org.hibernate.sql.Update;
 
 @Entity
 @Table(name = "item")
@@ -32,8 +29,8 @@ public class Item {
 	private String status = "active";
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
-	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "item")
+	private InventoryDetail inventoryDetail;
 
 
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "items")
@@ -95,8 +92,15 @@ public class Item {
 	}
 
 
+	public String getStatus() {
+		return status;
+	}
 
-	public Set<InventoryDetail> getInventoryDetail() {
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public InventoryDetail getInventoryDetail() {
 		return inventoryDetail;
 	}
 }

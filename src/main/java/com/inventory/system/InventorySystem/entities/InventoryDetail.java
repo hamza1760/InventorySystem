@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Entity
 @Proxy(lazy = false)
-@Where(clause = "status='active'")
 public class InventoryDetail {
 
 	@Id
@@ -28,13 +27,14 @@ public class InventoryDetail {
 	private String status = "active";
 
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id")
 	private Item item;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "inventory")
-	private Set<Warehouse> warehouses= new HashSet<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "warehouse_id")
+	private Warehouse warehouse;
 
 	public InventoryDetail() {
 		super();
@@ -137,7 +137,11 @@ public class InventoryDetail {
 		this.item = item;
 	}
 
-	public Set<Warehouse> getWarehouses() {
-		return warehouses;
+	public void setWarehouse(Warehouse warehouse){
+		this.warehouse = warehouse;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
 	}
 }

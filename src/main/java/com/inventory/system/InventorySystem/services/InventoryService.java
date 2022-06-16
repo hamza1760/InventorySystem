@@ -3,7 +3,7 @@ package com.inventory.system.InventorySystem.services;
 import java.util.List;
 
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
-
+import com.inventory.system.InventorySystem.entities.Warehouse;
 
 
 public interface InventoryService {
@@ -15,6 +15,8 @@ public List<InventoryDetail> getInventory();
 	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId);
 
 	public InventoryDetail saveInventory(InventoryDetail inventoryDetail);
+
+	public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail,int inventoryId);
 	
 	public InventoryDetail updateInventoryById();
 	

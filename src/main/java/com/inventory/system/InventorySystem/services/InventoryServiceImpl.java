@@ -1,20 +1,25 @@
 package com.inventory.system.InventorySystem.services;
 
 import java.util.List;
+import java.util.Set;
 
 
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
+import com.inventory.system.InventorySystem.dao.WarehouseDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
+import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.InventoryAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.ItemNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -22,8 +27,12 @@ public class InventoryServiceImpl implements InventoryService {
 	@Autowired
 	private InventoryDetailDao inventoryDetailDao;
 
+
 	@Autowired
 	private ItemDao itemDao;
+
+	public InventoryServiceImpl() {
+	}
 
 	@Override
 	public List<InventoryDetail> getInventory() {
@@ -68,10 +77,22 @@ public class InventoryServiceImpl implements InventoryService {
 
 
 	@Override
+	public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail,int inventoryId) {
+
+		InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
+		setItemQuantity.setAvlQty(inventoryDetail.getAvlQty());
+		setItemQuantity.setInStock(inventoryDetail.getInStock());
+		return inventoryDetailDao.save(setItemQuantity);
+	}
+
+
+
+
+	@Override
 	public InventoryDetail updateInventoryById() {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	@Override
 	public void deleteInventory(int inventoryId) {
