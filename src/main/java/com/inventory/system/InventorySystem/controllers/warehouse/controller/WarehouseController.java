@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -66,6 +67,12 @@ public class WarehouseController {
         return warehouseService.getWarehouseAddress(countryId,cityId,addressId);
 
     }
+
+    @GetMapping("/itemsinwarehouse/{warehouseId}")
+    public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId){
+        return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
+    }
+
 
     @DeleteMapping("/warehouse/{warehouseId}")
     public ResponseEntity<?> deleteWarehouse(@PathVariable int warehouseId) {
