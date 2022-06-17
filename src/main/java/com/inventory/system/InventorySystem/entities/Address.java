@@ -26,8 +26,8 @@ public class Address {
 	private CityDetail city;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "address")
-	private Set<Warehouse> warehouses = new HashSet<>();
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "address")
+	private Warehouse warehouse;
 
 
 	public Address() {
@@ -82,12 +82,12 @@ public class Address {
 		this.city = city;
 	}
 
-	public Set<Warehouse> getWarehouses() {
-		return warehouses;
+	public Warehouse getWarehouse() {
+		return warehouse;
 	}
 
 	public void setWarehouse(Warehouse warehouse) {
-		warehouses.add(warehouse);
+		this.warehouse=warehouse;
 	}
 
 	public String getStatus() {

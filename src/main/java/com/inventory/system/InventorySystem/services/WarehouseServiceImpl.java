@@ -12,6 +12,7 @@ import com.inventory.system.InventorySystem.exceptions.alreadyexists.WarehouseAl
 import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -39,18 +40,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public Warehouse addWarehouse(Warehouse warehouse, int addressId) {
-		Address address = addressDao.findById(addressId).orElseThrow(()-> new AddressNotFoundException(addressId));
+		Address address = addressDao.findById(addressId).orElseThrow(() -> new AddressNotFoundException(addressId));
 
 		int warehouseId = warehouse.getWarehouseId();
 		boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
-		if(checkWarehouseId==true){
+		if (checkWarehouseId == true) {
+
 			throw new WarehouseAlreadyExists(warehouseId);
 		}
 		else{
-			return warehouseDao.save(warehouse);
+				 return warehouseDao.save(warehouse);
+
+			}
+
 		}
-	
-	}
+
 
 
 

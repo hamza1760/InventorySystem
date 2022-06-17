@@ -9,6 +9,7 @@ import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.ItemService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +37,25 @@ public class WarehouseController {
     @PostMapping("/warehouse/address/{addressId}")
     public Warehouse addWarehouse(@RequestBody Warehouse warehouse, @PathVariable int addressId) {
 
-        /*mapping address to warehouse*/
+        /*getting address*/
         Address address = addressService.getAddressById(addressId);
+
+        /*checking if address is already assigned to warehouse*/
+        List<Warehouse> warehouses = warehouseService.getWarehouse();
+        for(Warehouse singleWarehouse:  warehouses){
+            Address checkAddress= singleWarehouse.getAddress();
+            int addressIdInWarehouse = checkAddress.getAddressId();
+            if(addressIdInWarehouse!=addressId) {
+                break;
+            }
+            else {
+                throw new DataIntegrityViolationException("address is already assigned to warehouse");
+            }
+        }
+
+        /*if address is not assigned to warehouse than mapping address to the warehouse*/
         warehouse.setAddress(address);
         warehouseService.addWarehouse(warehouse,addressId);
-
-        /*mapping warehouse to address*/
-        int warehouseId = warehouse.getWarehouseId();
-        warehouse = warehouseService.getWarehouseById(warehouseId);
-        address.setWarehouse(warehouse);
 
         return warehouse;
 

@@ -24,7 +24,7 @@ public class Warehouse {
 	private String status = "active";
 
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id_fk")
 	private Address address;
 

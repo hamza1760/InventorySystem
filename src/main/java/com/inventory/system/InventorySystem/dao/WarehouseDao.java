@@ -16,7 +16,7 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
             "FROM CountryDetail A " +
             "JOIN A.cityDetails B " +
             "JOIN B.address C " +
-            "JOIN C.warehouses D "+
+            "JOIN C.warehouse D "+
             "where A.countryId =?1 and B.country =?1 " +
             "and B.cityId =?2 and C.city =?2 "+
             "and C.addressId =?3 and D.address =?3")
