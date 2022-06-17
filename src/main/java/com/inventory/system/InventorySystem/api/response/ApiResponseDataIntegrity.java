@@ -1,12 +1,14 @@
 package com.inventory.system.InventorySystem.api.response;
 
 
-public class ApiResponseSoftDeleted {
+public class ApiResponseDataIntegrity {
 
     String message;
+    int id;
 
-    public ApiResponseSoftDeleted(String message) {
+    public ApiResponseDataIntegrity(String message, int id) {
         this.message = message;
+        this.id = id;
     }
 
     public String getMessage() {
@@ -16,5 +18,14 @@ public class ApiResponseSoftDeleted {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
+
 

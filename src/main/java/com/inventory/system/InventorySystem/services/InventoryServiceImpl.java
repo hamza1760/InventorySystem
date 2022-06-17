@@ -46,12 +46,9 @@ public class InventoryServiceImpl implements InventoryService {
 			throw new InventoryAlreadyExists(inventoryId, id, name);
 
 		} else
-			try {
-				inventoryDetailDao.save(inventoryDetail);
+
 				return inventoryDetailDao.save(inventoryDetail);
-			} catch (Exception e) {
-				throw new DataIntegrityViolationException("inventory is soft deleted");
-			}
+			
 	}
 
 	@Override

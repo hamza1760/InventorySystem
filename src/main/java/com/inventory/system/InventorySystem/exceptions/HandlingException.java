@@ -147,10 +147,12 @@ public class HandlingException {
         int inventoryId = ex.id;
         return new ResponseEntity<>(new ApiResponseInventory("Inventory not found", inventoryId),HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> dataIntegrityViolationException(DataIntegrityViolationException ex) {
-        String msg = ex.getMessage();
-        return new ResponseEntity<>(new ApiResponseSoftDeleted(msg),HttpStatus.CONFLICT);
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<?> dataIntegrityException(DataIntegrityException ex) {
+        String msg = ex.msg;
+        int id = ex.id;
+
+        return new ResponseEntity<>(new ApiResponseDataIntegrity(msg,id),HttpStatus.CONFLICT);
 
     }
 

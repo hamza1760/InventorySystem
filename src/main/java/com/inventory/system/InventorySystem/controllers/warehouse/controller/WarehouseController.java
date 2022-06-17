@@ -3,6 +3,7 @@ package com.inventory.system.InventorySystem.controllers.warehouse.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
 import com.inventory.system.InventorySystem.api.response.ApiResponseWarehouse;
 import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class WarehouseController {
@@ -33,8 +35,6 @@ public class WarehouseController {
 
 
 
-
-
     /* Warehouse Controller */
     @PostMapping("/warehouse/address/{addressId}")
     public Warehouse addWarehouse(@RequestBody Warehouse warehouse, @PathVariable int addressId) {
@@ -42,18 +42,19 @@ public class WarehouseController {
         /*getting address*/
         Address address = addressService.getAddressById(addressId);
 
-        /*checking if address is already assigned to warehouse*/
-        List<Warehouse> warehouses = warehouseService.getWarehouse();
-        for(Warehouse singleWarehouse:  warehouses){
-            Address checkAddress= singleWarehouse.getAddress();
-            int addressIdInWarehouse = checkAddress.getAddressId();
+       /*checking if address is already assigned to warehouse*/
+       List<Warehouse> warehouses = warehouseService.getWarehouse();
+       for(Warehouse singleWarehouse:  warehouses){
+           Address checkAddress= singleWarehouse.getAddress();
+          int addressIdInWarehouse = checkAddress.getAddressId();
             if(addressIdInWarehouse!=addressId) {
-                break;
-            }
-            else {
-                throw new DataIntegrityViolationException("address is already assigned to warehouse");
-            }
+              break;
+          }
+           else {
+               int warehouseId = singleWarehouse.getWarehouseId();
+               throw new DataIntegrityException("address is already assigned to warehouse",warehouseId);
         }
+       }
 
         /*if address is not assigned to warehouse than mapping address to the warehouse*/
         warehouse.setAddress(address);
@@ -110,12 +111,34 @@ public class WarehouseController {
             }
             else {
 
-                inventory.setWarehouse(warehouse);
-                inventoryService.saveInventory(inventory);
+                Warehouse checkWarehouse = inventory.getWarehouse();
+                if(checkWarehouse==null){
+                    inventory.setWarehouse(warehouse);
+                    inventoryService.saveInventory(inventory);
+                }
+                else {
+                    int warehouseIdInInventory = checkWarehouse.getWarehouseId();
+                    Set<InventoryDetail> inventoryDetailSet = checkWarehouse.getInventory();
+                    for(InventoryDetail inventoryInWarehouse :inventoryDetailSet){
+                        int inventoryIdInWarehouse = inventoryInWarehouse.getInventoryId();
+                        if (inventoryIdInWarehouse==inventoryId) {
+                            throw new DataIntegrityException("this inventory is already in warehouse",warehouseIdInInventory);
 
-                return warehouse;
+                        }
+                        else {
+
+                            inventory.setWarehouse(warehouse);
+                            inventoryService.saveInventory(inventory);
+
+
+                        }
+                    }
+
+
+                }
             }
         }
+        return warehouse;
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
