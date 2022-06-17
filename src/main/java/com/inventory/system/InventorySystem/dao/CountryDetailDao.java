@@ -13,7 +13,7 @@ import java.util.List;
 public interface CountryDetailDao extends JpaRepository<CountryDetail, Integer>{
 
     @Modifying
-    @Query("UPDATE CountryDetail A  SET A.status='deleted' WHERE countryId =?1")
+    @Query("UPDATE CountryDetail SET status='deleted' WHERE countryId =?1")
     void softDelete(Integer id);
 
 

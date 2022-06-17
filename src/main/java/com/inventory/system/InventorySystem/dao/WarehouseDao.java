@@ -1,26 +1,21 @@
 package com.inventory.system.InventorySystem.dao;
 
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
+import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.entities.WarehouseAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.inventory.system.InventorySystem.entities.Warehouse;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 
+@Transactional
 public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
 
-    @Query("Select new com.inventory.system.InventorySystem.entities.WarehouseAddress( A.countryName,B.cityName,C.areaName,D.warehouseName) " +
-            "FROM CountryDetail A " +
-            "JOIN A.cityDetails B " +
-            "JOIN B.address C " +
-            "JOIN C.warehouse D "+
-            "where A.countryId =?1 and B.country =?1 " +
-            "and B.cityId =?2 and C.city =?2 "+
-            "and C.addressId =?3 and D.address =?3")
-    public List<WarehouseAddress> getWarehouseAddress(int countryId, int cityId, int addressId);
 
 
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseName,B.areaName," +
@@ -36,5 +31,14 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
             "Join H.brands I "+
             "Where A.warehouseId =?1")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
+
+
+    @Modifying
+    @Query("Update Warehouse Set status='deleted' Where warehouseId =?1 ")
+    public void softDelete(int warehouseId);
+
+    List<Warehouse> findByStatus(String status);
+
+    public Warehouse findByStatusAndWarehouseId(String status,int warehouseId);
 
 }

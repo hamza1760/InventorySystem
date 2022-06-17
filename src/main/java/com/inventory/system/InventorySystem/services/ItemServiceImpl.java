@@ -34,13 +34,6 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@Override
-	public List<Item> getItem() {
-
-		return itemDao.findAll();
-	}
-
-
 
 	public Item addItem(Item item,int itemTypeId) {
 
@@ -53,6 +46,21 @@ public class ItemServiceImpl implements ItemService {
 	public Item saveItem(Item item) {
 		return itemDao.save(item);
 	}
+
+	@Override
+	public List<Item> getItem() {
+
+		return itemDao.findByStatus("active");
+	}
+
+	@Override
+	public Item getItemById(int itemId) {
+
+		itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
+		return itemDao.findByStatusAndItemId("active",itemId);
+
+	}
+
 
 
 	@Override
@@ -69,16 +77,7 @@ public class ItemServiceImpl implements ItemService {
 	public void deleteItemById(int itemId) {
 
 		Item item = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
-		itemDao.delete(item);
-
-	}
-
-
-	@Override
-	public Item getItemById(int itemId) {
-
-		Item item = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
-		return item;
+		itemDao.softDelete(itemId);
 
 	}
 

@@ -32,11 +32,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Autowired
 	private InventoryDetailDao inventoryDetailDao;
-	
-	
-	
-	
-	
+
+
 
 	@Override
 	public Warehouse addWarehouse(Warehouse warehouse, int addressId) {
@@ -49,11 +46,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 			throw new WarehouseAlreadyExists(warehouseId);
 		}
 		else{
-				 return warehouseDao.save(warehouse);
-
-			}
+			return warehouseDao.save(warehouse);
 
 		}
+
+	}
+
+
+	@Override
+	public Warehouse saveWarehouse(Warehouse warehouse) {
+		return warehouseDao.save(warehouse);
+	}
+	
+
 
 
 
@@ -61,13 +66,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public List<Warehouse> getWarehouse() {
 
-		return warehouseDao.findAll();
+		return warehouseDao.findByStatus("active");
 	}
 
 	@Override
 	public Warehouse getWarehouseById(int warehouseId) {
-		Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
-		return warehouse;
+		 warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		return warehouseDao.findByStatusAndWarehouseId("active",warehouseId);
 	}
 
 	@Override
@@ -79,47 +84,56 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId) {
-		Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
-		InventoryDetail updateInventory = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
-		Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
-		for(InventoryDetail setItemQuantity: inventoryDetails ) {
-			if(setItemQuantity.getInventoryId()==inventoryId) {
-
-				setItemQuantity.setInStock(inventory.getInStock());
-				setItemQuantity.setAvlQty(inventory.getAvlQty());
-				warehouse.setInventory(setItemQuantity);
-				inventoryDetailDao.save(setItemQuantity);
-				return warehouseDao.save(warehouse);
-
-
-
-
-			}
-			else
-			{
-				throw new InventoryNotFoundException(inventoryId);
-
-			}
-
-
+		Warehouse warehouse=warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		if(warehouse.getStatus().equals("deleted")){
+			return null;
 		}
-		return null;
+		else {
+			InventoryDetail updateInventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new InventoryNotFoundException(inventoryId));
+			Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
+			for (InventoryDetail setItemQuantity : inventoryDetails) {
+				if (setItemQuantity.getInventoryId() == inventoryId) {
 
+					setItemQuantity.setInStock(inventory.getInStock());
+					setItemQuantity.setAvlQty(inventory.getAvlQty());
+					warehouse.setInventory(setItemQuantity);
+					inventoryDetailDao.save(setItemQuantity);
+					return warehouseDao.save(warehouse);
+
+
+				} else {
+					throw new InventoryNotFoundException(inventoryId);
+
+				}
+
+
+			}
+			return null;
+		}
 
 	}
 
 	@Override
 	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
-		warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
-		return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
+		Warehouse warehouse= warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		if(warehouse.getStatus().contains("deleted")){
+			return null;
+		}
+		else {
+			return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
+		}
 	}
 
 
 	@Override
 	public void deleteWarehouse(int warehouseId) {
-		Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(()->new WarehouseNotFoundException(warehouseId));
-
-		warehouseDao.delete(warehouse);
+		 Warehouse warehouse= warehouseDao.findById(warehouseId).orElseThrow(()->new WarehouseNotFoundException(warehouseId));
+		Set<InventoryDetail> inventoryDetailSet=  warehouse.getInventory();
+		for(InventoryDetail inventory : inventoryDetailSet) {
+			inventory.setStatus("deleted");
+			inventoryDetailDao.save(inventory);
+		}
+		warehouseDao.softDelete(warehouseId);
 		
 		
 	}
@@ -127,14 +141,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 
 
-	public List<WarehouseAddress> getWarehouseAddress(int countryId, int cityId, int addressId){
-		return warehouseDao.getWarehouseAddress(countryId,cityId,addressId);
-	}
 
-	@Override
-	public Warehouse saveWarehouse(Warehouse warehouse) {
-		return warehouseDao.save(warehouse);
-	}
 
 
 

@@ -3,6 +3,8 @@ package com.inventory.system.InventorySystem.controllers.warehouse.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
 import com.inventory.system.InventorySystem.api.response.ApiResponseWarehouse;
 import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.InventoryService;
@@ -73,15 +75,15 @@ public class WarehouseController {
         return warehouseService.getWarehouseById(warehouseId);
     }
 
-    @GetMapping("/country/{countryId}/city/{cityId}/address/{addressId}")
-    public List<WarehouseAddress> getCountryById(@PathVariable int countryId, @PathVariable int cityId, @PathVariable int addressId) {
-        return warehouseService.getWarehouseAddress(countryId,cityId,addressId);
-
-    }
-
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId){
-        return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
+       List<ItemQuantity> itemQuantity =warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
+       if(itemQuantity==null){
+           throw new WarehouseNotFoundException(warehouseId);
+       }
+       else {
+           return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
+       }
     }
 
 
@@ -97,19 +99,39 @@ public class WarehouseController {
     public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId){
 
         Warehouse warehouse = warehouseService.getWarehouseById(warehouseId);
+        if(warehouse==null) {
+            throw new WarehouseNotFoundException(warehouseId);
+        }
+        else {
 
-        InventoryDetail inventory = inventoryService.getInventoryById(inventoryId);
+            InventoryDetail inventory = inventoryService.getInventoryById(inventoryId);
+            if (inventory == null) {
+                throw new InventoryNotFoundException(inventoryId);
+            }
+            else {
 
-        inventory.setWarehouse(warehouse);
-        inventoryService.saveInventory(inventory);
+                inventory.setWarehouse(warehouse);
+                inventoryService.saveInventory(inventory);
 
-        return warehouse;
+                return warehouse;
+            }
+        }
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
     public Warehouse setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId,@PathVariable int warehouseId){
-       Warehouse updatedItemQuantity = warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail,warehouseId,inventoryId);
-        return updatedItemQuantity;
+       if(inventoryDetail==null){
+           throw new InventoryNotFoundException(inventoryId);
+       }
+       else {
+           Warehouse updatedItemQuantity = warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId, inventoryId);
+           if (updatedItemQuantity == null) {
+               throw new WarehouseNotFoundException(warehouseId);
+           } else {
+               return updatedItemQuantity;
+           }
+       }
+
     }
 
 

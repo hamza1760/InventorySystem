@@ -31,22 +31,6 @@ public class InventoryServiceImpl implements InventoryService {
 	@Autowired
 	private ItemDao itemDao;
 
-	public InventoryServiceImpl() {
-	}
-
-	@Override
-	public List<InventoryDetail> getInventory() {
-		return inventoryDetailDao.findAll();
-	}
-
-	@Override
-	public InventoryDetail getInventoryById(int inventoryId) {
-
-		InventoryDetail inventoryDetail = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
-		return inventoryDetail;
-
-	}
-
 	@Override
 	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId) {
 
@@ -75,6 +59,21 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventoryDetailDao.save(inventoryDetail);
 	}
 
+	@Override
+	public List<InventoryDetail> getInventory() {
+		return inventoryDetailDao.findByStatus("active");
+	}
+
+	@Override
+	public InventoryDetail getInventoryById(int inventoryId) {
+
+		inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
+		return inventoryDetailDao.findByStatusAndInventoryId("active",inventoryId);
+
+	}
+
+
+
 
 	@Override
 	public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail,int inventoryId) {
@@ -97,7 +96,7 @@ public class InventoryServiceImpl implements InventoryService {
 	@Override
 	public void deleteInventory(int inventoryId) {
 		InventoryDetail inventoryDetail = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
-		inventoryDetailDao.delete(inventoryDetail);
+		inventoryDetailDao.softDelete(inventoryId);
 		
 	}
 

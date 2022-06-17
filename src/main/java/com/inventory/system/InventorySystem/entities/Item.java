@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "item")
 @Proxy(lazy = false)
-
 public class Item {
 
 	@Id
@@ -26,6 +25,7 @@ public class Item {
 	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
 	private String status = "active";
 
 	@JsonIgnore

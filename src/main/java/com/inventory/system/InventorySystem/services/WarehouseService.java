@@ -18,6 +18,5 @@ public interface WarehouseService {
 	public void deleteWarehouse(int warehouseId);
 
 
-	public List<WarehouseAddress> getWarehouseAddress(int countryId, int cityId, int addressId);
 
 }

@@ -29,13 +29,13 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
 	@Override
 	public List<ItemType> getItemType() {
-		return itemTypeDao.findAll();
+		return itemTypeDao.findByStatus("active");
 	}
 
 	@Override
 	public ItemType getItemTypeById(int itemTypeId) {
-		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeNotFoundException(itemTypeId));
-		return itemType;
+		itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeNotFoundException(itemTypeId));
+		return itemTypeDao.findByStatusAndItemTypeId("active",itemTypeId);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 	@Override
 	public void deleteItemType(int itemTypeId) {
 		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
-		itemTypeDao.delete(itemType);
+		itemTypeDao.softDelete(itemTypeId);
 		
 	}
 

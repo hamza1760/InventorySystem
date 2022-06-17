@@ -2,6 +2,7 @@ package com.inventory.system.InventorySystem.controllers.product.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseProductDetail;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
+import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.entities.ProductDetail;
 import com.inventory.system.InventorySystem.services.BrandService;
 import com.inventory.system.InventorySystem.services.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 /* product detail Controller*/
@@ -54,6 +56,7 @@ public class ProductController {
 
     @DeleteMapping("/product/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable int productId){
+
         productService.deleteProduct(productId);
         return new ResponseEntity<>((new ApiResponseProductDetail("Product Deleted",productId)), HttpStatus.FOUND);
     }
