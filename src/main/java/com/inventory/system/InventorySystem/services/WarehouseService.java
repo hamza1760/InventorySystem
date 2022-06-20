@@ -14,8 +14,8 @@ public interface WarehouseService {
 	public Warehouse getWarehouseById(int warehouseId);
 	public Warehouse updateWarehouse(Warehouse warehouse,int warehouseId);
 	public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
-	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
-	public List<ItemQuantity> getItemQuantityInAllWarehouse();
+	/*public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
+	public List<ItemQuantity> getItemQuantityInAllWarehouse();*/
 	public void deleteWarehouse(int warehouseId);
 
 

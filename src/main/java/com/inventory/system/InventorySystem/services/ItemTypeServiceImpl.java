@@ -34,10 +34,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 	}
 
 	@Override
-	public ItemType addItemType(ItemType itemType,int productId) {
-
-		ProductType productDetail = productTypeDao.findById(productId).orElseThrow(()-> new ProductTypeNotFoundException(productId));
-
+	public ItemType addItemType(ItemType itemType) {
 			return itemTypeDao.save(itemType);
 
 	}

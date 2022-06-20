@@ -19,8 +19,6 @@ public class ItemType {
 	private String status = "active";
 
 
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "itemTypeSet")
-	private Set<ProductType> products = new HashSet<>();
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -56,10 +54,6 @@ public class ItemType {
 
 	public void setItemType(String itemType) {
 		this.itemType = itemType;
-	}
-
-	public Set<ProductType> getProducts() {
-		return products;
 	}
 
 	public void setItems(Item item){

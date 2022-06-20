@@ -18,13 +18,7 @@ public class BrandDetail {
 	private String status = "active";
 
 
-	/*@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			joinColumns = {@JoinColumn(name = "brand_id")},
-			inverseJoinColumns = {@JoinColumn(name = "product_id")}
-	)
-	private Set<ProductType> products = new HashSet<>();*/
+
 
 	public BrandDetail() {
 		super();
@@ -53,16 +47,6 @@ public class BrandDetail {
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
-
-
-	/*public void setProduct(ProductType productDetail) {
-		products.add(productDetail);
-	}
-
-
-	public Set<ProductType> getProducts() {
-		return products;
-	}*/
 
 	public String getStatus() {
 		return status;

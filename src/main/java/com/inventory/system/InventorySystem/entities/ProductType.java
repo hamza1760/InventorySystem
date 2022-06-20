@@ -20,18 +20,6 @@ public class ProductType {
 	@JsonIgnore
 	private String status = "active";
 
-
-	/*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
-	private Set<BrandDetail> brands = new HashSet<>();*/
-
-/*	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			joinColumns = {@JoinColumn(name = "product_id")},
-			inverseJoinColumns = {@JoinColumn(name = "item_type_id")}
-	)
-	private Set<ItemType> itemTypeSet = new HashSet<>();*/
-
 	public ProductType() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -59,20 +47,6 @@ public class ProductType {
 	public void setProductType(String productType) {
 		this.productType = productType;
 	}
-
-	/*public Set<BrandDetail> getBrands() {
-		return brands;
-	}*/
-
-
-	/*public void setItemType(ItemType itemType) {
-		itemTypeSet.add(itemType);
-	}
-
-
-	public Set<ItemType> getItemTypeSet() {
-		return itemTypeSet;
-	}*/
 
 
 }

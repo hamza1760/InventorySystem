@@ -16,7 +16,7 @@ public interface ItemDao extends JpaRepository<Item, Integer>{
 
 
 
-    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+   /* @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
             "FROM InventoryDetail A " +
             "JOIN A.item B " +
             "JOIN B.itemTypeSet C " +
@@ -31,7 +31,7 @@ public interface ItemDao extends JpaRepository<Item, Integer>{
             "JOIN B.itemTypeSet C " +
             "JOIN C.products D "+
             "JOIN D.brands E ")
-    public List<ItemSize> getAllItemSize();
+    public List<ItemSize> getAllItemSize();*/
 
     @Modifying
     @Query("Update Item Set status='deleted' Where itemId =?1 ")

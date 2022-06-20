@@ -14,7 +14,7 @@ public interface ProductTypeDao extends JpaRepository<ProductType, Integer> {
 
 
     @Modifying
-    @Query("Update ProductDetail ItemType Set status='deleted' Where productId =?1 ")
+    @Query("Update ProductType Set status='deleted' Where productTypeId =?1 ")
     public void softDelete(int productTypeId);
 
     List<ProductType> findByStatus(String status);

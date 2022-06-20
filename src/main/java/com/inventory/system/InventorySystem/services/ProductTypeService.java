@@ -5,13 +5,13 @@ import java.util.List;
 import com.inventory.system.InventorySystem.entities.ProductType;
 
 
-public interface ProductService {
+public interface ProductTypeService {
 	
 public List<ProductType> getProductType();
 	
 	public ProductType getProductTypeById(int productTypeId);
 	
-	public ProductType addProductType(ProductType productDetail, int brandId);
+	public ProductType addProductType(ProductType productDetail);
 
 	public ProductType saveProductType(ProductType productDetail);
 

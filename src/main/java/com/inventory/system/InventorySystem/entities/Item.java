@@ -33,9 +33,6 @@ public class Item {
 	private InventoryDetail inventoryDetail;
 
 
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "items")
-	private Set<ItemType> itemTypeSet = new HashSet<>();
-
 	public Item(int itemId, String itemName, String itemColor, String password) {
 		super();
 		this.itemId = itemId;
@@ -83,14 +80,6 @@ public class Item {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
-
-	public Set<ItemType> getItemTypeSet() {
-		return itemTypeSet;
-	}
-
 
 	public String getStatus() {
 		return status;

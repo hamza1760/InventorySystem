@@ -12,7 +12,7 @@ public interface ItemService {
 	
 	public List<Item> getItem();
 	
-	public Item addItem(Item item,int itemTypeId);
+	public Item addItem(Item item);
 
 	public Item saveItem(Item item);
 	
@@ -23,9 +23,9 @@ public interface ItemService {
 	
 	public Item getItemById (int itemId);
 
-	public List<ItemSize> getItemSizeById(int itemId);
+	/*public List<ItemSize> getItemSizeById(int itemId);
 
-	public List<ItemSize> getAllItemSize();
+	public List<ItemSize> getAllItemSize();*/
 	
 	public Item itemDtoToItem(ItemDto itemDto);
 	

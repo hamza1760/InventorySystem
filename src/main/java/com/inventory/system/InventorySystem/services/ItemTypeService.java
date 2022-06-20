@@ -12,7 +12,7 @@ public List<ItemType> getItemType();
 	
 	public ItemType getItemTypeById(int itemTypeId);
 	
-	public ItemType addItemType(ItemType itemType,int productId);
+	public ItemType addItemType(ItemType itemType);
 
 	public ItemType saveItemType(ItemType itemType);
 	

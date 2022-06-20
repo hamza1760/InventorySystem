@@ -75,7 +75,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return warehouseDao.findByStatusAndWarehouseId("active",warehouseId);
 	}
 
-	@Override
+	/*@Override
 	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
 		Warehouse warehouse= warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
 		if(warehouse.getStatus().contains("deleted")){
@@ -84,7 +84,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 		else {
 			return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
 		}
-	}
+	}*/
+
+/*	public List<ItemQuantity> getItemQuantityInAllWarehouse() {
+		return warehouseDao.getItemQuantityAllWarehouses();
+	}*/
 
 	@Override
 	public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
@@ -127,9 +131,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 
-	public List<ItemQuantity> getItemQuantityInAllWarehouse() {
-		return warehouseDao.getItemQuantityAllWarehouses();
-	}
+
 
 
 

@@ -35,9 +35,8 @@ public class ItemServiceImpl implements ItemService {
 	private ModelMapper modelMapper;
 
 
-	public Item addItem(Item item,int itemTypeId) {
+	public Item addItem(Item item) {
 
-		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
 
 		return itemDao.save(item);
 	}
@@ -83,7 +82,7 @@ public class ItemServiceImpl implements ItemService {
 
 
 
-	@Override
+	/*@Override
 	public List<ItemSize> getItemSizeById(int itemId) {
 		Item item = itemDao.findById(itemId).orElseThrow(()-> new ItemNotFoundException(itemId));
 		return itemDao.getItemSizeById(itemId);
@@ -92,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<ItemSize> getAllItemSize() {
 		return itemDao.getAllItemSize();
-	}
+	}*/
 
 
 	public ItemDto itemToItemDto(Item item) {
