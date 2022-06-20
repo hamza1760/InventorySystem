@@ -2,8 +2,6 @@ package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -22,7 +20,7 @@ public class ItemType {
 
 
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "itemTypeSet")
-	private Set<ProductDetail> products = new HashSet<>();
+	private Set<ProductType> products = new HashSet<>();
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -60,7 +58,7 @@ public class ItemType {
 		this.itemType = itemType;
 	}
 
-	public Set<ProductDetail> getProducts() {
+	public Set<ProductType> getProducts() {
 		return products;
 	}
 

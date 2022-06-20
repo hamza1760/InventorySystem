@@ -1,10 +1,10 @@
 package com.inventory.system.InventorySystem.exceptions.notfound;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ProductTypeNotFoundException extends RuntimeException {
 
 	public int id;
 
-	public ProductNotFoundException(int id) {
+	public ProductTypeNotFoundException(int id) {
 		super();
 		this.id = id;
 	}

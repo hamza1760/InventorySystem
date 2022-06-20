@@ -1,12 +1,12 @@
 package com.inventory.system.InventorySystem.api.response;
 
 
-public class ApiResponseProductDetail {
+public class ApiResponseProductType {
 
     String message;
     int productId;
 
-    public ApiResponseProductDetail(String message, int productId) {
+    public ApiResponseProductType(String message, int productId) {
         this.message = message;
         this.productId = productId;
     }

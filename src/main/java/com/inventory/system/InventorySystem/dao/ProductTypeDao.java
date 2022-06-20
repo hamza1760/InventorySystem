@@ -1,26 +1,25 @@
 package com.inventory.system.InventorySystem.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.inventory.system.InventorySystem.entities.ProductDetail;
+import com.inventory.system.InventorySystem.entities.ProductType;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
-public interface ProductDetailDao extends JpaRepository<ProductDetail, Integer> {
+public interface ProductTypeDao extends JpaRepository<ProductType, Integer> {
 
 
 
     @Modifying
     @Query("Update ProductDetail ItemType Set status='deleted' Where productId =?1 ")
-    public void softDelete(int productId);
+    public void softDelete(int productTypeId);
 
-    List<ProductDetail> findByStatus(String status);
+    List<ProductType> findByStatus(String status);
 
-    public ProductDetail findByStatusAndProductId(String status,int productId);
+    public ProductType findByStatusAndProductTypeId(String status, int productTypeId);
 
 
 }

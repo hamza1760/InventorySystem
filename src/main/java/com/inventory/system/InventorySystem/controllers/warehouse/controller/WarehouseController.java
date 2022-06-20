@@ -40,6 +40,8 @@ public class WarehouseController {
     @PostMapping("/warehouse/address/{addressId}")
     public Warehouse addWarehouse(@RequestBody Warehouse warehouse, @PathVariable int addressId) {
 
+
+
         /*getting address*/
         Address address = addressService.getAddressById(addressId);
 

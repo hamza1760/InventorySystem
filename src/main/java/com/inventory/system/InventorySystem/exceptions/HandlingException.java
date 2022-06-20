@@ -25,10 +25,10 @@ public class HandlingException {
         return new ResponseEntity<>(new ApiResponseItemType("ItemType already exists", itemTypeId), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(ProductAlreadyExists.class)
-    public ResponseEntity<?> productAlreadyExistsException(ProductAlreadyExists ex) {
-        int prouctId = ex.id;
-        return new ResponseEntity<>(new ApiResponseProductDetail("Product already exists", prouctId), HttpStatus.CONFLICT);
+    @ExceptionHandler(ProductTypeAlreadyExists.class)
+    public ResponseEntity<?> productTypeAlreadyExistsException(ProductTypeAlreadyExists ex) {
+        int productTypeId = ex.id;
+        return new ResponseEntity<>(new ApiResponseProductType("Product already exists", productTypeId), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(BrandAlreadyExists.class)
@@ -117,11 +117,11 @@ public class HandlingException {
     }
 
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<?> ProductNotFoundException(ProductNotFoundException ex) {
+    @ExceptionHandler(ProductTypeNotFoundException.class)
+    public ResponseEntity<?> ProductTypeNotFoundException(ProductTypeNotFoundException ex) {
 
-        int productId = ex.id;
-        return new ResponseEntity<>(new ApiResponseProductDetail("Product not found", productId), HttpStatus.NOT_FOUND);
+        int productTypeId = ex.id;
+        return new ResponseEntity<>(new ApiResponseProductType("Product not found", productTypeId), HttpStatus.NOT_FOUND);
 
     }
 

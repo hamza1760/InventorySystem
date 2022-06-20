@@ -1,6 +1,5 @@
 package com.inventory.system.InventorySystem.dao;
 
-import com.inventory.system.InventorySystem.entities.ProductDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.inventory.system.InventorySystem.entities.ItemType;

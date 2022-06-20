@@ -11,45 +11,45 @@ import java.util.Set;
 
 @Entity
 @Proxy(lazy = false)
-public class ProductDetail {
+public class ProductType {
 
 	@Id
-	private int productId;
+	private int productTypeId;
 	private String productType;
 
 	@JsonIgnore
 	private String status = "active";
 
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
-	private Set<BrandDetail> brands = new HashSet<>();
+	/*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
+	private Set<BrandDetail> brands = new HashSet<>();*/
 
-	@JsonIgnore
+/*	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			joinColumns = {@JoinColumn(name = "product_id")},
 			inverseJoinColumns = {@JoinColumn(name = "item_type_id")}
 	)
-	private Set<ItemType> itemTypeSet = new HashSet<>();
+	private Set<ItemType> itemTypeSet = new HashSet<>();*/
 
-	public ProductDetail() {
+	public ProductType() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductDetail(String status ,int productId, String productType) {
+	public ProductType(String status , int productTypeId, String productType) {
 		super();
-		this.productId = productId;
+		this.productTypeId = productTypeId;
 		this.productType = productType;
 		this.status = status;
 	}
 
-	public int getProductId() {
-		return productId;
+	public int getProductTypeId() {
+		return productTypeId;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProductTypeId(int productTypeId) {
+		this.productTypeId = productTypeId;
 	}
 
 	public String getProductType() {
@@ -60,19 +60,19 @@ public class ProductDetail {
 		this.productType = productType;
 	}
 
-	public Set<BrandDetail> getBrands() {
+	/*public Set<BrandDetail> getBrands() {
 		return brands;
-	}
+	}*/
 
 
-	public void setItemType(ItemType itemType) {
+	/*public void setItemType(ItemType itemType) {
 		itemTypeSet.add(itemType);
 	}
 
 
 	public Set<ItemType> getItemTypeSet() {
 		return itemTypeSet;
-	}
+	}*/
 
 
 }

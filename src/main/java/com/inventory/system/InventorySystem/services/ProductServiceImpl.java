@@ -5,13 +5,8 @@ import java.util.Set;
 
 import com.inventory.system.InventorySystem.dao.*;
 import com.inventory.system.InventorySystem.entities.*;
-import com.inventory.system.InventorySystem.entities.ProductDetail;
-import com.inventory.system.InventorySystem.exceptions.alreadyexists.ProductAlreadyExists;
-import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.BrandNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.ProductNotFoundException;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+import com.inventory.system.InventorySystem.entities.ProductType;
+import com.inventory.system.InventorySystem.exceptions.notfound.ProductTypeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductDetailDao productDetailDao;
+	private ProductTypeDao productTypeDao;
 
 	@Autowired
 	private BrandDetailDao brandDetailDao;
@@ -36,33 +31,33 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public List<ProductDetail> getProduct() {
-		return productDetailDao.findByStatus("active");
+	public List<ProductType> getProductType() {
+		return productTypeDao.findByStatus("active");
 	}
 
 	@Override
-	public ProductDetail getProductById(int productId) {
-		 productDetailDao.findById(productId).orElseThrow(()-> new ProductNotFoundException(productId));
-		 return productDetailDao.findByStatusAndProductId("active",productId);
+	public ProductType getProductTypeById(int productTypeId) {
+		 productTypeDao.findById(productTypeId).orElseThrow(()-> new ProductTypeNotFoundException(productTypeId));
+		 return productTypeDao.findByStatusAndProductTypeId("active",productTypeId);
 
 	}
 
 	@Override
-	public ProductDetail addProduct(ProductDetail productDetail,int brandId) {
+	public ProductType addProductType(ProductType productDetail, int brandId) {
 
-			return productDetailDao.save(productDetail);
+			return productTypeDao.save(productDetail);
 	}
 
 	@Override
-	public ProductDetail saveProduct(ProductDetail productDetail) {
-		return productDetailDao.save(productDetail);
+	public ProductType saveProductType(ProductType productDetail) {
+		return productTypeDao.save(productDetail);
 	}
 
 
 	@Override
-	public void deleteProduct(int productId) {
-		 ProductDetail product = productDetailDao.findById(productId).orElseThrow(()-> new ProductNotFoundException(productId));
-		Set<ItemType> itemTypeSet = product.getItemTypeSet();
+	public void deleteProductType(int productTypeId) {
+		 ProductType product = productTypeDao.findById(productTypeId).orElseThrow(()-> new ProductTypeNotFoundException(productTypeId));
+		/*Set<ItemType> itemTypeSet = product.getItemTypeSet();
 		for(ItemType itemType : itemTypeSet) {
 			int itemTypeId= itemType.getItemTypeId();
 			itemType.setStatus("deleted");
@@ -79,9 +74,9 @@ public class ProductServiceImpl implements ProductService {
 				inventoryDetailDao.save(inventory);
 			}
 
-		}
+		}*/
 
-			productDetailDao.softDelete(productId);
+			productTypeDao.softDelete(productTypeId);
 		}
 
 		}
