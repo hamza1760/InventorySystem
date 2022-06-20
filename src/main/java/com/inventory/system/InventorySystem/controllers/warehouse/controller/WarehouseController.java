@@ -4,6 +4,7 @@ import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
 import com.inventory.system.InventorySystem.api.response.ApiResponseWarehouse;
 import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
+import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
@@ -37,27 +38,14 @@ public class WarehouseController {
 
 
     /* Warehouse Controller */
-    @PostMapping("/warehouse/address/{addressId}")
-    public Warehouse addWarehouse(@RequestBody Warehouse warehouse, @PathVariable int addressId) {
+    @PostMapping("/warehouse/")
+    public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
+
+
+        return warehouseService.addWarehouse(warehouse);
 
 
 
-        /*getting address*/
-        Address address = addressService.getAddressById(addressId);
-
-        /*checking if address is already assigned to warehouse*/
-        Warehouse warehouseInAddress = address.getWarehouse();
-        if(warehouseInAddress==null){
-            warehouse.setAddress(address);
-            warehouseService.addWarehouse(warehouse,addressId);
-        }
-
-           else {
-               int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
-               throw new DataIntegrityException("address is already assigned to warehouse",warehouseIdInAddress);
-        }
-
-        return warehouse;
 
     }
 
@@ -101,39 +89,7 @@ public class WarehouseController {
     @PutMapping("warehouse/{warehouseId}/inventory/{inventoryId}")
     public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId){
 
-        Warehouse warehouse = warehouseService.getWarehouseById(warehouseId);
-        if(warehouse==null) {
-            throw new WarehouseNotFoundException(warehouseId);
-        }
-        else {
-
-            InventoryDetail inventory = inventoryService.getInventoryById(inventoryId);
-            if (inventory == null) {
-                throw new InventoryNotFoundException(inventoryId);
-            }
-            else {
-
-                Warehouse checkWarehouse = inventory.getWarehouse();
-                if(checkWarehouse==null){
-                    inventory.setWarehouse(warehouse);
-                    inventoryService.saveInventory(inventory);
-
-                }
-                else {
-
-
-                    int warehouseIdInInventory = checkWarehouse.getWarehouseId();
-                            throw new DataIntegrityException("this inventory is already in warehouse",warehouseIdInInventory);
-
-                        }
-
-                    }
-
-
-                }
-
-
-        return warehouse;
+        return warehouseService.putInventoryInWarehouse(warehouseId,inventoryId);
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
