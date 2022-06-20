@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 public class ItemQuantity {
+    private int warehouseId;
     private String warehouseName;
     private String areaName;
     private String cityName;
@@ -15,7 +16,8 @@ public class ItemQuantity {
     private String productType;
     private String brandName;
 
-    public ItemQuantity(String warehouseName, String areaName, String cityName, String countryName, int inventoryId, String itemSize, int inStock, int avlQty, String itemName, String itemColor, String itemType, String productType, String brandName) {
+    public ItemQuantity(int warehouseId, String warehouseName, String areaName, String cityName, String countryName, int inventoryId, String itemSize, int inStock, int avlQty, String itemName, String itemColor, String itemType, String productType, String brandName) {
+        this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;
         this.areaName = areaName;
         this.cityName = cityName;
@@ -29,6 +31,14 @@ public class ItemQuantity {
         this.itemType = itemType;
         this.productType = productType;
         this.brandName = brandName;
+    }
+
+    public int getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public String getWarehouseName() {

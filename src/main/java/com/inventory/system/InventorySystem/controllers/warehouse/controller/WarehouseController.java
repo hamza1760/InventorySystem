@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -42,23 +43,17 @@ public class WarehouseController {
         /*getting address*/
         Address address = addressService.getAddressById(addressId);
 
-       /*checking if address is already assigned to warehouse*/
-       List<Warehouse> warehouses = warehouseService.getWarehouse();
-       for(Warehouse singleWarehouse:  warehouses){
-           Address checkAddress= singleWarehouse.getAddress();
-          int addressIdInWarehouse = checkAddress.getAddressId();
-            if(addressIdInWarehouse!=addressId) {
-              break;
-          }
-           else {
-               int warehouseId = singleWarehouse.getWarehouseId();
-               throw new DataIntegrityException("address is already assigned to warehouse",warehouseId);
+        /*checking if address is already assigned to warehouse*/
+        Warehouse warehouseInAddress = address.getWarehouse();
+        if(warehouseInAddress==null){
+            warehouse.setAddress(address);
+            warehouseService.addWarehouse(warehouse,addressId);
         }
-       }
 
-        /*if address is not assigned to warehouse than mapping address to the warehouse*/
-        warehouse.setAddress(address);
-        warehouseService.addWarehouse(warehouse,addressId);
+           else {
+               int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
+               throw new DataIntegrityException("address is already assigned to warehouse",warehouseIdInAddress);
+        }
 
         return warehouse;
 
@@ -85,6 +80,11 @@ public class WarehouseController {
        else {
            return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
        }
+    }
+
+    @GetMapping("/itemsinwarehouse/")
+    public List<ItemQuantity> getItemQuantityInAllWarehouse(){
+        return warehouseService.getItemQuantityInAllWarehouse();
     }
 
 
@@ -115,29 +115,22 @@ public class WarehouseController {
                 if(checkWarehouse==null){
                     inventory.setWarehouse(warehouse);
                     inventoryService.saveInventory(inventory);
+
                 }
                 else {
+
+
                     int warehouseIdInInventory = checkWarehouse.getWarehouseId();
-                    Set<InventoryDetail> inventoryDetailSet = checkWarehouse.getInventory();
-                    for(InventoryDetail inventoryInWarehouse :inventoryDetailSet){
-                        int inventoryIdInWarehouse = inventoryInWarehouse.getInventoryId();
-                        if (inventoryIdInWarehouse==inventoryId) {
                             throw new DataIntegrityException("this inventory is already in warehouse",warehouseIdInInventory);
 
                         }
-                        else {
 
-                            inventory.setWarehouse(warehouse);
-                            inventoryService.saveInventory(inventory);
-
-
-                        }
                     }
 
 
                 }
-            }
-        }
+
+
         return warehouse;
     }
 

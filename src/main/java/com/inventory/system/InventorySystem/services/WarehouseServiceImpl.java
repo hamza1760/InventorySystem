@@ -76,6 +76,17 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 	@Override
+	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
+		Warehouse warehouse= warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		if(warehouse.getStatus().contains("deleted")){
+			return null;
+		}
+		else {
+			return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
+		}
+	}
+
+	@Override
 	public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
 
 		return null;
@@ -92,7 +103,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			InventoryDetail updateInventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new InventoryNotFoundException(inventoryId));
 			Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
 			for (InventoryDetail setItemQuantity : inventoryDetails) {
-				if (setItemQuantity.getInventoryId() == inventoryId) {
+				int inventoryIdInWarehouse = setItemQuantity.getInventoryId();
+				if (inventoryIdInWarehouse== inventoryId) {
 
 					setItemQuantity.setInStock(inventory.getInStock());
 					setItemQuantity.setAvlQty(inventory.getAvlQty());
@@ -101,7 +113,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 					return warehouseDao.save(warehouse);
 
 
-				} else {
+				}
+				else {
 					throw new InventoryNotFoundException(inventoryId);
 
 				}
@@ -113,16 +126,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	}
 
-	@Override
-	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
-		Warehouse warehouse= warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
-		if(warehouse.getStatus().contains("deleted")){
-			return null;
-		}
-		else {
-			return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
-		}
+
+	public List<ItemQuantity> getItemQuantityInAllWarehouse() {
+		return warehouseDao.getItemQuantityAllWarehouses();
 	}
+
+
 
 
 	@Override

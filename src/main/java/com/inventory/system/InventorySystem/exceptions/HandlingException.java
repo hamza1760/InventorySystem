@@ -3,11 +3,12 @@ package com.inventory.system.InventorySystem.exceptions;
 import com.inventory.system.InventorySystem.api.response.*;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.*;
 import com.inventory.system.InventorySystem.exceptions.notfound.*;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 
 /* Exception handling */
@@ -155,6 +156,13 @@ public class HandlingException {
         return new ResponseEntity<>(new ApiResponseDataIntegrity(msg,id),HttpStatus.CONFLICT);
 
     }
+
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class, MethodArgumentTypeMismatchException.class})
+    public ResponseEntity<?> InvalidInputException(){
+
+        return new ResponseEntity<>(new ApiResponseInvalidInput("invalid input"),HttpStatus.NO_CONTENT);
+    }
+
 
 
 
