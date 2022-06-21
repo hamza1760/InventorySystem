@@ -18,27 +18,29 @@ public class Item {
 	@Id
 	@Column(name = "item_id")
 	private int itemId;
-
 	private String itemName;
-	private String itemColor;
 
-	@JsonIgnore
-	private String password;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "productTypeId")
+	private ProductType productType;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "brandId")
+	private BrandDetail brand;
+
 
 	@JsonIgnore
 	private String status = "active";
 
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER,mappedBy = "item")
-	private InventoryDetail inventoryDetail;
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
+	private Set<InventoryDetail> inventory = new HashSet<>();
 
 
-	public Item(int itemId, String itemName, String itemColor, String password) {
+	public Item(int itemId, String itemName) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
-		this.itemColor = itemColor;
-		this.password = password;
 	}
 
 	public Item() {
@@ -65,21 +67,6 @@ public class Item {
 		this.itemName = itemName;
 	}
 
-	public String getItemColor() {
-		return itemColor;
-	}
-
-	public void setItemColor(String itemColor) {
-		this.itemColor = itemColor;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getStatus() {
 		return status;
@@ -89,7 +76,23 @@ public class Item {
 		this.status = status;
 	}
 
-	public InventoryDetail getInventoryDetail() {
-		return inventoryDetail;
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setBrand(BrandDetail brand) {
+		this.brand = brand;
+	}
+
+	public BrandDetail getBrand() {
+		return brand;
+	}
+
+	public Set<InventoryDetail> getInventory() {
+		return inventory;
 	}
 }

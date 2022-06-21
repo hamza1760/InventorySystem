@@ -26,41 +26,36 @@ public class InventoryController {
     @Autowired
     private ItemService itemService;
 
-    /*mapping inventory and item*/
-    @PostMapping("/inventory/item/{itemId}")
-    public InventoryDetail addInventory(@RequestBody InventoryDetail inventoryDetail, @PathVariable int itemId){
+    @PostMapping("/inventory")
+    public InventoryDetail addInventory(@RequestBody InventoryDetail inventoryDetail) {
 
-        /*setting inventory to particular item*/
-        Item item = itemService.getItemById(itemId);
-        inventoryDetail.setItemToInventory(item);
-        inventoryService.addInventory(inventoryDetail,itemId);
-        return inventoryDetail;
+        return inventoryService.addInventory(inventoryDetail);
 
 
     }
 
     @GetMapping("/inventory")
-    public List<InventoryDetail> getInventory(){
+    public List<InventoryDetail> getInventory() {
         return inventoryService.getInventory();
     }
 
 
     @GetMapping("/inventory/{inventoryId}")
-    public InventoryDetail getInventoryById(@PathVariable int inventoryId){
+    public InventoryDetail getInventoryById(@PathVariable int inventoryId) {
         return inventoryService.getInventoryById(inventoryId);
     }
 
     @PutMapping("/inventory/{inventoryId}")
-    public InventoryDetail setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId){
-        InventoryDetail updatedItemQuantity = inventoryService.setItemQuantityInAllWarehouses(inventoryDetail,inventoryId);
+    public InventoryDetail setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId) {
+        InventoryDetail updatedItemQuantity = inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
         return updatedItemQuantity;
     }
 
 
     @DeleteMapping("/inventory/{inventoryId}")
-    public ResponseEntity<?> deleteinventoryById(@PathVariable int inventoryId){
+    public ResponseEntity<?> deleteinventoryById(@PathVariable int inventoryId) {
         inventoryService.deleteInventory(inventoryId);
-        return new ResponseEntity<>((new ApiResponseInventory("Inventory Deleted",inventoryId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponseInventory("Inventory Deleted", inventoryId)), HttpStatus.FOUND);
     }
 
 

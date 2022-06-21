@@ -48,7 +48,7 @@ public class ItemController {
 
     }
 
-    /*@GetMapping("/item/size/")
+    @GetMapping("/item/size/")
     public List<ItemSize> getItemSize(){
         List<ItemSize> itemSize = itemService.getAllItemSize();
         return itemSize;
@@ -58,7 +58,7 @@ public class ItemController {
     public List<ItemSize> getItemSizeById(@PathVariable int itemId){
         List<ItemSize> itemSize = itemService.getItemSizeById(itemId);
         return itemSize;
-    }*/
+    }
 
     @PostMapping("/item/")
     public Item addItem(@RequestBody Item item) {

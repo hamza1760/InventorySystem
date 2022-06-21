@@ -20,6 +20,10 @@ public class ProductType {
 	@JsonIgnore
 	private String status = "active";
 
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "productType")
+	private Item item;
+
 	public ProductType() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -48,5 +52,15 @@ public class ProductType {
 		this.productType = productType;
 	}
 
+	public String getStatus() {
+		return status;
+	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Item getItem() {
+		return item;
+	}
 }

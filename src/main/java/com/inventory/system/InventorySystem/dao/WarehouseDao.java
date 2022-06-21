@@ -18,33 +18,33 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
 
 
 
-    /*@Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
-            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemColor,G.itemType,H.productType,I.brandName) "+
+    @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
+            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) "+
             "From Warehouse A " +
             "Join A.address B " +
             "Join B.city C " +
             "Join C.country D " +
             "Join A.inventory E " +
-            "Join E.item F Join " +
-            "F.itemTypeSet G " +
-            "Join G.products H " +
-            "Join H.brands I "+
+            "Join E.item F " +
+            "Join E.itemType G " +
+            "Join F.productType H " +
+            "Join F.brand I "+
             "Where A.warehouseId =?1")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
 
 
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
-            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemColor,G.itemType,H.productType,I.brandName) "+
+            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) "+
             "From Warehouse A " +
             "Join A.address B " +
             "Join B.city C " +
             "Join C.country D " +
             "Join A.inventory E " +
-            "Join E.item F Join " +
-            "F.itemTypeSet G " +
-            "Join G.products H " +
-            "Join H.brands I ")
-    public List<ItemQuantity> getItemQuantityAllWarehouses();*/
+            "Join E.item F " +
+            "Join E.itemType G " +
+            "Join F.productType H " +
+            "Join F.brand I ")
+    public List<ItemQuantity> getItemQuantityAllWarehouses();
 
 
 

@@ -31,6 +31,10 @@ public class InventoryDetail {
 	@JoinColumn(name = "item_id")
 	private Item item;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "itemTypeId")
+	private ItemType itemType;
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "warehouse_id")
@@ -127,14 +131,24 @@ public class InventoryDetail {
 		this.itemSize = itemSize;
 	}
 
+
+
+	public void setItem(Item item) {
+
+		this.item = item;
+	}
+
 	public Item getItem() {
 
 		return item;
 	}
 
-	public void setItemToInventory(Item item) {
+	public void setItemType(ItemType itemType) {
+		this.itemType = itemType;
+	}
 
-		this.item = item;
+	public ItemType getItemType() {
+		return itemType;
 	}
 
 	public void setWarehouse(Warehouse warehouse){

@@ -61,7 +61,7 @@ public class WarehouseController {
         return warehouseService.getWarehouseById(warehouseId);
     }
 
-   /* @GetMapping("/itemsinwarehouse/{warehouseId}")
+    @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId){
        List<ItemQuantity> itemQuantity =warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
        if(itemQuantity==null){
@@ -75,7 +75,7 @@ public class WarehouseController {
     @GetMapping("/itemsinwarehouse/")
     public List<ItemQuantity> getItemQuantityInAllWarehouse(){
         return warehouseService.getItemQuantityInAllWarehouse();
-    }*/
+    }
 
 
     @DeleteMapping("/warehouse/{warehouseId}")

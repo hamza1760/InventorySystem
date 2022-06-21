@@ -18,15 +18,10 @@ public class ItemType {
 	@JsonIgnore
 	private String status = "active";
 
-
-
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			joinColumns = {@JoinColumn(name = "item_type_id")},
-			inverseJoinColumns = {@JoinColumn(name = "item_id")}
-	)
-	private Set<Item> items = new HashSet<>();
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "itemType")
+	private Set<InventoryDetail> inventory = new HashSet<>();
+
 
 	public ItemType() {
 		super();
@@ -56,19 +51,15 @@ public class ItemType {
 		this.itemType = itemType;
 	}
 
-	public void setItems(Item item){
-		items.add(item);
-	}
-
-	public Set<Item> getItems() {
-		return items;
-	}
-
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Set<InventoryDetail> getInventory() {
+		return inventory;
 	}
 }

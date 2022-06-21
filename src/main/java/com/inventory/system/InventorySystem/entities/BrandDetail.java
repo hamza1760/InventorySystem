@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Entity
 
+@Proxy(lazy = false)
 public class BrandDetail {
 
 	@Id
@@ -17,7 +19,9 @@ public class BrandDetail {
 	@JsonIgnore
 	private String status = "active";
 
-
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "brand")
+	private Item item;
 
 
 	public BrandDetail() {
@@ -54,5 +58,9 @@ public class BrandDetail {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Item getItem() {
+		return item;
 	}
 }
