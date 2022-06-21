@@ -42,11 +42,19 @@ public class ItemServiceImpl implements ItemService {
 
 		ProductType productTypeInItem = item.getProductType();
 		int productTypeId = productTypeInItem.getProductTypeId();
-		productTypeDao.findById(productTypeId).orElseThrow(()-> new ProductTypeNotFoundException(productTypeId));
+		ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(()-> new ProductTypeNotFoundException(productTypeId));
+		String productTypeStatus = productType.getStatus();
+		if(productTypeStatus.contains("deleted")){
+			throw new ProductTypeNotFoundException(productTypeId);
+		}
 
 		BrandDetail brandInItem = item.getBrand();
 		int brandId= brandInItem.getBrandId();
-		brandDetailDao.findById(brandId).orElseThrow(()-> new BrandNotFoundException(brandId));
+		BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(()-> new BrandNotFoundException(brandId));
+		String brandStatus = brand.getStatus();
+		if(brandStatus.contains("deleted")){
+			throw new BrandNotFoundException(brandId);
+		}
 
 		int itemId= item.getItemId();
 		boolean checkItemId = itemDao.findById(itemId).isPresent();
@@ -55,27 +63,8 @@ public class ItemServiceImpl implements ItemService {
 		}
 
 		else{
-
-			ProductType productType = productTypeDao.getReferenceById(productTypeId);
-			Item itemInProduct = productType.getItem();
-			if(itemInProduct==null){
 				item.setProductType(productType);
-			}
-			else{
-				int itemIdInProduct = itemInProduct.getItemId();
-				throw new DataIntegrityException("Product already exist in other item",itemIdInProduct);
-			}
-
-			BrandDetail brand = brandDetailDao.getReferenceById(brandId);
-			Item itemInBrand = brand.getItem();
-			if(itemInBrand==null){
 				item.setBrand(brand);
-			}
-			else{
-				int itemIdInBrand  = itemInBrand.getItemId();
-				throw new DataIntegrityException("Brand already exist in other item",itemIdInBrand);
-			}
-
 			return itemDao.save(item);
 
 

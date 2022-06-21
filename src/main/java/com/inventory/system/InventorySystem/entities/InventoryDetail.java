@@ -27,11 +27,11 @@ public class InventoryDetail {
 	private String status = "active";
 
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_id")
 	private Item item;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "itemTypeId")
 	private ItemType itemType;
 
