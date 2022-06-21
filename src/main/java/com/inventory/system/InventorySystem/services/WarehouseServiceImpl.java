@@ -87,6 +87,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return warehouseDao.findByStatusAndWarehouseId("active",warehouseId);
 	}
 
+	@Override
+	public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
+
+		Warehouse updateWarehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		updateWarehouse.setWarehouseName(warehouse.getWarehouseName());
+
+		Warehouse updatedWarehouse = warehouseDao.save(updateWarehouse);
+		return updatedWarehouse;
+
+	}
+
+
+
 
 	public Warehouse putInventoryInWarehouse(int warehouseId,int inventoryId){
 
@@ -135,11 +148,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 
 
-	@Override
-	public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
 
-		return null;
-	}
 
 
 	@Override

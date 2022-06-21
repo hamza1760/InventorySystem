@@ -61,6 +61,8 @@ public class WarehouseController {
         return warehouseService.getWarehouseById(warehouseId);
     }
 
+
+
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId){
        List<ItemQuantity> itemQuantity =warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
@@ -76,6 +78,13 @@ public class WarehouseController {
     public List<ItemQuantity> getItemQuantityInAllWarehouse(){
         return warehouseService.getItemQuantityInAllWarehouse();
     }
+
+    @PutMapping("/warehouse/{warehouseId}")
+    public Warehouse updateWarehouse(@RequestBody Warehouse warehouse,@PathVariable int warehouseId){
+        return warehouseService.updateWarehouse(warehouse,warehouseId);
+    }
+
+
 
 
     @DeleteMapping("/warehouse/{warehouseId}")
