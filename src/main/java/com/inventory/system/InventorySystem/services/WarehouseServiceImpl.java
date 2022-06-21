@@ -92,7 +92,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			InventoryDetail updateInventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new InventoryNotFoundException(inventoryId));
 			Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
 			for (InventoryDetail setItemQuantity : inventoryDetails) {
-				if (setItemQuantity.getInventoryId() == inventoryId) {
+				int inventoryIdInWarehouse = setItemQuantity.getInventoryId();
+				if (inventoryIdInWarehouse == inventoryId) {
 
 					setItemQuantity.setInStock(inventory.getInStock());
 					setItemQuantity.setAvlQty(inventory.getAvlQty());
