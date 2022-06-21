@@ -8,6 +8,7 @@ import java.util.Set;
 import com.inventory.system.InventorySystem.dao.AddressDao;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.WarehouseAlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.AddressNotFoundException;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
@@ -36,8 +37,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 
 	@Override
-	public Warehouse addWarehouse(Warehouse warehouse, int addressId) {
-		Address address = addressDao.findById(addressId).orElseThrow(() -> new AddressNotFoundException(addressId));
+	public Warehouse addWarehouse(Warehouse warehouse) {
+
+		Address warehouseAddress = warehouse.getAddress();
+		int addressId = warehouseAddress.getAddressId();
+		addressDao.findById(addressId).orElseThrow(() -> new AddressNotFoundException(addressId));
 
 		int warehouseId = warehouse.getWarehouseId();
 		boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
@@ -46,7 +50,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 			throw new WarehouseAlreadyExists(warehouseId);
 		}
 		else{
-			return warehouseDao.save(warehouse);
+			Address address = addressDao.getReferenceById(addressId);
+			Warehouse warehouseInAddress = address.getWarehouse();
+			if(warehouseInAddress==null) {
+				warehouse.setAddress(address);
+				return warehouseDao.save(warehouse);
+			}
+			else
+			{
+				int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
+				throw new DataIntegrityException("address is already assigned to warehouse",warehouseIdInAddress);
+
+			}
+
 
 		}
 
@@ -57,10 +73,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public Warehouse saveWarehouse(Warehouse warehouse) {
 		return warehouseDao.save(warehouse);
 	}
-	
-
-
-
 
 
 	@Override
@@ -76,6 +88,48 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 	@Override
+	public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
+
+		Warehouse updateWarehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		updateWarehouse.setWarehouseName(warehouse.getWarehouseName());
+
+		Warehouse updatedWarehouse = warehouseDao.save(updateWarehouse);
+		return updatedWarehouse;
+
+	}
+
+
+
+
+	public Warehouse putInventoryInWarehouse(int warehouseId,int inventoryId){
+
+		Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
+		String warehouseStatus = warehouse.getStatus();
+		if(warehouseStatus.contains("deleted")){
+			throw new WarehouseNotFoundException(warehouseId);
+		}
+		else{
+		InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException(inventoryId));
+		String inventoryStatus = inventory.getStatus();
+		if(inventoryStatus.contains("deleted")){
+			throw new InventoryNotFoundException(inventoryId);
+		}
+		else {
+			Warehouse checkWarehouse = inventory.getWarehouse();
+			if (checkWarehouse == null) {
+				inventory.setWarehouse(warehouse);
+				inventoryDetailDao.save(inventory);
+				return warehouse;
+			} else {
+				int warehouseIdInInventory = checkWarehouse.getWarehouseId();
+				throw new DataIntegrityException("this inventory is already in warehouse", warehouseIdInInventory);
+			}
+		}
+		}
+
+	}
+
+	@Override
 	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
 		Warehouse warehouse= warehouseDao.findById(warehouseId).orElseThrow(()-> new WarehouseNotFoundException(warehouseId));
 		if(warehouse.getStatus().contains("deleted")){
@@ -86,11 +140,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 		}
 	}
 
-	@Override
-	public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
-
-		return null;
+	public List<ItemQuantity> getItemQuantityInAllWarehouse() {
+		return warehouseDao.getItemQuantityAllWarehouses();
 	}
+
+
+
+
+
+
 
 
 	@Override
@@ -127,9 +185,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 
-	public List<ItemQuantity> getItemQuantityInAllWarehouse() {
-		return warehouseDao.getItemQuantityAllWarehouses();
-	}
+
 
 
 

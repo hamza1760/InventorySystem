@@ -12,7 +12,7 @@ public interface ItemService {
 	
 	public List<Item> getItem();
 	
-	public Item addItem(Item item,int itemTypeId);
+	public Item addItem(Item item);
 
 	public Item saveItem(Item item);
 	

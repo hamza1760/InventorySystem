@@ -1,21 +1,18 @@
 package com.inventory.system.InventorySystem.services;
 
 import java.util.List;
-import java.util.Set;
+
 
 
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
-import com.inventory.system.InventorySystem.dao.WarehouseDao;
+import com.inventory.system.InventorySystem.dao.ItemTypeDao;
+import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.Warehouse;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.InventoryAlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.*;
 import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.InventoryNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.ItemNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.WarehouseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -31,23 +28,42 @@ public class InventoryServiceImpl implements InventoryService {
 	@Autowired
 	private ItemDao itemDao;
 
-	@Override
-	public InventoryDetail addInventory(InventoryDetail inventoryDetail,int itemId) {
+	@Autowired
+	private ItemTypeDao itemTypeDao;
 
-		Item item = itemDao.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
+
+	@Override
+	public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
+
+		Item itemInInventory = inventoryDetail.getItem();
+		int itemId = itemInInventory.getItemId();
+		Item item = itemDao.findById(itemId).orElseThrow(()-> new ItemNotFoundException(itemId));
+		String itemStatus = item.getStatus();
+		if(itemStatus.contains("deleted")){
+			throw new ItemNotFoundException(itemId);
+		}
+
+		ItemType itemTypeInInventory = inventoryDetail.getItemType();
+		int itemTypeId = itemTypeInInventory.getItemTypeId();
+		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
+		String itemTypeStatus = itemType.getStatus();
+		if(itemTypeStatus.contains("deleted")){
+			throw new ItemTypeNotFoundException(itemTypeId);
+		}
 
 		int inventoryId = inventoryDetail.getInventoryId();
-		boolean checkInventoryId = inventoryDetailDao.findById(inventoryId).isPresent();
-		if (checkInventoryId == true) {
-			InventoryDetail inventoryDetail1 = inventoryDetailDao.getReferenceById(inventoryId);
-			Item item1 = inventoryDetail1.getItem();
-			int id = item1.getItemId();
-			String name = item.getItemName();
-			throw new InventoryAlreadyExists(inventoryId, id, name);
+		boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
+		if(checkInventory==true){
+			throw new InventoryAlreadyExists(inventoryId);
+		}
+		else{
+			inventoryDetail.setItem(item);
+			inventoryDetail.setItemType(itemTypeInInventory);
+		}
+		return inventoryDetailDao.save(inventoryDetail);
 
-		} else
 
-				return inventoryDetailDao.save(inventoryDetail);
+
 			
 	}
 

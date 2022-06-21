@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Entity
 
+@Proxy(lazy = false)
 public class BrandDetail {
 
 	@Id
@@ -17,14 +19,10 @@ public class BrandDetail {
 	@JsonIgnore
 	private String status = "active";
 
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "brand")
+	private Item item;
 
-	/*@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			joinColumns = {@JoinColumn(name = "brand_id")},
-			inverseJoinColumns = {@JoinColumn(name = "product_id")}
-	)
-	private Set<ProductType> products = new HashSet<>();*/
 
 	public BrandDetail() {
 		super();
@@ -54,21 +52,15 @@ public class BrandDetail {
 		this.brandName = brandName;
 	}
 
-
-	/*public void setProduct(ProductType productDetail) {
-		products.add(productDetail);
-	}
-
-
-	public Set<ProductType> getProducts() {
-		return products;
-	}*/
-
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Item getItem() {
+		return item;
 	}
 }

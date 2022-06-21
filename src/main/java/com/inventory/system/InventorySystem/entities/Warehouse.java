@@ -20,6 +20,7 @@ public class Warehouse {
 	private String warehouseName;
 
 
+
 	@JsonIgnore
 	private String status = "active";
 
@@ -27,6 +28,7 @@ public class Warehouse {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id_fk")
 	private Address address;
+
 
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "warehouse")
 	private Set<InventoryDetail> inventory = new HashSet<>();
@@ -39,8 +41,7 @@ public class Warehouse {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Warehouse(String status ,int warehouseId, String warehouseName) {
-		super();
+	public Warehouse(int warehouseId, String warehouseName, String status) {
 		this.warehouseId = warehouseId;
 		this.warehouseName = warehouseName;
 		this.status = status;
@@ -65,6 +66,10 @@ public class Warehouse {
 	public Address getAddress() {
 		return address;
 	}
+	public int getAddressId(Address address){
+		int addressId = address.getAddressId();
+		return addressId;
+	}
 
 	public void setAddress(Address address) {
 		this.address = address;
@@ -81,7 +86,6 @@ public class Warehouse {
 	public void setInventory(InventoryDetail inventory){
 		this.inventory.add(inventory);
 	}
-
 
 
 	public Set<InventoryDetail> getInventory() {

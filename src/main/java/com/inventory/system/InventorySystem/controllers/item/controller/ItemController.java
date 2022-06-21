@@ -60,17 +60,10 @@ public class ItemController {
         return itemSize;
     }
 
-    @PostMapping("/item/itemtype/{itemTypeId}")
-    public Item addItem(@RequestBody Item item,@PathVariable int itemTypeId) {
-        /*adding item to database*/
-        itemService.addItem(item,itemTypeId);
+    @PostMapping("/item/")
+    public Item addItem(@RequestBody Item item) {
 
-        /*mapping item to itemtype*/
-        ItemType itemType = itemTypeService.getItemTypeById(itemTypeId);
-        itemType.setItems(item);
-        itemTypeService.saveItemType(itemType);
-
-        return item;
+        return itemService.addItem(item);
 
 
     }

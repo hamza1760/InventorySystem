@@ -40,9 +40,7 @@ public class HandlingException {
     @ExceptionHandler(InventoryAlreadyExists.class)
     public ResponseEntity<?> inventoryAlreadyExistsException(InventoryAlreadyExists ex) {
         int inventoryId = ex.inventoryId;
-        int itemId = ex.itemId;
-        String itemName = ex.itemName;
-        return new ResponseEntity<>(new ApiResponseInventory("Inventory is already in use by the item",inventoryId,itemId,itemName),HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new ApiResponseInventory("Inventory already exist",inventoryId),HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ItemAlreadyExists.class)

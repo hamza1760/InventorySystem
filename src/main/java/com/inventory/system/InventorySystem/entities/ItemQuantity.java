@@ -11,12 +11,12 @@ public class ItemQuantity {
     private int inStock;
     private int avlQty;
     private String itemName;
-    private String itemColor;
+    private int  itemId;
     private String itemType;
     private String productType;
     private String brandName;
 
-    public ItemQuantity(int warehouseId, String warehouseName, String areaName, String cityName, String countryName, int inventoryId, String itemSize, int inStock, int avlQty, String itemName, String itemColor, String itemType, String productType, String brandName) {
+    public ItemQuantity(int warehouseId, String warehouseName, String areaName, String cityName, String countryName, int inventoryId, String itemSize, int inStock, int avlQty, String itemName, int itemId, String itemType, String productType, String brandName) {
         this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;
         this.areaName = areaName;
@@ -27,7 +27,7 @@ public class ItemQuantity {
         this.inStock = inStock;
         this.avlQty = avlQty;
         this.itemName = itemName;
-        this.itemColor = itemColor;
+        this.itemId = itemId;
         this.itemType = itemType;
         this.productType = productType;
         this.brandName = brandName;
@@ -113,12 +113,12 @@ public class ItemQuantity {
         this.itemName = itemName;
     }
 
-    public String getItemColor() {
-        return itemColor;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setItemColor(String itemColor) {
-        this.itemColor = itemColor;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getItemType() {

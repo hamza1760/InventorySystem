@@ -20,17 +20,9 @@ public class ProductType {
 	@JsonIgnore
 	private String status = "active";
 
-
-	/*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
-	private Set<BrandDetail> brands = new HashSet<>();*/
-
-/*	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			joinColumns = {@JoinColumn(name = "product_id")},
-			inverseJoinColumns = {@JoinColumn(name = "item_type_id")}
-	)
-	private Set<ItemType> itemTypeSet = new HashSet<>();*/
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "productType")
+	private Item item;
 
 	public ProductType() {
 		super();
@@ -60,19 +52,15 @@ public class ProductType {
 		this.productType = productType;
 	}
 
-	/*public Set<BrandDetail> getBrands() {
-		return brands;
-	}*/
-
-
-	/*public void setItemType(ItemType itemType) {
-		itemTypeSet.add(itemType);
+	public String getStatus() {
+		return status;
 	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-	public Set<ItemType> getItemTypeSet() {
-		return itemTypeSet;
-	}*/
-
-
+	public Item getItem() {
+		return item;
+	}
 }
