@@ -37,8 +37,8 @@ public class ProductTypeController {
 
     }
     @GetMapping("/product/{productTypeId}")
-    public ProductType getProductById(@PathVariable int productId){
-        return productTypeService.getProductTypeById(productId);
+    public ProductType getProductById(@PathVariable int productTypeId){
+        return productTypeService.getProductTypeById(productTypeId);
     }
 
     @DeleteMapping("/product/{productTypeId}")
