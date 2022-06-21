@@ -1,12 +1,18 @@
 package com.inventory.system.InventorySystem.controllers.product.controller;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponseProductType;
+import com.inventory.system.InventorySystem.controllers.item.controller.ItemController;
 import com.inventory.system.InventorySystem.entities.ProductType;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
+import com.inventory.system.InventorySystem.exceptions.notfound.ProductTypeNotFoundException;
 import com.inventory.system.InventorySystem.services.BrandService;
 import com.inventory.system.InventorySystem.services.ProductTypeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +21,8 @@ import java.util.List;
 /* product type Controller*/
 @RestController
 public class ProductTypeController {
+
+    static Logger logger = LoggerFactory.getLogger(ProductTypeController.class);
 
 
     @Autowired
@@ -37,8 +45,19 @@ public class ProductTypeController {
 
     }
     @GetMapping("/product/{productTypeId}")
-    public ProductType getProductById(@PathVariable int productTypeId){
-        return productTypeService.getProductTypeById(productTypeId);
+    public ProductType getProductTypeById(@PathVariable String productTypeId){
+        try{
+            productTypeService.getProductTypeById(Integer.parseInt(productTypeId));
+            logger.info("product fetched");
+            return productTypeService.getProductTypeById(Integer.parseInt(productTypeId));
+        }
+        catch(Exception e){
+            logger.error("wrong input type");
+            throw new ProductTypeNotFoundException(Integer.parseInt(productTypeId));
+        }
+
+
+
     }
 
     @DeleteMapping("/product/{productTypeId}")
