@@ -20,22 +20,23 @@ import static org.mockito.Mockito.when;
 public class ProductTypeControllerTest {
 
 
+    @Mock
+    private ProductTypeService productTypeService;
+
     @InjectMocks
     private ProductTypeController productTypeController;
 
-    @Mock
-    private ProductTypeService productTypeService;
+
 
     @Test
     public void getProductTypeTest(){
 
-        //give
         List<ProductType> productTypes = new ArrayList<ProductType>();
         productTypes.add(new ProductType("active",1,"shoe"));
         productTypes.add(new ProductType("active",2,"shirt"));
         productTypes.add(new ProductType("active",3,"phone"));
 
-        //when then
+
         when(productTypeService.getProductType()).thenReturn(productTypes);
 
         List<ProductType> product2 = productTypeController.getProductType();
