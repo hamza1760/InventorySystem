@@ -3,6 +3,9 @@ package com.inventory.system.InventorySystem.exceptions;
 import com.inventory.system.InventorySystem.api.response.*;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.*;
 import com.inventory.system.InventorySystem.exceptions.notfound.*;
+import com.inventory.system.InventorySystem.services.ProductTypeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -14,6 +17,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 /* Exception handling */
 @RestControllerAdvice
 public class HandlingException {
+
+    static Logger logger = LoggerFactory.getLogger(HandlingException.class);
 
 
 
@@ -158,6 +163,7 @@ public class HandlingException {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class, MethodArgumentTypeMismatchException.class})
     public ResponseEntity<?> InvalidInputException(){
 
+        logger.error("invalid input");
         return new ResponseEntity<>(new ApiResponseInvalidInput("invalid input"),HttpStatus.NO_CONTENT);
     }
 

@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 public class ProductTypeController {
 
-    static Logger logger = LoggerFactory.getLogger(ProductTypeController.class);
+
 
 
     @Autowired
@@ -45,17 +45,9 @@ public class ProductTypeController {
 
     }
     @GetMapping("/product/{productTypeId}")
-    public ProductType getProductTypeById(@PathVariable String productTypeId){
-        try{
-            productTypeService.getProductTypeById(Integer.parseInt(productTypeId));
-            logger.info("product fetched");
-            return productTypeService.getProductTypeById(Integer.parseInt(productTypeId));
-        }
-        catch(Exception e){
-            logger.error("wrong input type");
-            throw new ProductTypeNotFoundException(Integer.parseInt(productTypeId));
-        }
+    public ProductType getProductTypeById(@PathVariable int productTypeId){
 
+        return productTypeService.getProductTypeById(productTypeId);
 
 
     }
