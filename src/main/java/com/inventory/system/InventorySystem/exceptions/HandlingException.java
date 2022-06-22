@@ -160,11 +160,12 @@ public class HandlingException {
 
     }
 
-    @ExceptionHandler({HttpRequestMethodNotSupportedException.class, MethodArgumentTypeMismatchException.class})
-    public ResponseEntity<?> InvalidInputException(){
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> InvalidInputException(MethodArgumentTypeMismatchException ex){
 
-        logger.error("invalid input");
-        return new ResponseEntity<>(new ApiResponseInvalidInput("invalid input"),HttpStatus.NO_CONTENT);
+        String msg = ex.getMessage();
+        logger.error(msg);
+        return new ResponseEntity<>(new ApiResponseInvalidInput(msg),HttpStatus.NOT_FOUND);
     }
 
 
