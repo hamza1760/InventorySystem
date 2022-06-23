@@ -1,13 +1,57 @@
 package com.inventory.system.InventorySystem;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import com.inventory.system.InventorySystem.dao.ProductTypeDao;
+import com.inventory.system.InventorySystem.entities.ProductType;
+
+import com.inventory.system.InventorySystem.services.ProductTypeServiceImpl;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class InventorySystemApplicationTests {
 
+
+
+
+	@Mock
+	private ProductTypeDao productTypeDao;
+
+	@InjectMocks
+	private ProductTypeServiceImpl productTypeService;
+
+
+
 	@Test
-	void contextLoads() {
+	public void getProductTypeTest() {
+
+		List<ProductType> productTypeList = new ArrayList<ProductType>();
+
+		productTypeList.add(new ProductType("active", 1,"shoe"));
+		productTypeList.add(new ProductType("active", 2,"shirt"));
+		productTypeList.add(new ProductType("active", 3,"phone"));
+
+		when(productTypeDao.findByStatus("active")).thenReturn(productTypeList);
+
+		List<ProductType> productTypes = productTypeService.getProductType();
+
+		assertEquals(3,productTypes.size());
+
+
 	}
+
+
+
 
 }

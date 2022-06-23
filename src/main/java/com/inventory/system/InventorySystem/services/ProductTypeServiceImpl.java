@@ -2,7 +2,6 @@ package com.inventory.system.InventorySystem.services;
 
 import java.util.List;
 
-import com.inventory.system.InventorySystem.controllers.product.controller.ProductTypeController;
 import com.inventory.system.InventorySystem.dao.*;
 import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.notfound.ProductTypeNotFoundException;
@@ -36,6 +35,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	@Override
 	public List<ProductType> getProductType() {
 		return productTypeDao.findByStatus("active");
+
 	}
 
 	@Override
