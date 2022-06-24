@@ -20,13 +20,12 @@ import java.util.Set;
 public class WarehouseServiceImpl implements WarehouseService {
 
     final String ADDRESS_NOT_FOUND = "Address Not Found";
-    final String ADDRESS_ALREADY_EXIST = "Address Already Exist";
 
     final String WAREHOUSE_NOT_FOUND = "Warehouse Not Found";
     final String WAREHOUSE_ALREADY_EXIST = "Warehouse Already Exist";
 
     final String INVENTORY_NOT_FOUND = "Inventory Not Found";
-    final String INVENTORY_ALREADY_EXIST = "Inventory Already Exist";
+
 
     @Autowired
     private WarehouseDao warehouseDao;
@@ -40,15 +39,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Warehouse addWarehouse(Warehouse warehouse) {
-
         Address warehouseAddress = warehouse.getAddress();
         int addressId = warehouseAddress.getAddressId();
         addressDao.findById(addressId).orElseThrow(() -> new NotFoundException(ADDRESS_NOT_FOUND, addressId));
-
         int warehouseId = warehouse.getWarehouseId();
         boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
-        if (checkWarehouseId == true) {
-
+        if (checkWarehouseId) {
             throw new AlreadyExists(WAREHOUSE_ALREADY_EXIST, warehouseId);
         } else {
             Address address = addressDao.getReferenceById(addressId);
@@ -59,24 +55,13 @@ public class WarehouseServiceImpl implements WarehouseService {
             } else {
                 int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
                 throw new DataIntegrityException("address is already assigned to warehouse", warehouseIdInAddress);
-
             }
-
-
         }
-
-    }
-
-
-    @Override
-    public Warehouse saveWarehouse(Warehouse warehouse) {
-        return warehouseDao.save(warehouse);
     }
 
 
     @Override
     public List<Warehouse> getWarehouse() {
-
         return warehouseDao.findByStatus("active");
     }
 
@@ -88,18 +73,14 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Warehouse updateWarehouse(Warehouse warehouse, int warehouseId) {
-
         Warehouse updateWarehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(WAREHOUSE_NOT_FOUND, warehouseId));
         updateWarehouse.setWarehouseName(warehouse.getWarehouseName());
-
         Warehouse updatedWarehouse = warehouseDao.save(updateWarehouse);
         return updatedWarehouse;
-
     }
 
 
     public Warehouse putInventoryInWarehouse(int warehouseId, int inventoryId) {
-
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(WAREHOUSE_NOT_FOUND, warehouseId));
         String warehouseStatus = warehouse.getStatus();
         if (warehouseStatus.contains("deleted")) {
@@ -121,14 +102,13 @@ public class WarehouseServiceImpl implements WarehouseService {
                 }
             }
         }
-
     }
 
     @Override
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(WAREHOUSE_NOT_FOUND, warehouseId));
         if (warehouse.getStatus().contains("deleted")) {
-            throw new NotFoundException(WAREHOUSE_NOT_FOUND,warehouseId);
+            throw new NotFoundException(WAREHOUSE_NOT_FOUND, warehouseId);
         } else {
             return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
         }
@@ -143,31 +123,23 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId) {
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(WAREHOUSE_NOT_FOUND, warehouseId));
         if (warehouse.getStatus().equals("deleted")) {
-            throw new NotFoundException(WAREHOUSE_NOT_FOUND,warehouseId);
-        }
-        else {
+            throw new NotFoundException(WAREHOUSE_NOT_FOUND, warehouseId);
+        } else {
             Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
             for (InventoryDetail setItemQuantity : inventoryDetails) {
                 int inventoryIdInWarehouse = setItemQuantity.getInventoryId();
                 if (inventoryIdInWarehouse == inventoryId) {
-
                     setItemQuantity.setInStock(inventory.getInStock());
                     setItemQuantity.setAvlQty(inventory.getAvlQty());
                     warehouse.setInventory(setItemQuantity);
                     inventoryDetailDao.save(setItemQuantity);
                     return warehouseDao.save(warehouse);
-
-
                 } else {
                     throw new NotFoundException(INVENTORY_NOT_FOUND, inventoryId);
-
                 }
-
-
             }
             return null;
         }
-
     }
 
 
@@ -180,9 +152,5 @@ public class WarehouseServiceImpl implements WarehouseService {
             inventoryDetailDao.save(inventory);
         }
         warehouseDao.softDelete(warehouseId);
-
-
     }
-
-
 }

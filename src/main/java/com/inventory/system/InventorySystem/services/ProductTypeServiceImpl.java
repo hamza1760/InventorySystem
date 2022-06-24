@@ -13,64 +13,50 @@ import java.util.List;
 @Service
 public class ProductTypeServiceImpl implements ProductTypeService {
 
-	final String PRODUCT_TYPE_NOT_FOUND = "Product Not Found";
-	final String PRODUCT_TYPE_ALREADY_EXIST = "Product Already Exist";
+    final String PRODUCT_TYPE_NOT_FOUND = "Product Not Found";
 
-	static Logger logger = LoggerFactory.getLogger(ProductTypeService.class);
+    static Logger logger = LoggerFactory.getLogger(ProductTypeService.class);
 
-	@Autowired
-	private ProductTypeDao productTypeDao;
+    @Autowired
+    private ProductTypeDao productTypeDao;
 
-	@Autowired
-	private BrandDetailDao brandDetailDao;
+    @Autowired
+    private BrandDetailDao brandDetailDao;
 
-	@Autowired
-	private ItemTypeDao itemTypeDao;
+    @Autowired
+    private ItemTypeDao itemTypeDao;
 
-	@Autowired
-	private ItemDao itemDao;
+    @Autowired
+    private ItemDao itemDao;
 
-	@Autowired
-	private InventoryDetailDao inventoryDetailDao;
-
+    @Autowired
+    private InventoryDetailDao inventoryDetailDao;
 
 
-	@Override
-	public List<ProductType> getProductType() {
-		return productTypeDao.findByStatus("active");
+    @Override
+    public List<ProductType> getProductType() {
+        return productTypeDao.findByStatus("active");
+    }
 
-	}
+    @Override
+    public ProductType getProductTypeById(int productTypeId) {
+        productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(PRODUCT_TYPE_NOT_FOUND, productTypeId));
+        logger.info("product fetched");
+        return productTypeDao.findByStatusAndProductTypeId("active", productTypeId);
+    }
 
-	@Override
-	public ProductType getProductTypeById(int productTypeId) {
-		 productTypeDao.findById(productTypeId).orElseThrow(()-> new NotFoundException(PRODUCT_TYPE_NOT_FOUND,productTypeId));
-		 logger.info("product fetched");
-		 return productTypeDao.findByStatusAndProductTypeId("active",productTypeId);
-
-
-	}
-
-	@Override
-	public ProductType addProductType(ProductType productDetail) {
-
-			return productTypeDao.save(productDetail);
-	}
-
-	@Override
-	public ProductType saveProductType(ProductType productDetail) {
-		return productTypeDao.save(productDetail);
-	}
+    @Override
+    public ProductType addProductType(ProductType productDetail) {
+        return productTypeDao.save(productDetail);
+    }
 
 
-	@Override
-	public void deleteProductType(int productTypeId) {
-		 ProductType product = productTypeDao.findById(productTypeId).orElseThrow(()-> new NotFoundException(PRODUCT_TYPE_NOT_FOUND,productTypeId));
-
-
-			productTypeDao.softDelete(productTypeId);
-		}
-
-		}
+    @Override
+    public void deleteProductType(int productTypeId) {
+        productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(PRODUCT_TYPE_NOT_FOUND, productTypeId));
+        productTypeDao.softDelete(productTypeId);
+    }
+}
 
 
 

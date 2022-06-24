@@ -10,48 +10,41 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CountryDetailServiceImpl implements CountryDetailService{
+public class CountryDetailServiceImpl implements CountryDetailService {
 
-	final String COUNTRY_NOT_FOUND = "Country Not Found";
-	final String COUNTRY_ALREADY_EXIST = "Country Already Exist";
+    final String COUNTRY_NOT_FOUND = "Country Not Found";
+    final String COUNTRY_ALREADY_EXIST = "Country Already Exist";
 
-	@Autowired
-	private CountryDetailDao countryDetailDao;
+    @Autowired
+    private CountryDetailDao countryDetailDao;
 
-	@Override
-	public List<CountryDetail> getCountry() {
-		return countryDetailDao.findAll();
+    @Override
+    public List<CountryDetail> getCountry() {
+        return countryDetailDao.findAll();
+    }
 
-	}
+    @Override
+    public CountryDetail getCountryById(int countryId) {
+        countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND, countryId));
+        return countryDetailDao.getCountryById(countryId);
+    }
 
-	@Override
-	public CountryDetail getCountryById(int countryId) {
-		countryDetailDao.findById(countryId).orElseThrow(()->new NotFoundException(COUNTRY_NOT_FOUND,countryId));
-		return countryDetailDao.getCountryById(countryId);
-	}
+    @Override
+    public CountryDetail addCountry(CountryDetail countryDetail) {
+        int countryId = countryDetail.getCountryId();
+        boolean checkCode = countryDetailDao.findById(countryId).isPresent();
+        if (checkCode) {
+            throw new AlreadyExists(COUNTRY_ALREADY_EXIST, countryId);
+        } else {
+            return countryDetailDao.save(countryDetail);
+        }
+    }
 
-	@Override
-	public CountryDetail addCountry(CountryDetail countryDetail) {
-		int countryId = countryDetail.getCountryId();
-		boolean checkCode = countryDetailDao.findById(countryId).isPresent();
-		if(checkCode==true){
-			throw new AlreadyExists(COUNTRY_ALREADY_EXIST,countryId);
-		}
-		else {
-			return countryDetailDao.save(countryDetail);
-		}
-
-	}
-
-	@Override
-	public void deleteCountry(int countryId) {
-		countryDetailDao.findById(countryId).orElseThrow(()-> new NotFoundException(COUNTRY_NOT_FOUND,countryId));
-		countryDetailDao.softDelete(countryId);
-		
-	}
-
-
-
+    @Override
+    public void deleteCountry(int countryId) {
+        countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND, countryId));
+        countryDetailDao.softDelete(countryId);
+    }
 }
 
 

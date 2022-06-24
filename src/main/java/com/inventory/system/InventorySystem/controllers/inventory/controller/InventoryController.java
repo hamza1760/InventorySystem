@@ -23,10 +23,7 @@ public class InventoryController {
 
     @PostMapping("/inventory")
     public InventoryDetail addInventory(@RequestBody InventoryDetail inventoryDetail) {
-
         return inventoryService.addInventory(inventoryDetail);
-
-
     }
 
     @GetMapping("/inventory")
@@ -42,8 +39,7 @@ public class InventoryController {
 
     @PutMapping("/inventory/{inventoryId}")
     public InventoryDetail setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId) {
-        InventoryDetail updatedItemQuantity = inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
-        return updatedItemQuantity;
+        return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
     }
 
 
@@ -52,6 +48,4 @@ public class InventoryController {
         inventoryService.deleteInventory(inventoryId);
         return new ResponseEntity<>((new ApiResponse("Inventory Deleted", inventoryId)), HttpStatus.FOUND);
     }
-
-
 }

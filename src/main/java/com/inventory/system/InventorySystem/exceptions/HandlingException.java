@@ -18,11 +18,8 @@ public class HandlingException {
     static Logger logger = LoggerFactory.getLogger(HandlingException.class);
 
 
-
-
     @ExceptionHandler(AlreadyExists.class)
     public ResponseEntity<?> alreadyExistsException(AlreadyExists ex) {
-
         String message = ex.message;
         int id = ex.id;
         return new ResponseEntity<>(new ApiResponse(message, id), HttpStatus.CONFLICT);
@@ -31,20 +28,8 @@ public class HandlingException {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundException(NotFoundException ex) {
-
         String message = ex.message;
         int id = ex.id;
         return new ResponseEntity<>(new ApiResponse(message, id), HttpStatus.NOT_FOUND);
-
     }
-
-
-
-
-
-
-
-
-
-
 }

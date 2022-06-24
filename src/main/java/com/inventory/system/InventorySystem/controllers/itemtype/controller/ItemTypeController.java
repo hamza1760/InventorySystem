@@ -24,28 +24,23 @@ public class ItemTypeController {
     private ProductTypeService productTypeService;
 
     @PostMapping("/itemtype/")
-    public ItemType addItemType(@RequestBody ItemType itemType){
-
+    public ItemType addItemType(@RequestBody ItemType itemType) {
         return itemTypeService.addItemType(itemType);
-
-
-
     }
 
     @GetMapping("/itemtype")
-    public List<ItemType> getItemType(){
+    public List<ItemType> getItemType() {
         return itemTypeService.getItemType();
-
     }
 
     @GetMapping("/itemtype/{itemTypeId}")
-    public ItemType getItemTypeById(@PathVariable int itemTypeId){
+    public ItemType getItemTypeById(@PathVariable int itemTypeId) {
         return itemTypeService.getItemTypeById(itemTypeId);
     }
 
     @DeleteMapping("/itemtype/{itemTypeId}")
-    public ResponseEntity<?> deleteitemtypeById(@PathVariable int itemTypeId){
+    public ResponseEntity<?> deleteitemtypeById(@PathVariable int itemTypeId) {
         itemTypeService.deleteItemType(itemTypeId);
-        return new ResponseEntity<>((new ApiResponse("ItemType Deleted",itemTypeId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("ItemType Deleted", itemTypeId)), HttpStatus.FOUND);
     }
 }

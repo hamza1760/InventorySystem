@@ -27,31 +27,21 @@ public class WarehouseController {
     private InventoryService inventoryService;
 
 
-
     /* Warehouse Controller */
     @PostMapping("/warehouse/")
     public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
-
-
         return warehouseService.addWarehouse(warehouse);
-
-
-
-
     }
 
     @GetMapping("/warehouse")
     public List<Warehouse> getWarehouse() {
-
         return warehouseService.getWarehouse();
-
     }
 
     @GetMapping("/warehouse/{warehouseId}")
-    public Warehouse getWarehouseById(@PathVariable int warehouseId){
+    public Warehouse getWarehouseById(@PathVariable int warehouseId) {
         return warehouseService.getWarehouseById(warehouseId);
     }
-
 
 
     @GetMapping("/itemsinwarehouse/{warehouseId}")
@@ -60,42 +50,31 @@ public class WarehouseController {
     }
 
 
-
     @GetMapping("/itemsinwarehouse/")
-    public List<ItemQuantity> getItemQuantityInAllWarehouse(){
+    public List<ItemQuantity> getItemQuantityInAllWarehouse() {
         return warehouseService.getItemQuantityInAllWarehouse();
     }
 
     @PutMapping("/warehouse/{warehouseId}")
-    public Warehouse updateWarehouse(@RequestBody Warehouse warehouse,@PathVariable int warehouseId){
-        return warehouseService.updateWarehouse(warehouse,warehouseId);
+    public Warehouse updateWarehouse(@RequestBody Warehouse warehouse, @PathVariable int warehouseId) {
+        return warehouseService.updateWarehouse(warehouse, warehouseId);
     }
-
-
 
 
     @DeleteMapping("/warehouse/{warehouseId}")
     public ResponseEntity<?> deleteWarehouse(@PathVariable int warehouseId) {
-
         warehouseService.deleteWarehouse(warehouseId);
         return new ResponseEntity<>(new ApiResponse("warehouse deleted succesfully", warehouseId),
                 HttpStatus.FOUND);
     }
 
     @PutMapping("warehouse/{warehouseId}/inventory/{inventoryId}")
-    public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId){
-
-        return warehouseService.putInventoryInWarehouse(warehouseId,inventoryId);
+    public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId) {
+        return warehouseService.putInventoryInWarehouse(warehouseId, inventoryId);
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
-    public Warehouse setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId,@PathVariable int warehouseId) {
-
-
-       Warehouse updatedWarehouse = warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId, inventoryId);
-       return updatedWarehouse;
-
-
+    public Warehouse setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId, @PathVariable int warehouseId) {
+        return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId, inventoryId);
     }
-
 }

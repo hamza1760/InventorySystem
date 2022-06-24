@@ -20,7 +20,6 @@ public class BrandController {
 
     @PostMapping("/brand")
     public BrandDetail addBrand(@RequestBody BrandDetail brandDetail) {
-
         return brandService.addBrand(brandDetail);
     }
 
@@ -28,19 +27,17 @@ public class BrandController {
     public List<BrandDetail> getBrand() {
         return brandService.getBrand();
     }
+
     @GetMapping("/brand/{brandId}")
     public BrandDetail getBrandById(@PathVariable int brandId) {
         return brandService.getBrandById(brandId);
-        
     }
 
     @DeleteMapping("/brand/{brandId}")
-    public ResponseEntity<?> deleteBrandById(@PathVariable int brandId){
+    public ResponseEntity<?> deleteBrandById(@PathVariable int brandId) {
         brandService.deleteBrand(brandId);
-        return new ResponseEntity<>((new ApiResponse("Brand Deleted",brandId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("Brand Deleted", brandId)), HttpStatus.FOUND);
     }
-
-
 }
 
 

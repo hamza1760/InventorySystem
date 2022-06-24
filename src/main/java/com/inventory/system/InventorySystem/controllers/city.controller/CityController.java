@@ -24,33 +24,28 @@ public class CityController {
 
 
     @PostMapping("/city/country/{countryId}")
-    public CityDetail addCity(@RequestBody CityDetail cityDetail,  @PathVariable int countryId) {
+    public CityDetail addCity(@RequestBody CityDetail cityDetail, @PathVariable int countryId) {
 
         /*mapping country to city*/
         CountryDetail country = countryDetailService.getCountryById(countryId);
         cityDetail.setCountry(country);
-        cityDetailService.addCity(cityDetail,countryId);
-
+        cityDetailService.addCity(cityDetail, countryId);
         return cityDetail;
-
-
     }
 
     @GetMapping("/city")
-    public List<CityDetail> getCity(){
+    public List<CityDetail> getCity() {
         return cityDetailService.getCity();
     }
 
     @GetMapping("/city/{cityId}")
-    public CityDetail getCityById(@PathVariable int cityId){
+    public CityDetail getCityById(@PathVariable int cityId) {
         return cityDetailService.getCityById(cityId);
     }
 
     @DeleteMapping("/city/{cityId}")
-    public ResponseEntity<?> deleteCityById(@PathVariable int cityId){
+    public ResponseEntity<?> deleteCityById(@PathVariable int cityId) {
         cityDetailService.deleteCity(cityId);
-        return new ResponseEntity<>((new ApiResponse("City Deleted",cityId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("City Deleted", cityId)), HttpStatus.FOUND);
     }
-
-
 }

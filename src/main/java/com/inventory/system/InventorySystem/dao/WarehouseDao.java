@@ -13,9 +13,8 @@ import java.util.List;
 public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
 
 
-
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
-            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) "+
+            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) " +
             "From Warehouse A " +
             "Join A.address B " +
             "Join B.city C " +
@@ -24,13 +23,13 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
             "Join E.item F " +
             "Join E.itemType G " +
             "Join F.productType H " +
-            "Join F.brand I "+
+            "Join F.brand I " +
             "Where A.warehouseId =?1")
-    public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
+    List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
 
 
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
-            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) "+
+            "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) " +
             "From Warehouse A " +
             "Join A.address B " +
             "Join B.city C " +
@@ -40,16 +39,14 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
             "Join E.itemType G " +
             "Join F.productType H " +
             "Join F.brand I ")
-    public List<ItemQuantity> getItemQuantityAllWarehouses();
-
+    List<ItemQuantity> getItemQuantityAllWarehouses();
 
 
     @Modifying
     @Query("Update Warehouse Set status='deleted' Where warehouseId =?1 ")
-    public void softDelete(int warehouseId);
+    void softDelete(int warehouseId);
 
     List<Warehouse> findByStatus(String status);
 
-    public Warehouse findByStatusAndWarehouseId(String status,int warehouseId);
-
+    Warehouse findByStatusAndWarehouseId(String status, int warehouseId);
 }

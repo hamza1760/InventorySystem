@@ -12,14 +12,11 @@ import java.util.List;
 public interface ProductTypeDao extends JpaRepository<ProductType, Integer> {
 
 
-
     @Modifying
     @Query("Update ProductType Set status='deleted' Where productTypeId =?1 ")
-    public void softDelete(int productTypeId);
+    void softDelete(int productTypeId);
 
     List<ProductType> findByStatus(String status);
 
-    public ProductType findByStatusAndProductTypeId(String status, int productTypeId);
-
-
+    ProductType findByStatusAndProductTypeId(String status, int productTypeId);
 }

@@ -10,56 +10,56 @@ import java.util.Set;
 
 public class ItemDto {
 
-	private int itemId;
-	private String itemName;
-	private String itemColor;
+    private int itemId;
+    private String itemName;
+    private String itemColor;
 
-	private Set<InventoryDetail> inventoryDetail = new HashSet<>();
+    private Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
-	@JsonIgnore
-	private List<Warehouse> warehouse;
+    @JsonIgnore
+    private List<Warehouse> warehouse;
 
-	public ItemDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public ItemDto() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public ItemDto(int itemId, String itemName, String itemColor) {
-		super();
-		this.itemId = itemId;
-		this.itemName = itemName;
-		this.itemColor = itemColor;
-	}
+    public ItemDto(int itemId, String itemName, String itemColor) {
+        super();
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.itemColor = itemColor;
+    }
 
-	public int getItemId() {
-		return itemId;
-	}
+    public int getItemId() {
+        return itemId;
+    }
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
 
-	public String getItemName() {
-		return itemName;
-	}
+    public String getItemName() {
+        return itemName;
+    }
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
-	public String getItemColor() {
-		return itemColor;
-	}
+    public String getItemColor() {
+        return itemColor;
+    }
 
-	public void setItemColor(String itemColor) {
-		this.itemColor = itemColor;
-	}
+    public void setItemColor(String itemColor) {
+        this.itemColor = itemColor;
+    }
 
-	public List<Warehouse> getWarehouse() {
-		return warehouse;
-	}
+    public List<Warehouse> getWarehouse() {
+        return warehouse;
+    }
 
-	public Set<InventoryDetail> getInventoryDetail() {
-		return inventoryDetail;
-	}
+    public Set<InventoryDetail> getInventoryDetail() {
+        return inventoryDetail;
+    }
 }

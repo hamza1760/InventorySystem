@@ -20,7 +20,6 @@ import static org.mockito.Mockito.when;
 class ProductTypeServiceImplTest {
 
 
-
     @Mock
     private ProductTypeDao productTypeDao;
 
@@ -30,41 +29,21 @@ class ProductTypeServiceImplTest {
 
     @Test
     public void getProductTypeTest() {
-
         List<ProductType> productTypeList = new ArrayList<ProductType>();
-
         productTypeList.add(new ProductType("active", 1, "shoe"));
         productTypeList.add(new ProductType("active", 2, "shirt"));
         productTypeList.add(new ProductType("active", 3, "phone"));
-
         when(productTypeDao.findByStatus("active")).thenReturn(productTypeList);
-
         List<ProductType> productTypes = productTypeService.getProductType();
-
         assertEquals(3, productTypes.size());
-
-
     }
 
     @Test
-	public void softDeleteTest(){
-
-		ProductType productType = new ProductType("active",1,"shoe");
-
-
-       when(productTypeDao.findByStatusAndProductTypeId("active",1)).thenReturn(productType);
-
+    public void softDeleteTest() {
+        ProductType productType = new ProductType("active", 1, "shoe");
+        when(productTypeDao.findByStatusAndProductTypeId("active", 1)).thenReturn(productType);
         productTypeService.deleteProductType(productType.getProductTypeId());
-
         String status = productType.getStatus();
-
-        assertEquals("deleted",status);
-
-
-
-
-
-	}
-
-
+        assertEquals("deleted", status);
+    }
 }

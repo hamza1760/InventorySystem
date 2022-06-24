@@ -17,8 +17,6 @@ import java.util.List;
 public class ProductTypeController {
 
 
-
-
     @Autowired
     private ProductTypeService productTypeService;
 
@@ -26,31 +24,23 @@ public class ProductTypeController {
     private BrandService brandService;
 
     @PostMapping("/product/")
-    public ProductType addProductType(@RequestBody ProductType productType){
-
+    public ProductType addProductType(@RequestBody ProductType productType) {
         return productTypeService.addProductType(productType);
-
-
     }
+
     @GetMapping("/product")
-    public List<ProductType> getProductType(){
+    public List<ProductType> getProductType() {
         return productTypeService.getProductType();
-
-
     }
+
     @GetMapping("/product/{productTypeId}")
-    public ProductType getProductTypeById(@PathVariable int productTypeId){
-
+    public ProductType getProductTypeById(@PathVariable int productTypeId) {
         return productTypeService.getProductTypeById(productTypeId);
-
-
     }
 
     @DeleteMapping("/product/{productTypeId}")
-    public ResponseEntity<?> deleteProductType(@PathVariable int productTypeId){
-
+    public ResponseEntity<?> deleteProductType(@PathVariable int productTypeId) {
         productTypeService.deleteProductType(productTypeId);
-        return new ResponseEntity<>((new ApiResponse("Product Type Deleted",productTypeId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("Product Type Deleted", productTypeId)), HttpStatus.FOUND);
     }
-
 }

@@ -12,45 +12,35 @@ import java.util.List;
 @Service
 public class ItemTypeServiceImpl implements ItemTypeService {
 
-	final String ITEM_TYPE_NOT_FOUND = "Item Type Not Found";
+    final String ITEM_TYPE_NOT_FOUND = "Item Type Not Found";
 
-	@Autowired
-	private ItemTypeDao itemTypeDao;
+    @Autowired
+    private ItemTypeDao itemTypeDao;
 
-	@Autowired
-	private ProductTypeDao productTypeDao;
-
-
-	@Override
-	public List<ItemType> getItemType() {
-		return itemTypeDao.findByStatus("active");
-	}
-
-	@Override
-	public ItemType getItemTypeById(int itemTypeId) {
-		itemTypeDao.findById(itemTypeId).orElseThrow( ()->new NotFoundException(ITEM_TYPE_NOT_FOUND,itemTypeId));
-		return itemTypeDao.findByStatusAndItemTypeId("active",itemTypeId);
-	}
-
-	@Override
-	public ItemType addItemType(ItemType itemType) {
-			return itemTypeDao.save(itemType);
-
-	}
-
-	@Override
-	public ItemType saveItemType(ItemType itemType) {
-		return itemTypeDao.save(itemType);
-	}
+    @Autowired
+    private ProductTypeDao productTypeDao;
 
 
-	@Override
-	public void deleteItemType(int itemTypeId) {
-		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new NotFoundException(ITEM_TYPE_NOT_FOUND,itemTypeId));
-		itemTypeDao.softDelete(itemTypeId);
-		
-	}
+    @Override
+    public List<ItemType> getItemType() {
+        return itemTypeDao.findByStatus("active");
+    }
+
+    @Override
+    public ItemType getItemTypeById(int itemTypeId) {
+        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
+        return itemTypeDao.findByStatusAndItemTypeId("active", itemTypeId);
+    }
+
+    @Override
+    public ItemType addItemType(ItemType itemType) {
+        return itemTypeDao.save(itemType);
+    }
 
 
-
+    @Override
+    public void deleteItemType(int itemTypeId) {
+        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
+        itemTypeDao.softDelete(itemTypeId);
+    }
 }

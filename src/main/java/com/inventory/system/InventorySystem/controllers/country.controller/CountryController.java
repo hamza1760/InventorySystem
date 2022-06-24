@@ -25,7 +25,6 @@ public class CountryController {
 
     @PostMapping("/country")
     public CountryDetail addCountry(@RequestBody CountryDetail countryDetail) {
-
         return countryDetailService.addCountry(countryDetail);
     }
 
@@ -37,13 +36,12 @@ public class CountryController {
     @GetMapping("/country/{countryId}")
     public CountryDetail getCountryById(@PathVariable int countryId) {
         return countryDetailService.getCountryById(countryId);
-
     }
 
 
     @DeleteMapping("/country/{countryId}")
-    public ResponseEntity<?> deleteCountryById(@PathVariable int countryId){
+    public ResponseEntity<?> deleteCountryById(@PathVariable int countryId) {
         countryDetailService.deleteCountry(countryId);
-        return new ResponseEntity<>((new ApiResponse("Country Deleted",countryId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("Country Deleted", countryId)), HttpStatus.FOUND);
     }
 }

@@ -15,54 +15,49 @@ import java.util.List;
 @Service
 public class CityDetailServiceImpl implements CityDetailService {
 
-	final String CITY_NOT_FOUND = "City Not Found";
-	final String CITY_ALREADY_EXIST = "City Already Exist";
+    final String CITY_NOT_FOUND = "City Not Found";
+    final String CITY_ALREADY_EXIST = "City Already Exist";
 
-	final String COUNTRY_NOT_FOUND = "Country Not Found";
+    final String COUNTRY_NOT_FOUND = "Country Not Found";
 
-	@Autowired
-	private CityDetailDao cityDetailDao;
+    @Autowired
+    private CityDetailDao cityDetailDao;
 
-	@Autowired
-	private CountryDetailDao countryDetailDao;
-
-
-	@Override
-	public List<CityDetail> getCity() {
-		return cityDetailDao.findAll();
-	}
-
-	@Override
-	public CityDetail getCityById(int cityId) {
-		return cityDetailDao.findById(cityId).orElseThrow(()-> new NotFoundException(CITY_NOT_FOUND,cityId));
-	}
+    @Autowired
+    private CountryDetailDao countryDetailDao;
 
 
+    @Override
+    public List<CityDetail> getCity() {
+        return cityDetailDao.findAll();
+    }
 
-	@Override
-	public CityDetail addCity(CityDetail cityDetail , int countryId) {
-		CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND,countryId));
-		String status = countryDetail.getStatus();
-		if (status.equals("deleted")) {
-
-			throw new DataIntegrityViolationException("Country is soft deleted");
-		} else {
-			int cityId = cityDetail.getCityId();
-			boolean checkCode = cityDetailDao.findById(cityId).isPresent();
-			if (checkCode) {
-				throw new AlreadyExists(CITY_ALREADY_EXIST,cityId);
-			} else {
-				return cityDetailDao.save(cityDetail);
-			}
-		}
-	}
-
-	@Override
-	public void deleteCity(int cityId) {
-		CityDetail cityDetail = cityDetailDao.findById(cityId).orElseThrow(()-> new NotFoundException(CITY_NOT_FOUND,cityId));
-		cityDetailDao.delete(cityDetail);
-		
-	}
+    @Override
+    public CityDetail getCityById(int cityId) {
+        return cityDetailDao.findById(cityId).orElseThrow(() -> new NotFoundException(CITY_NOT_FOUND, cityId));
+    }
 
 
+    @Override
+    public CityDetail addCity(CityDetail cityDetail, int countryId) {
+        CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND, countryId));
+        String status = countryDetail.getStatus();
+        if (status.equals("deleted")) {
+            throw new DataIntegrityViolationException("Country is soft deleted");
+        } else {
+            int cityId = cityDetail.getCityId();
+            boolean checkCode = cityDetailDao.findById(cityId).isPresent();
+            if (checkCode) {
+                throw new AlreadyExists(CITY_ALREADY_EXIST, cityId);
+            } else {
+                return cityDetailDao.save(cityDetail);
+            }
+        }
+    }
+
+    @Override
+    public void deleteCity(int cityId) {
+        CityDetail cityDetail = cityDetailDao.findById(cityId).orElseThrow(() -> new NotFoundException(CITY_NOT_FOUND, cityId));
+        cityDetailDao.delete(cityDetail);
+    }
 }

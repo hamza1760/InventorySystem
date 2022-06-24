@@ -5,19 +5,13 @@ import com.inventory.system.InventorySystem.entities.CountryDetail;
 import java.util.List;
 
 
-
 public interface CountryDetailService {
-	
-public List<CountryDetail> getCountry();
-	
-	public CountryDetail getCountryById(int countryId);
-	
-	public CountryDetail addCountry(CountryDetail countryDetail);
-	
-	public void deleteCountry(int countryId);
 
+    List<CountryDetail> getCountry();
 
-	
-	
+    CountryDetail getCountryById(int countryId);
 
+    CountryDetail addCountry(CountryDetail countryDetail);
+
+    void deleteCountry(int countryId);
 }

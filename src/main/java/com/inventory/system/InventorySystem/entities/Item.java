@@ -12,84 +12,81 @@ import java.util.Set;
 @Proxy(lazy = false)
 public class Item {
 
-	@Id
-	@Column(name = "item_id")
-	private int itemId;
-	private String itemName;
+    @Id
+    @Column(name = "item_id")
+    private int itemId;
+    private String itemName;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "productTypeId")
-	private ProductType productType;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "productTypeId")
+    private ProductType productType;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "brandId")
-	private BrandDetail brand;
-
-
-	@JsonIgnore
-	private String status = "active";
-
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "item")
-	private Set<InventoryDetail> inventory = new HashSet<>();
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "brandId")
+    private BrandDetail brand;
 
 
-	public Item(int itemId, String itemName) {
-		super();
-		this.itemId = itemId;
-		this.itemName = itemName;
-	}
+    @JsonIgnore
+    private String status = "active";
 
-	public Item() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public int getItemId() {
-
-		return itemId;
-	}
-
-	public void setItemId(int itemId) {
-
-		this.itemId = itemId;
-	}
-
-	public String getItemName() {
-
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
+    private Set<InventoryDetail> inventory = new HashSet<>();
 
 
-	public String getStatus() {
-		return status;
-	}
+    public Item(int itemId, String itemName) {
+        super();
+        this.itemId = itemId;
+        this.itemName = itemName;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public Item() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setProductType(ProductType productType) {
-		this.productType = productType;
-	}
+    public int getItemId() {
+        return itemId;
+    }
 
-	public ProductType getProductType() {
-		return productType;
-	}
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
 
-	public void setBrand(BrandDetail brand) {
-		this.brand = brand;
-	}
+    public String getItemName() {
+        return itemName;
+    }
 
-	public BrandDetail getBrand() {
-		return brand;
-	}
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
-	public Set<InventoryDetail> getInventory() {
-		return inventory;
-	}
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setBrand(BrandDetail brand) {
+        this.brand = brand;
+    }
+
+    public BrandDetail getBrand() {
+        return brand;
+    }
+
+    public Set<InventoryDetail> getInventory() {
+        return inventory;
+    }
 }

@@ -7,21 +7,22 @@ import com.inventory.system.InventorySystem.entities.Warehouse;
 import java.util.List;
 
 public interface WarehouseService {
-	
-	public Warehouse addWarehouse(Warehouse warehouse);
-	public Warehouse saveWarehouse(Warehouse warehouse);
-	public List<Warehouse> getWarehouse();
-	public Warehouse getWarehouseById(int warehouseId);
-	public Warehouse updateWarehouse(Warehouse warehouse,int warehouseId);
 
-	public Warehouse putInventoryInWarehouse(int warehouseId,int inventoryId);
+    Warehouse addWarehouse(Warehouse warehouse);
 
-	public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
-	public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
-	public List<ItemQuantity> getItemQuantityInAllWarehouse();
+    List<Warehouse> getWarehouse();
 
-	public void deleteWarehouse(int warehouseId);
+    Warehouse getWarehouseById(int warehouseId);
 
+    Warehouse updateWarehouse(Warehouse warehouse, int warehouseId);
 
+    Warehouse putInventoryInWarehouse(int warehouseId, int inventoryId);
 
+    Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
+
+    List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
+
+    List<ItemQuantity> getItemQuantityInAllWarehouse();
+
+    void deleteWarehouse(int warehouseId);
 }

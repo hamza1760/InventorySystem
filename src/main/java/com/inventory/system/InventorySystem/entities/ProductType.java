@@ -12,54 +12,54 @@ import javax.persistence.OneToOne;
 @Proxy(lazy = false)
 public class ProductType {
 
-	@Id
-	private int productTypeId;
-	private String productType;
+    @Id
+    private int productTypeId;
+    private String productType;
 
-	@JsonIgnore
-	private String status = "active";
+    @JsonIgnore
+    private String status = "active";
 
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER,mappedBy = "productType")
-	private Item item;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "productType")
+    private Item item;
 
-	public ProductType() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public ProductType() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public ProductType(String status , int productTypeId, String productType) {
-		super();
-		this.productTypeId = productTypeId;
-		this.productType = productType;
-		this.status = status;
-	}
+    public ProductType(String status, int productTypeId, String productType) {
+        super();
+        this.productTypeId = productTypeId;
+        this.productType = productType;
+        this.status = status;
+    }
 
-	public int getProductTypeId() {
-		return productTypeId;
-	}
+    public int getProductTypeId() {
+        return productTypeId;
+    }
 
-	public void setProductTypeId(int productTypeId) {
-		this.productTypeId = productTypeId;
-	}
+    public void setProductTypeId(int productTypeId) {
+        this.productTypeId = productTypeId;
+    }
 
-	public String getProductType() {
-		return productType;
-	}
+    public String getProductType() {
+        return productType;
+    }
 
-	public void setProductType(String productType) {
-		this.productType = productType;
-	}
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public Item getItem() {
-		return item;
-	}
+    public Item getItem() {
+        return item;
+    }
 }

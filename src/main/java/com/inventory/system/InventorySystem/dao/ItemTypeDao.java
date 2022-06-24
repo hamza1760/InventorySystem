@@ -9,15 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-public interface ItemTypeDao extends JpaRepository<ItemType, Integer>{
+public interface ItemTypeDao extends JpaRepository<ItemType, Integer> {
 
 
     @Modifying
     @Query("Update ItemType Set status='deleted' Where itemTypeId =?1 ")
-    public void softDelete(int itemTypeId);
+    void softDelete(int itemTypeId);
 
     List<ItemType> findByStatus(String status);
 
-    public ItemType findByStatusAndItemTypeId(String status,int itemtypeId);
-
+    ItemType findByStatusAndItemTypeId(String status, int itemtypeId);
 }
