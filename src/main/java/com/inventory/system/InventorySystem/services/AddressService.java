@@ -1,8 +1,8 @@
 package com.inventory.system.InventorySystem.services;
 
-import java.util.List;
-
 import com.inventory.system.InventorySystem.entities.Address;
+
+import java.util.List;
 
 
 public interface AddressService {

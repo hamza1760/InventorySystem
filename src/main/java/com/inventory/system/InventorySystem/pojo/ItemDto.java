@@ -1,12 +1,12 @@
 package com.inventory.system.InventorySystem.pojo;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Warehouse;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ItemDto {
 

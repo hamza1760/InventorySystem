@@ -1,14 +1,9 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.Where;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Proxy(lazy = false)

@@ -1,10 +1,10 @@
 package com.inventory.system.InventorySystem.services;
 
-import java.util.HashSet;
+import com.inventory.system.InventorySystem.entities.InventoryDetail;
+import com.inventory.system.InventorySystem.entities.ItemQuantity;
+import com.inventory.system.InventorySystem.entities.Warehouse;
+
 import java.util.List;
-
-
-import com.inventory.system.InventorySystem.entities.*;
 
 public interface WarehouseService {
 	

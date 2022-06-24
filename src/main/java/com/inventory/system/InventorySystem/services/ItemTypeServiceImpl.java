@@ -1,19 +1,18 @@
 package com.inventory.system.InventorySystem.services;
 
-import java.util.List;
-
-
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
-import com.inventory.system.InventorySystem.entities.ProductType;
-import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.ProductTypeNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ItemTypeServiceImpl implements ItemTypeService {
+
+	final String ITEM_TYPE_NOT_FOUND = "Item Type Not Found";
 
 	@Autowired
 	private ItemTypeDao itemTypeDao;
@@ -29,7 +28,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
 	@Override
 	public ItemType getItemTypeById(int itemTypeId) {
-		itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeNotFoundException(itemTypeId));
+		itemTypeDao.findById(itemTypeId).orElseThrow( ()->new NotFoundException(ITEM_TYPE_NOT_FOUND,itemTypeId));
 		return itemTypeDao.findByStatusAndItemTypeId("active",itemTypeId);
 	}
 
@@ -47,7 +46,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
 	@Override
 	public void deleteItemType(int itemTypeId) {
-		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
+		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new NotFoundException(ITEM_TYPE_NOT_FOUND,itemTypeId));
 		itemTypeDao.softDelete(itemTypeId);
 		
 	}

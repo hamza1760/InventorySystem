@@ -1,14 +1,10 @@
 package com.inventory.system.InventorySystem.controllers.item.controller;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponseItem;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
+import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemSize;
-import com.inventory.system.InventorySystem.entities.ItemType;
-import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.ItemService;
 import com.inventory.system.InventorySystem.services.ItemTypeService;
-import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class ItemController {
@@ -77,11 +72,11 @@ public class ItemController {
 
     @DeleteMapping("/item/{itemId}")
 
-    public ResponseEntity<ApiResponseItem> deleteItemById(@PathVariable int itemId) {
+    public ResponseEntity<?> deleteItemById(@PathVariable int itemId) {
 
 
         itemService.deleteItemById(itemId);
-        return new ResponseEntity<>(new ApiResponseItem("Item deleted successfully ", itemId), HttpStatus.FOUND);
+        return new ResponseEntity<>(new ApiResponse("Item deleted successfully ", itemId), HttpStatus.FOUND);
 
     }
 

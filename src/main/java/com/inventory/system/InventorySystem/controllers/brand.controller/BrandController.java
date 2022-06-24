@@ -1,6 +1,6 @@
 package com.inventory.system.InventorySystem.controllers.brand.controller;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponseBrand;
+import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
 import com.inventory.system.InventorySystem.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class BrandController {
     @DeleteMapping("/brand/{brandId}")
     public ResponseEntity<?> deleteBrandById(@PathVariable int brandId){
         brandService.deleteBrand(brandId);
-        return new ResponseEntity<>((new ApiResponseBrand("Brand Deleted",brandId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("Brand Deleted",brandId)), HttpStatus.FOUND);
     }
 
 

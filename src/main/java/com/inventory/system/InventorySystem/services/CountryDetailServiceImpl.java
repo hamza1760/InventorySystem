@@ -1,20 +1,19 @@
 package com.inventory.system.InventorySystem.services;
 
-import java.util.List;
-
-
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
-import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
-import com.inventory.system.InventorySystem.entities.CountryDetail;
-import com.inventory.system.InventorySystem.exceptions.alreadyexists.CountryAlreadyExists;
-import com.inventory.system.InventorySystem.exceptions.notfound.CountryNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.CountryNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
+import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CountryDetailServiceImpl implements CountryDetailService{
+
+	final String COUNTRY_NOT_FOUND = "Country Not Found";
+	final String COUNTRY_ALREADY_EXIST = "Country Already Exist";
 
 	@Autowired
 	private CountryDetailDao countryDetailDao;
@@ -27,7 +26,7 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 
 	@Override
 	public CountryDetail getCountryById(int countryId) {
-		CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(()->new CountryNotFoundException(countryId));
+		countryDetailDao.findById(countryId).orElseThrow(()->new NotFoundException(COUNTRY_NOT_FOUND,countryId));
 		return countryDetailDao.getCountryById(countryId);
 	}
 
@@ -36,7 +35,7 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 		int countryId = countryDetail.getCountryId();
 		boolean checkCode = countryDetailDao.findById(countryId).isPresent();
 		if(checkCode==true){
-			throw new CountryAlreadyExists(countryId);
+			throw new AlreadyExists(COUNTRY_ALREADY_EXIST,countryId);
 		}
 		else {
 			return countryDetailDao.save(countryDetail);
@@ -46,7 +45,7 @@ public class CountryDetailServiceImpl implements CountryDetailService{
 
 	@Override
 	public void deleteCountry(int countryId) {
-		CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(()-> new CountryNotFoundException(countryId));
+		countryDetailDao.findById(countryId).orElseThrow(()-> new NotFoundException(COUNTRY_NOT_FOUND,countryId));
 		countryDetailDao.softDelete(countryId);
 		
 	}

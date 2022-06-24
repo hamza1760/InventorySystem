@@ -1,14 +1,11 @@
 package com.inventory.system.InventorySystem.entities;
 
-import java.util.HashSet;
-
-import java.util.Set;
-
-import javax.persistence.*;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity

@@ -1,6 +1,6 @@
 package com.inventory.system.InventorySystem.controllers.city.controller;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponseCity;
+import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.services.CityDetailService;
@@ -49,7 +49,7 @@ public class CityController {
     @DeleteMapping("/city/{cityId}")
     public ResponseEntity<?> deleteCityById(@PathVariable int cityId){
         cityDetailService.deleteCity(cityId);
-        return new ResponseEntity<>((new ApiResponseCity("City Deleted",cityId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("City Deleted",cityId)), HttpStatus.FOUND);
     }
 
 

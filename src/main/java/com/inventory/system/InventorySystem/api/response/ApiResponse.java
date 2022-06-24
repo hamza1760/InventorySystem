@@ -1,15 +1,15 @@
 package com.inventory.system.InventorySystem.api.response;
 
 
-public class ApiResponseBrand {
-	
-	
-	String message;
-	int BrandId;
+public class ApiResponse {
 
-	public ApiResponseBrand(String message, int brandId) {
+
+	String message;
+	int id;
+
+	public ApiResponse(String message, int id) {
 		this.message = message;
-		BrandId = brandId;
+		this.id = id;
 	}
 
 	public String getMessage() {
@@ -20,11 +20,11 @@ public class ApiResponseBrand {
 		this.message = message;
 	}
 
-	public int getBrandId() {
-		return BrandId;
+	public int getId() {
+		return id;
 	}
 
-	public void setBrandId(int brandId) {
-		BrandId = brandId;
+	public void setId(int id) {
+		this.id = id;
 	}
 }
