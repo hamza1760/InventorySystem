@@ -1,9 +1,13 @@
 package com.inventory.system.InventorySystem;
 
+
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.logging.Logger;
 
 @SpringBootApplication
 public class InventorySystemApplication {
@@ -16,4 +20,6 @@ public class InventorySystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(InventorySystemApplication.class, args);
     }
+
+
 }

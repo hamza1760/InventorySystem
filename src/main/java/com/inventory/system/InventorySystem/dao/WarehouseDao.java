@@ -13,6 +13,7 @@ import java.util.List;
 public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
 
 
+
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
             "C.cityName,D.countryName,E.inventoryId,E.itemSize,E.inStock,E.avlQty,F.itemName,F.itemId,G.itemType,H.productType,I.brandName) " +
             "From Warehouse A " +

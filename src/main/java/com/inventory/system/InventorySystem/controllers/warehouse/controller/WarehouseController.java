@@ -7,6 +7,8 @@ import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @RestController
 public class WarehouseController {
+
+    static Logger logger = LoggerFactory.getLogger(WarehouseController.class);
 
     @Autowired
     private WarehouseService warehouseService;
@@ -30,39 +34,46 @@ public class WarehouseController {
     /* Warehouse Controller */
     @PostMapping("/warehouse/")
     public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
+        logger.info("calling addWarehouse function");
         return warehouseService.addWarehouse(warehouse);
     }
 
     @GetMapping("/warehouse")
     public List<Warehouse> getWarehouse() {
+        logger.info("calling getWarehouse function");
         return warehouseService.getWarehouse();
     }
 
     @GetMapping("/warehouse/{warehouseId}")
     public Warehouse getWarehouseById(@PathVariable int warehouseId) {
+        logger.info("calling getWarehouseById function with warehouseId: "+warehouseId);
         return warehouseService.getWarehouseById(warehouseId);
     }
 
 
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
+        logger.info("calling getItemQuantityInSingleWarehouse function with warehouseId: "+warehouseId);
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }
 
 
     @GetMapping("/itemsinwarehouse/")
     public List<ItemQuantity> getItemQuantityInAllWarehouse() {
+        logger.info("calling getItemQuantityInAllWarehouse function");
         return warehouseService.getItemQuantityInAllWarehouse();
     }
 
     @PutMapping("/warehouse/{warehouseId}")
     public Warehouse updateWarehouse(@RequestBody Warehouse warehouse, @PathVariable int warehouseId) {
+        logger.info("calling updateWarehouse function");
         return warehouseService.updateWarehouse(warehouse, warehouseId);
     }
 
 
     @DeleteMapping("/warehouse/{warehouseId}")
     public ResponseEntity<?> deleteWarehouse(@PathVariable int warehouseId) {
+        logger.info("calling deleteWarehouse function");
         warehouseService.deleteWarehouse(warehouseId);
         return new ResponseEntity<>(new ApiResponse("warehouse deleted succesfully", warehouseId),
                 HttpStatus.FOUND);
@@ -70,6 +81,7 @@ public class WarehouseController {
 
     @PutMapping("warehouse/{warehouseId}/inventory/{inventoryId}")
     public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId) {
+        logger.info("calling putInventoryInWarehouse function");
         return warehouseService.putInventoryInWarehouse(warehouseId, inventoryId);
     }
 
