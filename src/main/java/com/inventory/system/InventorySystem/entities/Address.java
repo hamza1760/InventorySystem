@@ -2,101 +2,97 @@ package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Proxy(lazy = false)
 public class Address {
 
-	@Id
-	private int addressId;
-	private long postalCode;
-	private String areaName;
-	private String street;
+    @Id
+    private int addressId;
+    private long postalCode;
+    private String areaName;
+    private String street;
 
-	@JsonIgnore
-	private String status = "active";
-
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "city_id_fk")
-	private CityDetail city;
-
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.EAGER,mappedBy = "address")
-	private Warehouse warehouse;
+    @JsonIgnore
+    private String status = "active";
 
 
-	public Address() {
-		super();
-	}
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id_fk")
+    private CityDetail city;
 
-	public Address(String status ,int addressId, long postalCode, String areaName, String street) {
-		this.addressId = addressId;
-		this.postalCode = postalCode;
-		this.areaName = areaName;
-		this.street = street;
-		this.status = status;
-	}
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "address")
+    private Warehouse warehouse;
 
-	public int getAddressId() {
-		return addressId;
-	}
 
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
+    public Address() {
+        super();
+    }
 
-	public long getPostalCode() {
-		return postalCode;
-	}
+    public Address(String status, int addressId, long postalCode, String areaName, String street) {
+        this.addressId = addressId;
+        this.postalCode = postalCode;
+        this.areaName = areaName;
+        this.street = street;
+        this.status = status;
+    }
 
-	public void setPostalCode(long postalCode) {
-		this.postalCode = postalCode;
-	}
+    public int getAddressId() {
+        return addressId;
+    }
 
-	public String getAreaName() {
-		return areaName;
-	}
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
 
-	public void setAreaName(String areaName) {
-		this.areaName = areaName;
-	}
+    public long getPostalCode() {
+        return postalCode;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public void setPostalCode(long postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public String getAreaName() {
+        return areaName;
+    }
 
-	public CityDetail getCity() {
-		return city;
-	}
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
 
-	public void setCity(CityDetail city) {
-		this.city = city;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public Warehouse getWarehouse() {
-		return warehouse;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setWarehouse(Warehouse warehouse) {
-		this.warehouse=warehouse;
-	}
+    public CityDetail getCity() {
+        return city;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setCity(CityDetail city) {
+        this.city = city;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

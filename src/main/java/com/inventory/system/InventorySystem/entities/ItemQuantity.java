@@ -11,7 +11,7 @@ public class ItemQuantity {
     private int inStock;
     private int avlQty;
     private String itemName;
-    private int  itemId;
+    private int itemId;
     private String itemType;
     private String productType;
     private String brandName;

@@ -1,21 +1,17 @@
 package com.inventory.system.InventorySystem.services;
 
-import java.util.List;
-
 import com.inventory.system.InventorySystem.entities.ProductType;
+
+import java.util.List;
 
 
 public interface ProductTypeService {
-	
-public List<ProductType> getProductType();
-	
-	public ProductType getProductTypeById(int productTypeId);
-	
-	public ProductType addProductType(ProductType productDetail);
 
-	public ProductType saveProductType(ProductType productDetail);
+    List<ProductType> getProductType();
 
-	public void deleteProductType(int  productTypeId);
-	
+    ProductType getProductTypeById(int productTypeId);
 
+    ProductType addProductType(ProductType productDetail);
+
+    void deleteProductType(int productTypeId);
 }

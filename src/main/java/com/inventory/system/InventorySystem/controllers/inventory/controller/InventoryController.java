@@ -1,19 +1,14 @@
 package com.inventory.system.InventorySystem.controllers.inventory.controller;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponseInventory;
+import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.pojo.ItemDto;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.ItemService;
-import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /* inventory detail Controller*/
@@ -28,10 +23,7 @@ public class InventoryController {
 
     @PostMapping("/inventory")
     public InventoryDetail addInventory(@RequestBody InventoryDetail inventoryDetail) {
-
         return inventoryService.addInventory(inventoryDetail);
-
-
     }
 
     @GetMapping("/inventory")
@@ -47,16 +39,13 @@ public class InventoryController {
 
     @PutMapping("/inventory/{inventoryId}")
     public InventoryDetail setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId) {
-        InventoryDetail updatedItemQuantity = inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
-        return updatedItemQuantity;
+        return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
     }
 
 
     @DeleteMapping("/inventory/{inventoryId}")
     public ResponseEntity<?> deleteinventoryById(@PathVariable int inventoryId) {
         inventoryService.deleteInventory(inventoryId);
-        return new ResponseEntity<>((new ApiResponseInventory("Inventory Deleted", inventoryId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("Inventory Deleted", inventoryId)), HttpStatus.FOUND);
     }
-
-
 }

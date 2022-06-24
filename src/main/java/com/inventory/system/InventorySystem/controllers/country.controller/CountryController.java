@@ -1,8 +1,6 @@
 package com.inventory.system.InventorySystem.controllers.country.controller;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponseCountry;
-import com.inventory.system.InventorySystem.dao.CountryDetailDao;
-import com.inventory.system.InventorySystem.entities.CityDetail;
+import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.services.CityDetailService;
 import com.inventory.system.InventorySystem.services.CountryDetailService;
@@ -27,7 +25,6 @@ public class CountryController {
 
     @PostMapping("/country")
     public CountryDetail addCountry(@RequestBody CountryDetail countryDetail) {
-
         return countryDetailService.addCountry(countryDetail);
     }
 
@@ -39,13 +36,12 @@ public class CountryController {
     @GetMapping("/country/{countryId}")
     public CountryDetail getCountryById(@PathVariable int countryId) {
         return countryDetailService.getCountryById(countryId);
-
     }
 
 
     @DeleteMapping("/country/{countryId}")
-    public ResponseEntity<?> deleteCountryById(@PathVariable int countryId){
+    public ResponseEntity<?> deleteCountryById(@PathVariable int countryId) {
         countryDetailService.deleteCountry(countryId);
-        return new ResponseEntity<>((new ApiResponseCountry("Country Deleted",countryId)), HttpStatus.FOUND);
+        return new ResponseEntity<>((new ApiResponse("Country Deleted", countryId)), HttpStatus.FOUND);
     }
 }

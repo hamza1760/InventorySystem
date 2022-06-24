@@ -1,57 +1,46 @@
 package com.inventory.system.InventorySystem.services;
 
-import java.util.List;
-
-
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
-import com.inventory.system.InventorySystem.entities.ProductType;
-import com.inventory.system.InventorySystem.exceptions.notfound.ItemTypeNotFoundException;
-import com.inventory.system.InventorySystem.exceptions.notfound.ProductTypeNotFoundException;
+import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ItemTypeServiceImpl implements ItemTypeService {
 
-	@Autowired
-	private ItemTypeDao itemTypeDao;
+    final String ITEM_TYPE_NOT_FOUND = "Item Type Not Found";
 
-	@Autowired
-	private ProductTypeDao productTypeDao;
+    @Autowired
+    private ItemTypeDao itemTypeDao;
 
-
-	@Override
-	public List<ItemType> getItemType() {
-		return itemTypeDao.findByStatus("active");
-	}
-
-	@Override
-	public ItemType getItemTypeById(int itemTypeId) {
-		itemTypeDao.findById(itemTypeId).orElseThrow( ()->new ItemTypeNotFoundException(itemTypeId));
-		return itemTypeDao.findByStatusAndItemTypeId("active",itemTypeId);
-	}
-
-	@Override
-	public ItemType addItemType(ItemType itemType) {
-			return itemTypeDao.save(itemType);
-
-	}
-
-	@Override
-	public ItemType saveItemType(ItemType itemType) {
-		return itemTypeDao.save(itemType);
-	}
+    @Autowired
+    private ProductTypeDao productTypeDao;
 
 
-	@Override
-	public void deleteItemType(int itemTypeId) {
-		ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(()-> new ItemTypeNotFoundException(itemTypeId));
-		itemTypeDao.softDelete(itemTypeId);
-		
-	}
+    @Override
+    public List<ItemType> getItemType() {
+        return itemTypeDao.findByStatus("active");
+    }
+
+    @Override
+    public ItemType getItemTypeById(int itemTypeId) {
+        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
+        return itemTypeDao.findByStatusAndItemTypeId("active", itemTypeId);
+    }
+
+    @Override
+    public ItemType addItemType(ItemType itemType) {
+        return itemTypeDao.save(itemType);
+    }
 
 
-
+    @Override
+    public void deleteItemType(int itemTypeId) {
+        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
+        itemTypeDao.softDelete(itemTypeId);
+    }
 }

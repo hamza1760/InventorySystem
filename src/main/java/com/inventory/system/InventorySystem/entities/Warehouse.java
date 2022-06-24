@@ -1,94 +1,89 @@
 package com.inventory.system.InventorySystem.entities;
 
-import java.util.HashSet;
-
-import java.util.Set;
-
-import javax.persistence.*;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
 @Proxy(lazy = false)
 public class Warehouse {
 
-	@Id
-	private int warehouseId;
-	private String warehouseName;
+    @Id
+    private int warehouseId;
+    private String warehouseName;
 
 
-
-	@JsonIgnore
-	private String status = "active";
-
-
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "address_id_fk")
-	private Address address;
+    @JsonIgnore
+    private String status = "active";
 
 
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "warehouse")
-	private Set<InventoryDetail> inventory = new HashSet<>();
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id_fk")
+    private Address address;
 
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
+    private Set<InventoryDetail> inventory = new HashSet<>();
 
 
-	public Warehouse() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public Warehouse() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public Warehouse(int warehouseId, String warehouseName, String status) {
-		this.warehouseId = warehouseId;
-		this.warehouseName = warehouseName;
-		this.status = status;
-	}
+    public Warehouse(int warehouseId, String warehouseName, String status) {
+        this.warehouseId = warehouseId;
+        this.warehouseName = warehouseName;
+        this.status = status;
+    }
 
-	public int getWarehouseId() {
-		return warehouseId;
-	}
+    public int getWarehouseId() {
+        return warehouseId;
+    }
 
-	public void setWarehouseId(int warehouseId) {
-		this.warehouseId = warehouseId;
-	}
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
+    }
 
-	public String getWarehouseName() {
-		return warehouseName;
-	}
+    public String getWarehouseName() {
+        return warehouseName;
+    }
 
-	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName;
-	}
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
-	public int getAddressId(Address address){
-		int addressId = address.getAddressId();
-		return addressId;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public int getAddressId(Address address) {
+        int addressId = address.getAddressId();
+        return addressId;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setInventory(InventoryDetail inventory){
-		this.inventory.add(inventory);
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setInventory(InventoryDetail inventory) {
+        this.inventory.add(inventory);
+    }
 
 
-	public Set<InventoryDetail> getInventory() {
-		return inventory;
-	}
+    public Set<InventoryDetail> getInventory() {
+        return inventory;
+    }
 }

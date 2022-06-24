@@ -1,12 +1,13 @@
 package com.inventory.system.InventorySystem.api.response;
 
 
-public class ApiResponseDataIntegrity {
+public class ApiResponse {
+
 
     String message;
     int id;
 
-    public ApiResponseDataIntegrity(String message, int id) {
+    public ApiResponse(String message, int id) {
         this.message = message;
         this.id = id;
     }
@@ -27,5 +28,3 @@ public class ApiResponseDataIntegrity {
         this.id = id;
     }
 }
-
-
