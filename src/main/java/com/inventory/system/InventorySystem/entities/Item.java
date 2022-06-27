@@ -18,6 +18,9 @@ public class Item {
     private int itemId;
     private String itemName;
 
+    @JsonIgnore
+    private String status = StatusConstant.ACTIVE.getValue();
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productTypeId")
     private ProductType productType;
@@ -26,9 +29,6 @@ public class Item {
     @JoinColumn(name = "brandId")
     private BrandDetail brand;
 
-
-    @JsonIgnore
-    private String status = StatusConstant.ACTIVE.getValue();
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")

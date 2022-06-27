@@ -34,4 +34,11 @@ public class HandlingException {
         int id = ex.id;
         return new ResponseEntity<>(new ApiResponse(message.getValue(), id), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<?> dataintegrityException(DataIntegrityException ex){
+        String message = ex.msg;
+        int id = ex.id;
+        return new ResponseEntity<>(new ApiResponse(message,id),HttpStatus.CONFLICT);
+    }
 }

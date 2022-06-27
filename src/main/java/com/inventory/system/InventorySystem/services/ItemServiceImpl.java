@@ -10,6 +10,7 @@ import com.inventory.system.InventorySystem.entities.BrandDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.entities.ProductType;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import com.inventory.system.InventorySystem.pojo.ItemDto;
@@ -41,25 +42,36 @@ public class ItemServiceImpl implements ItemService {
 
 
     public Item addItem(Item item) {
-        int productTypeId = item.getProductType().getProductTypeId();
-        ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
-        if (productType.getStatus().equals("Deleted")) {
-            throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
+
+        Item newItem = new Item();
+        newItem.setStatus(item.getStatus());
+        if(newItem.getStatus().contains("Active")){
+            throw new DataIntegrityException("Cannot add item with status deleted",item.getItemId());
         }
-        BrandDetail brandInItem = item.getBrand();
-        int brandId = brandInItem.getBrandId();
-        BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
-        if (brand.getStatus().equals("Deleted")) {
-            throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
+        else if(item.getStatus().equals("Active")) {
+            int productTypeId = item.getProductType().getProductTypeId();
+            ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
+            if (productType.getStatus().equals("Deleted")) {
+                throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
+            }
+            BrandDetail brandInItem = item.getBrand();
+            int brandId = brandInItem.getBrandId();
+            BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
+            if (brand.getStatus().equals("Deleted")) {
+                throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
+            }
+            int itemId = item.getItemId();
+            boolean checkItemId = itemDao.findById(itemId).isPresent();
+            if (checkItemId) {
+                throw new AlreadyExists(AlreadyExistsConstant.ITEM_ALREADY_EXISTS, itemId);
+            } else {
+                item.setProductType(productType);
+                item.setBrand(brand);
+                return itemDao.save(item);
+            }
         }
-        int itemId = item.getItemId();
-        boolean checkItemId = itemDao.findById(itemId).isPresent();
-        if (checkItemId) {
-            throw new AlreadyExists(AlreadyExistsConstant.ITEM_ALREADY_EXISTS, itemId);
-        } else {
-            item.setProductType(productType);
-            item.setBrand(brand);
-            return itemDao.save(item);
+        else{
+            throw new DataIntegrityException("status not supported", item.getItemId());
         }
     }
 
