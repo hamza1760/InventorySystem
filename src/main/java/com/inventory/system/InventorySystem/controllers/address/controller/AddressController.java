@@ -5,7 +5,6 @@ import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.CityDetail;
 import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.CityDetailService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class AddressController {
     public Address addAddress(@RequestBody Address address, @PathVariable int cityId) {
 
         /*mapping city to address*/
-        logger.info("calling city by id: "+ cityId);
+        logger.info("calling city by id: " + cityId);
         CityDetail city = cityDetailService.getCityById(cityId);
         logger.info("setting city to address");
         address.setCity(city);

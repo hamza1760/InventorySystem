@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.dao.BrandDetailDao;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
@@ -12,8 +14,6 @@ import java.util.List;
 @Service
 public class BrandServiceImpl implements BrandService {
 
-    final String BRAND_NOT_FOUND = "Brand Not Found";
-    final String BRAND_ALREADY_EXIST = "Brand Already Exist";
 
     @Autowired
     private BrandDetailDao brandDetailDao;
@@ -25,7 +25,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDetail getBrandById(int brandId) {
-        return brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(BRAND_NOT_FOUND, brandId));
+        return brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class BrandServiceImpl implements BrandService {
         int brandId = brandDetail.getBrandId();
         boolean checkId = brandDetailDao.findById(brandId).isPresent();
         if (checkId) {
-            throw new AlreadyExists(BRAND_ALREADY_EXIST, brandId);
+            throw new AlreadyExists(AlreadyExistsConstant.BRAND_ALREADY_EXISTS, brandId);
         } else {
             return brandDetailDao.save(brandDetail);
         }
@@ -42,7 +42,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void deleteBrand(int brandId) {
-        BrandDetail brandDetail = brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(BRAND_NOT_FOUND, brandId));
+        BrandDetail brandDetail = brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
         brandDetailDao.delete(brandDetail);
     }
 }

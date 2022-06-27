@@ -1,6 +1,8 @@
 package com.inventory.system.InventorySystem.exceptions;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.slf4j.Logger;
@@ -20,16 +22,16 @@ public class HandlingException {
 
     @ExceptionHandler(AlreadyExists.class)
     public ResponseEntity<?> alreadyExistsException(AlreadyExists ex) {
-        String message = ex.message;
+        AlreadyExistsConstant message = ex.message;
         int id = ex.id;
-        return new ResponseEntity<>(new ApiResponse(message, id), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new ApiResponse(message.getValue(), id), HttpStatus.CONFLICT);
     }
 
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundException(NotFoundException ex) {
-        String message = ex.message;
+        NotFoundConstant message = ex.message;
         int id = ex.id;
-        return new ResponseEntity<>(new ApiResponse(message, id), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse(message.getValue(), id), HttpStatus.NOT_FOUND);
     }
 }

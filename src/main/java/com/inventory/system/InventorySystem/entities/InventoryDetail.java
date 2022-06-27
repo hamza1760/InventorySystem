@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class InventoryDetail {
     private int quantityPerBox;
     private int reorderPoint;
     @JsonIgnore
-    private String status = "active";
+    private String status = StatusConstant.ACTIVE.getValue();
 
 
     @ManyToOne(fetch = FetchType.EAGER)

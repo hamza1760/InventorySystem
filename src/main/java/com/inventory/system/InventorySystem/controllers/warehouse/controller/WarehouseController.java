@@ -1,5 +1,6 @@
 package com.inventory.system.InventorySystem.controllers.warehouse.controller;
 
+
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
@@ -46,14 +47,14 @@ public class WarehouseController {
 
     @GetMapping("/warehouse/{warehouseId}")
     public Warehouse getWarehouseById(@PathVariable int warehouseId) {
-        logger.info("calling getWarehouseById function with warehouseId: "+warehouseId);
+        logger.info("calling getWarehouseById function with warehouseId: " + warehouseId);
         return warehouseService.getWarehouseById(warehouseId);
     }
 
 
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
-        logger.info("calling getItemQuantityInSingleWarehouse function with warehouseId: "+warehouseId);
+        logger.info("calling getItemQuantityInSingleWarehouse function with warehouseId: " + warehouseId);
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }
 

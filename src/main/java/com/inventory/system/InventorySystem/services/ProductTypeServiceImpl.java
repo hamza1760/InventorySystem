@@ -1,5 +1,6 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.dao.*;
 import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -13,7 +14,6 @@ import java.util.List;
 @Service
 public class ProductTypeServiceImpl implements ProductTypeService {
 
-    final String PRODUCT_TYPE_NOT_FOUND = "Product Not Found";
 
     static Logger logger = LoggerFactory.getLogger(ProductTypeService.class);
 
@@ -40,7 +40,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
     @Override
     public ProductType getProductTypeById(int productTypeId) {
-        productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(PRODUCT_TYPE_NOT_FOUND, productTypeId));
+        productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
         logger.info("product fetched");
         return productTypeDao.findByStatusAndProductTypeId("active", productTypeId);
     }
@@ -53,7 +53,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
     @Override
     public void deleteProductType(int productTypeId) {
-        productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(PRODUCT_TYPE_NOT_FOUND, productTypeId));
+        productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
         productTypeDao.softDelete(productTypeId);
     }
 }

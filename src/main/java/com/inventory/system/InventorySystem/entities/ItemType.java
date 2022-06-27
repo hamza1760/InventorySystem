@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Entity;
@@ -13,13 +14,12 @@ import java.util.Set;
 @Entity
 @Proxy(lazy = false)
 public class ItemType {
-
     @Id
     private int itemTypeId;
     private String itemType;
 
     @JsonIgnore
-    private String status = "active";
+    private String status = StatusConstant.ACTIVE.getValue();
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "itemType")

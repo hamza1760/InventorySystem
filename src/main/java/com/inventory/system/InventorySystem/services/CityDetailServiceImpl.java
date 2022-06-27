@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.dao.CityDetailDao;
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CityDetail;
@@ -15,10 +17,6 @@ import java.util.List;
 @Service
 public class CityDetailServiceImpl implements CityDetailService {
 
-    final String CITY_NOT_FOUND = "City Not Found";
-    final String CITY_ALREADY_EXIST = "City Already Exist";
-
-    final String COUNTRY_NOT_FOUND = "Country Not Found";
 
     @Autowired
     private CityDetailDao cityDetailDao;
@@ -34,13 +32,13 @@ public class CityDetailServiceImpl implements CityDetailService {
 
     @Override
     public CityDetail getCityById(int cityId) {
-        return cityDetailDao.findById(cityId).orElseThrow(() -> new NotFoundException(CITY_NOT_FOUND, cityId));
+        return cityDetailDao.findById(cityId).orElseThrow(() -> new NotFoundException(NotFoundConstant.CITY_NOT_FOUND, cityId));
     }
 
 
     @Override
     public CityDetail addCity(CityDetail cityDetail, int countryId) {
-        CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND, countryId));
+        CountryDetail countryDetail = countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.COUNTRY_NOT_FOUND, countryId));
         String status = countryDetail.getStatus();
         if (status.equals("deleted")) {
             throw new DataIntegrityViolationException("Country is soft deleted");
@@ -48,7 +46,7 @@ public class CityDetailServiceImpl implements CityDetailService {
             int cityId = cityDetail.getCityId();
             boolean checkCode = cityDetailDao.findById(cityId).isPresent();
             if (checkCode) {
-                throw new AlreadyExists(CITY_ALREADY_EXIST, cityId);
+                throw new AlreadyExists(AlreadyExistsConstant.CITY_ALREADY_EXISTS, cityId);
             } else {
                 return cityDetailDao.save(cityDetail);
             }
@@ -57,7 +55,7 @@ public class CityDetailServiceImpl implements CityDetailService {
 
     @Override
     public void deleteCity(int cityId) {
-        CityDetail cityDetail = cityDetailDao.findById(cityId).orElseThrow(() -> new NotFoundException(CITY_NOT_FOUND, cityId));
+        CityDetail cityDetail = cityDetailDao.findById(cityId).orElseThrow(() -> new NotFoundException(NotFoundConstant.CITY_NOT_FOUND, cityId));
         cityDetailDao.delete(cityDetail);
     }
 }

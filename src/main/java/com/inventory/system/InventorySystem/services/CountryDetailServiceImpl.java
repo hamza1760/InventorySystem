@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
@@ -12,8 +14,6 @@ import java.util.List;
 @Service
 public class CountryDetailServiceImpl implements CountryDetailService {
 
-    final String COUNTRY_NOT_FOUND = "Country Not Found";
-    final String COUNTRY_ALREADY_EXIST = "Country Already Exist";
 
     @Autowired
     private CountryDetailDao countryDetailDao;
@@ -25,7 +25,7 @@ public class CountryDetailServiceImpl implements CountryDetailService {
 
     @Override
     public CountryDetail getCountryById(int countryId) {
-        countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND, countryId));
+        countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.COUNTRY_NOT_FOUND, countryId));
         return countryDetailDao.getCountryById(countryId);
     }
 
@@ -34,7 +34,7 @@ public class CountryDetailServiceImpl implements CountryDetailService {
         int countryId = countryDetail.getCountryId();
         boolean checkCode = countryDetailDao.findById(countryId).isPresent();
         if (checkCode) {
-            throw new AlreadyExists(COUNTRY_ALREADY_EXIST, countryId);
+            throw new AlreadyExists(AlreadyExistsConstant.COUNTRY_ALREADY_EXISTS, countryId);
         } else {
             return countryDetailDao.save(countryDetail);
         }
@@ -42,7 +42,7 @@ public class CountryDetailServiceImpl implements CountryDetailService {
 
     @Override
     public void deleteCountry(int countryId) {
-        countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(COUNTRY_NOT_FOUND, countryId));
+        countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.COUNTRY_NOT_FOUND, countryId));
         countryDetailDao.softDelete(countryId);
     }
 }

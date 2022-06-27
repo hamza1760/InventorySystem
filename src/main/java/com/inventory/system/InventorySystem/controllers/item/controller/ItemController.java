@@ -29,28 +29,32 @@ public class ItemController {
     /* Item Controller */
     @GetMapping("/item")
     public List<Item> getItem() {
+        logger.info("calling getItem function");
         return itemService.getItem();
     }
 
     @GetMapping("/item/{itemId}")
     public ResponseEntity<?> getItemById(@PathVariable int itemId) {
+        logger.info("calling getItemById function");
         Item item = itemService.getItemById(itemId);
-        logger.debug("error1");
         return new ResponseEntity<>(item, HttpStatus.FOUND);
     }
 
     @GetMapping("/item/size/")
     public List<ItemSize> getItemSize() {
+        logger.info("calling getItemSize function");
         return itemService.getAllItemSize();
     }
 
     @GetMapping("/item/size/{itemId}")
     public List<ItemSize> getItemSizeById(@PathVariable int itemId) {
+        logger.info("calling getItemSizeById function");
         return itemService.getItemSizeById(itemId);
     }
 
     @PostMapping("/item/")
     public Item addItem(@RequestBody Item item) {
+        logger.info("calling addItem function");
         return itemService.addItem(item);
     }
 

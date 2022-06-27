@@ -1,8 +1,6 @@
 package com.inventory.system.InventorySystem.api.response;
 
-
 public class ApiResponse {
-
 
     String message;
     int id;

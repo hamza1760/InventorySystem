@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -15,8 +16,21 @@ public class Address {
     private String areaName;
     private String street;
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "addressId=" + addressId +
+                ", postalCode=" + postalCode +
+                ", areaName='" + areaName + '\'' +
+                ", street='" + street + '\'' +
+                ", status='" + status + '\'' +
+                ", city=" + city +
+                ", warehouse=" + warehouse +
+                '}';
+    }
+
     @JsonIgnore
-    private String status = "active";
+    private String status = StatusConstant.ACTIVE.getValue();
 
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,5 +1,6 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
@@ -12,7 +13,6 @@ import java.util.List;
 @Service
 public class ItemTypeServiceImpl implements ItemTypeService {
 
-    final String ITEM_TYPE_NOT_FOUND = "Item Type Not Found";
 
     @Autowired
     private ItemTypeDao itemTypeDao;
@@ -28,7 +28,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
     @Override
     public ItemType getItemTypeById(int itemTypeId) {
-        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
+        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
         return itemTypeDao.findByStatusAndItemTypeId("active", itemTypeId);
     }
 
@@ -40,7 +40,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
     @Override
     public void deleteItemType(int itemTypeId) {
-        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
+        itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
         itemTypeDao.softDelete(itemTypeId);
     }
 }

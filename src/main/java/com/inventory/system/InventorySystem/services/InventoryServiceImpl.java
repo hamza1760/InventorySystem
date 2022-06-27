@@ -1,5 +1,8 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
+import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
+import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
@@ -17,12 +20,6 @@ import java.util.List;
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
-    final String ITEM_NOT_FOUND = "Item Not Found";
-
-    final String ITEM_TYPE_NOT_FOUND = "Item Type Not Found";
-
-    final String INVENTORY_NOT_FOUND = "Inventory Not Found";
-    final String INVENTORY_ALREADY_EXIST = "Inventory Already Exist";
 
     @Autowired
     private InventoryDetailDao inventoryDetailDao;
@@ -39,22 +36,22 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
         Item itemInInventory = inventoryDetail.getItem();
         int itemId = itemInInventory.getItemId();
-        Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(ITEM_NOT_FOUND, itemId));
+        Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
         String itemStatus = item.getStatus();
         if (itemStatus.contains("deleted")) {
-            throw new NotFoundException(ITEM_NOT_FOUND, itemId);
+            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         }
         ItemType itemTypeInInventory = inventoryDetail.getItemType();
         int itemTypeId = itemTypeInInventory.getItemTypeId();
-        ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId));
-        String itemTypeStatus = itemType.getStatus();
-        if (itemTypeStatus.contains("deleted")) {
-            throw new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId);
-        }
+        ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
+        StatusConstant itemTypeStatus = itemType.getStatus();
+//        if (itemTypeStatus.) {
+//            throw new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId);
+//        }
         int inventoryId = inventoryDetail.getInventoryId();
         boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
         if (checkInventory) {
-            throw new AlreadyExists(INVENTORY_ALREADY_EXIST, inventoryId);
+            throw new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId);
         } else {
             inventoryDetail.setItem(item);
             inventoryDetail.setItemType(itemTypeInInventory);
@@ -69,14 +66,14 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryDetail getInventoryById(int inventoryId) {
-        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(INVENTORY_NOT_FOUND, inventoryId));
+        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
         return inventoryDetailDao.findByStatusAndInventoryId("active", inventoryId);
     }
 
 
     @Override
     public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
-        InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(INVENTORY_NOT_FOUND, inventoryId));
+        InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
         setItemQuantity.setAvlQty(inventoryDetail.getAvlQty());
         setItemQuantity.setInStock(inventoryDetail.getInStock());
         return inventoryDetailDao.save(setItemQuantity);
@@ -91,7 +88,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void deleteInventory(int inventoryId) {
-        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(INVENTORY_NOT_FOUND, inventoryId));
+        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
         inventoryDetailDao.softDelete(inventoryId);
     }
 }
