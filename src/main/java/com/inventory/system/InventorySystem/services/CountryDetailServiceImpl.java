@@ -2,6 +2,7 @@ package com.inventory.system.InventorySystem.services;
 
 import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
+import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.CountryDetailDao;
 import com.inventory.system.InventorySystem.entities.CountryDetail;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
@@ -43,7 +44,7 @@ public class CountryDetailServiceImpl implements CountryDetailService {
     @Override
     public void deleteCountry(int countryId) {
         countryDetailDao.findById(countryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.COUNTRY_NOT_FOUND, countryId));
-        countryDetailDao.softDelete(countryId);
+        countryDetailDao.softDelete(StatusConstant.DELETED.getValue(), countryId);
     }
 }
 

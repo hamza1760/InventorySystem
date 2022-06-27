@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.services;
 
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
+import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.*;
 import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -54,7 +55,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     @Override
     public void deleteProductType(int productTypeId) {
         productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
-        productTypeDao.softDelete(productTypeId);
+        productTypeDao.softDelete(StatusConstant.DELETED.getValue(), productTypeId);
     }
 }
 

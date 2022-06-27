@@ -68,7 +68,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public List<Warehouse> getWarehouse() {
         logger.info("returning warehouse with status active");
-        return warehouseDao.findByStatus("active");
+        return warehouseDao.findByStatus("Active");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         logger.info("checking if warehouse exists in database with id: " + warehouseId);
         warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId));
         logger.info("returning warehouse with status active and id: " + warehouseId);
-        return warehouseDao.findByStatusAndWarehouseId("active", warehouseId);
+        return warehouseDao.findByStatusAndWarehouseId("Active", warehouseId);
     }
 
     @Override
@@ -95,17 +95,15 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Warehouse putInventoryInWarehouse(int warehouseId, int inventoryId) {
         logger.info("checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId));
-        String warehouseStatus = warehouse.getStatus();
         logger.info("getting warehouse status");
-        if (warehouseStatus.contains("deleted")) {
+        if (warehouse.getStatus().equals("Deleted")) {
             logger.info("throwing warehouse not found exception because status is set to deleted");
             throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId);
         } else {
             logger.info("checking if inventory exist in database with id: " + inventoryId);
             InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
-            String inventoryStatus = inventory.getStatus();
             logger.info("getting inventory status");
-            if (inventoryStatus.contains("deleted")) {
+            if (inventory.getStatus().equals("Deleted")) {
                 logger.info("throwing inventory not found exception because status is set to deleted");
                 throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
             } else {
@@ -130,7 +128,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId) {
         logger.info("checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId));
-        if (warehouse.getStatus().contains("deleted")) {
+        if (warehouse.getStatus().equals("Deleted")) {
             logger.info("throwing warehouse not found exception because status is set to deleted");
             throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId);
         } else {
@@ -148,7 +146,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId) {
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId));
-        if (warehouse.getStatus().equals("deleted")) {
+        if (warehouse.getStatus().equals("Deleted")) {
             throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId);
         } else {
             Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
@@ -177,7 +175,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         Set<InventoryDetail> inventoryDetailSet = warehouse.getInventory();
         for (InventoryDetail inventory : inventoryDetailSet) {
             logger.info("setting status deleted of all inventory present in warehouse with warehouseId: " + warehouseId);
-            inventory.setStatus("deleted");
+            inventory.setStatus("Deleted");
             logger.info("saving inventory in database");
             inventoryDetailDao.save(inventory);
         }

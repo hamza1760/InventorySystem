@@ -32,8 +32,8 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
 
 
     @Modifying
-    @Query("Update Item Set status='deleted' Where itemId =?1 ")
-    void softDelete(int itemId);
+    @Query("Update Item Set status=?1 Where itemId =?2 ")
+    void softDelete(String status,int itemId);
 
     List<Item> findByStatus(String status);
 

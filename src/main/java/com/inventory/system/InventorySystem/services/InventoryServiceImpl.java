@@ -37,37 +37,36 @@ public class InventoryServiceImpl implements InventoryService {
         Item itemInInventory = inventoryDetail.getItem();
         int itemId = itemInInventory.getItemId();
         Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
-        String itemStatus = item.getStatus();
-        if (itemStatus.contains("deleted")) {
+        if (item.getStatus().equals("Deleted")) {
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         }
         ItemType itemTypeInInventory = inventoryDetail.getItemType();
         int itemTypeId = itemTypeInInventory.getItemTypeId();
         ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
-        StatusConstant itemTypeStatus = itemType.getStatus();
-//        if (itemTypeStatus.) {
-//            throw new NotFoundException(ITEM_TYPE_NOT_FOUND, itemTypeId);
-//        }
-        int inventoryId = inventoryDetail.getInventoryId();
-        boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
-        if (checkInventory) {
-            throw new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId);
-        } else {
-            inventoryDetail.setItem(item);
-            inventoryDetail.setItemType(itemTypeInInventory);
+        if(itemType.getStatus().equals("Deleted")){
+            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND,itemTypeId);
         }
-        return inventoryDetailDao.save(inventoryDetail);
+            int inventoryId = inventoryDetail.getInventoryId();
+            boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
+            if (checkInventory) {
+                throw new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId);
+            } else {
+                inventoryDetail.setItem(item);
+                inventoryDetail.setItemType(itemTypeInInventory);
+            }
+            return inventoryDetailDao.save(inventoryDetail);
+
     }
 
     @Override
     public List<InventoryDetail> getInventory() {
-        return inventoryDetailDao.findByStatus("active");
+        return inventoryDetailDao.findByStatus("Active");
     }
 
     @Override
     public InventoryDetail getInventoryById(int inventoryId) {
         inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
-        return inventoryDetailDao.findByStatusAndInventoryId("active", inventoryId);
+        return inventoryDetailDao.findByStatusAndInventoryId("Active", inventoryId);
     }
 
 
@@ -89,6 +88,6 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void deleteInventory(int inventoryId) {
         inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
-        inventoryDetailDao.softDelete(inventoryId);
+        inventoryDetailDao.softDelete(StatusConstant.DELETED.getValue(), inventoryId);
     }
 }

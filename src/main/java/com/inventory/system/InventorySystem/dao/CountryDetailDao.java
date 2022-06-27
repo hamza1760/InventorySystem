@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface CountryDetailDao extends JpaRepository<CountryDetail, Integer> {
 
+    @Query("update Country set status = ?1 where countryId = ?2")
     @Modifying
-    @Query("UPDATE CountryDetail SET status='deleted' WHERE countryId =?1")
-    void softDelete(Integer id);
+    public void softDelete(String status, int countryId);
 
 
     @Query("From CountryDetail where status='active' and countryId =?1")

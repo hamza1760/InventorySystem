@@ -13,8 +13,8 @@ public interface ProductTypeDao extends JpaRepository<ProductType, Integer> {
 
 
     @Modifying
-    @Query("Update ProductType Set status='deleted' Where productTypeId =?1 ")
-    void softDelete(int productTypeId);
+    @Query("Update ProductType Set status=?1 Where productTypeId = ?2")
+    void softDelete(String status,int productTypeId);
 
     List<ProductType> findByStatus(String status);
 
