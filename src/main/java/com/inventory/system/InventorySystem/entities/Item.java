@@ -18,7 +18,7 @@ public class Item {
     private int itemId;
     private String itemName;
 
-    @JsonIgnore
+
     private String status = StatusConstant.ACTIVE.getValue();
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -35,10 +35,11 @@ public class Item {
     private Set<InventoryDetail> inventory = new HashSet<>();
 
 
-    public Item(int itemId, String itemName) {
+    public Item(int itemId, String itemName,String status) {
         super();
         this.itemId = itemId;
         this.itemName = itemName;
+        this.status = status;
     }
 
     public Item() {
@@ -69,6 +70,7 @@ public class Item {
 
     public void setStatus(String status) {
         this.status = status;
+
     }
 
     public void setProductType(ProductType productType) {

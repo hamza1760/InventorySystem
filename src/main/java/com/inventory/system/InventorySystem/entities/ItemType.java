@@ -18,7 +18,6 @@ public class ItemType {
     private int itemTypeId;
     private String itemType;
 
-    @JsonIgnore
     private String status = StatusConstant.ACTIVE.getValue();
 
     @JsonIgnore

@@ -19,7 +19,7 @@ public class InventoryDetail {
     private int minOrderQuantity;
     private int quantityPerBox;
     private int reorderPoint;
-    @JsonIgnore
+
     private String status = StatusConstant.ACTIVE.getValue();
 
 

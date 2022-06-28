@@ -18,7 +18,6 @@ public class Warehouse {
     private String warehouseName;
 
 
-    @JsonIgnore
     private String status = StatusConstant.ACTIVE.getValue();
 
 

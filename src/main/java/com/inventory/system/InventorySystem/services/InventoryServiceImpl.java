@@ -9,6 +9,7 @@ import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +35,20 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
-        Item itemInInventory = inventoryDetail.getItem();
-        int itemId = itemInInventory.getItemId();
-        Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
-        if (item.getStatus().equals("Deleted")) {
-            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
-        }
-        ItemType itemTypeInInventory = inventoryDetail.getItemType();
-        int itemTypeId = itemTypeInInventory.getItemTypeId();
-        ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
-        if(itemType.getStatus().equals("Deleted")){
-            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND,itemTypeId);
-        }
+
+        if(inventoryDetail.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+            Item itemInInventory = inventoryDetail.getItem();
+            int itemId = itemInInventory.getItemId();
+            Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
+            if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
+            }
+            ItemType itemTypeInInventory = inventoryDetail.getItemType();
+            int itemTypeId = itemTypeInInventory.getItemTypeId();
+            ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
+            if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemTypeId);
+            }
             int inventoryId = inventoryDetail.getInventoryId();
             boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
             if (checkInventory) {
@@ -53,20 +56,28 @@ public class InventoryServiceImpl implements InventoryService {
             } else {
                 inventoryDetail.setItem(item);
                 inventoryDetail.setItemType(itemTypeInInventory);
+                return inventoryDetailDao.save(inventoryDetail);
             }
-            return inventoryDetailDao.save(inventoryDetail);
+        }
+        if(inventoryDetail.getStatus().equals(StatusConstant.DELETED.getValue())){
+            throw new DataIntegrityException("Cannot add inventory with status Deleted",inventoryDetail.getInventoryId());
+        }
+        else{
+            throw new DataIntegrityException("status not supported", inventoryDetail.getInventoryId());
+        }
+
 
     }
 
     @Override
     public List<InventoryDetail> getInventory() {
-        return inventoryDetailDao.findByStatus("Active");
+        return inventoryDetailDao.findByStatus(StatusConstant.ACTIVE.getValue());
     }
 
     @Override
     public InventoryDetail getInventoryById(int inventoryId) {
         inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
-        return inventoryDetailDao.findByStatusAndInventoryId("Active", inventoryId);
+        return inventoryDetailDao.findByStatusAndInventoryId(StatusConstant.ACTIVE.getValue(), inventoryId);
     }
 
 

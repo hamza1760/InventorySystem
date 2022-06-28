@@ -5,6 +5,7 @@ import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,16 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
     @Override
     public ItemType addItemType(ItemType itemType) {
-        return itemTypeDao.save(itemType);
+
+        if(itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+            return itemTypeDao.save(itemType);
+        }
+        if(itemType.getStatus().equals(StatusConstant.DELETED.getValue())){
+            throw new DataIntegrityException("Cannot add itemType with status Deleted",itemType.getItemTypeId());
+        }
+        else {
+            throw new DataIntegrityException("Status not supported",itemType.getItemTypeId());
+        }
     }
 
 

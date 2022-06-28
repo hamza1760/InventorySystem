@@ -42,22 +42,16 @@ public class ItemServiceImpl implements ItemService {
 
 
     public Item addItem(Item item) {
-
-        Item newItem = new Item();
-        newItem.setStatus(item.getStatus());
-        if(newItem.getStatus().contains("Active")){
-            throw new DataIntegrityException("Cannot add item with status deleted",item.getItemId());
-        }
-        else if(item.getStatus().equals("Active")) {
+         if(item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
             int productTypeId = item.getProductType().getProductTypeId();
             ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
-            if (productType.getStatus().equals("Deleted")) {
+            if (productType.getStatus().equals(StatusConstant.DELETED.getValue())) {
                 throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
             }
             BrandDetail brandInItem = item.getBrand();
             int brandId = brandInItem.getBrandId();
             BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
-            if (brand.getStatus().equals("Deleted")) {
+            if (brand.getStatus().equals(StatusConstant.DELETED.getValue())) {
                 throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
             }
             int itemId = item.getItemId();
@@ -70,15 +64,19 @@ public class ItemServiceImpl implements ItemService {
                 return itemDao.save(item);
             }
         }
+        if(item.getStatus().equals(StatusConstant.DELETED.getValue())){
+            throw new DataIntegrityException("Cannot add item with status deleted",item.getItemId());
+        }
         else{
             throw new DataIntegrityException("status not supported", item.getItemId());
         }
+
     }
 
     @Override
     public List<Item> getItem() {
         logger.info("returning list of items with status active");
-        return itemDao.findByStatus("Active");
+        return itemDao.findByStatus(StatusConstant.ACTIVE.getValue());
     }
 
     @Override
@@ -86,7 +84,7 @@ public class ItemServiceImpl implements ItemService {
         logger.info("checking if the item is present in database with itemId: " + itemId);
         itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
         logger.info("returning item with itemId: " + itemId + " and status active");
-        return itemDao.findByStatusAndItemId("Active", itemId);
+        return itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), itemId);
     }
 
 
