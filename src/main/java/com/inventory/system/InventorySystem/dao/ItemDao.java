@@ -33,7 +33,7 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
 
     @Modifying
     @Query("Update Item Set status=?1 Where itemId =?2 ")
-    void softDelete(String status,int itemId);
+    void softDelete(String status, int itemId);
 
     List<Item> findByStatus(String status);
 

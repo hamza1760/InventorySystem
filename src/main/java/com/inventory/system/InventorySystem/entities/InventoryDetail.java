@@ -5,8 +5,6 @@ import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Entity

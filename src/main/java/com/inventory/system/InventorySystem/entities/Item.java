@@ -5,7 +5,8 @@ import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class Item {
     private Set<InventoryDetail> inventory = new HashSet<>();
 
 
-    public Item(int itemId, String itemName,String status) {
+    public Item(int itemId, String itemName, String status) {
         super();
         this.itemId = itemId;
         this.itemName = itemName;
@@ -73,7 +74,6 @@ public class Item {
 
     public void setStatus(String status) {
         this.status = status;
-
     }
 
     public void setProductType(ProductType productType) {

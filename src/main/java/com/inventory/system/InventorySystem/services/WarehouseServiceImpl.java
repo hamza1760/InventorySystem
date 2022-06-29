@@ -40,39 +40,35 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Warehouse addWarehouse(Warehouse warehouse) {
-
-        if(warehouse.getStatus().equals(StatusConstant.ACTIVE.getValue())){
-
-        logger.info("checking if address is present in database");
-        int addressId = warehouse.getAddress().getAddressId();
-        logger.info("address not found in database with id: " + addressId);
-        addressDao.findById(addressId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ADDRESS_NOT_FOUND, addressId));
-        int warehouseId = warehouse.getWarehouseId();
-        boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
-        if (checkWarehouseId) {
-            logger.info("warehouse already present in database with id: " + warehouseId);
-            throw new AlreadyExists(AlreadyExistsConstant.WAREHOUSE_ALREADY_EXISTS, warehouseId);
-        } else {
-            Address address = addressDao.getReferenceById(addressId);
-            Warehouse warehouseInAddress = address.getWarehouse();
-            if (warehouseInAddress == null) {
-                logger.info("adding address to warehouse with addressId: " + addressId);
-                warehouse.setAddress(address);
-                logger.info("saving warehouse in database");
-                return warehouseDao.save(warehouse);
+        if (warehouse.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+            logger.info("checking if address is present in database");
+            int addressId = warehouse.getAddress().getAddressId();
+            logger.info("address not found in database with id: " + addressId);
+            addressDao.findById(addressId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ADDRESS_NOT_FOUND, addressId));
+            int warehouseId = warehouse.getWarehouseId();
+            boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
+            if (checkWarehouseId) {
+                logger.info("warehouse already present in database with id: " + warehouseId);
+                throw new AlreadyExists(AlreadyExistsConstant.WAREHOUSE_ALREADY_EXISTS, warehouseId);
             } else {
-                int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
-                logger.info("throwing exception because address already has a warehouse with warehouse id:" + warehouseIdInAddress);
-                throw new DataIntegrityException("address is already assigned to warehouse", warehouseIdInAddress);
+                Address address = addressDao.getReferenceById(addressId);
+                Warehouse warehouseInAddress = address.getWarehouse();
+                if (warehouseInAddress == null) {
+                    logger.info("adding address to warehouse with addressId: " + addressId);
+                    warehouse.setAddress(address);
+                    logger.info("saving warehouse in database");
+                    return warehouseDao.save(warehouse);
+                } else {
+                    int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
+                    logger.info("throwing exception because address already has a warehouse with warehouse id:" + warehouseIdInAddress);
+                    throw new DataIntegrityException("address is already assigned to warehouse", warehouseIdInAddress);
+                }
             }
         }
-
-        }
-        if (warehouse.getStatus().equals(StatusConstant.DELETED.getValue())){
-            throw new DataIntegrityException("Cannot add warehouse with status Deleted",warehouse.getWarehouseId());
-        }
-        else{
-            throw new DataIntegrityException("status not supported",warehouse.getWarehouseId());
+        if (warehouse.getStatus().equals(StatusConstant.DELETED.getValue())) {
+            throw new DataIntegrityException("Cannot add warehouse with status Deleted", warehouse.getWarehouseId());
+        } else {
+            throw new DataIntegrityException("status not supported", warehouse.getWarehouseId());
         }
     }
 

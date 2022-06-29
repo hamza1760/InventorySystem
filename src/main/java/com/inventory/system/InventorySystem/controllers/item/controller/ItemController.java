@@ -54,7 +54,7 @@ public class ItemController {
     }
 
     @PostMapping("/item/")
-    public Item addItem(@Valid  @RequestBody Item item) {
+    public Item addItem(@Valid @RequestBody Item item) {
         logger.info("calling addItem function");
         return itemService.addItem(item);
     }

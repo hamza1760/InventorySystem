@@ -36,15 +36,13 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
     @Override
     public ItemType addItemType(ItemType itemType) {
-
-        if(itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+        if (itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
             return itemTypeDao.save(itemType);
         }
-        if(itemType.getStatus().equals(StatusConstant.DELETED.getValue())){
-            throw new DataIntegrityException("Cannot add itemType with status Deleted",itemType.getItemTypeId());
-        }
-        else {
-            throw new DataIntegrityException("Status not supported",itemType.getItemTypeId());
+        if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
+            throw new DataIntegrityException("Cannot add itemType with status Deleted", itemType.getItemTypeId());
+        } else {
+            throw new DataIntegrityException("Status not supported", itemType.getItemTypeId());
         }
     }
 

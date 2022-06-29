@@ -14,7 +14,7 @@ public interface InventoryDetailDao extends JpaRepository<InventoryDetail, Integ
 
     @Modifying
     @Query("Update InventoryDetail Set status=?1 Where inventoryId =?2 ")
-    void softDelete(String status,int inventoryId);
+    void softDelete(String status, int inventoryId);
 
     List<InventoryDetail> findByStatus(String status);
 

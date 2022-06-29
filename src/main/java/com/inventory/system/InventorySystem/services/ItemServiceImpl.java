@@ -13,7 +13,6 @@ import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
-import com.inventory.system.InventorySystem.pojo.ItemDto;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     public Item addItem(Item item) {
-         if(item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+        if (item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
             int productTypeId = item.getProductType().getProductTypeId();
             ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
             if (productType.getStatus().equals(StatusConstant.DELETED.getValue())) {
@@ -64,13 +63,11 @@ public class ItemServiceImpl implements ItemService {
                 return itemDao.save(item);
             }
         }
-        if(item.getStatus().equals(StatusConstant.DELETED.getValue())){
-            throw new DataIntegrityException("Cannot add item with status deleted",item.getItemId());
-        }
-        else{
+        if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
+            throw new DataIntegrityException("Cannot add item with status deleted", item.getItemId());
+        } else {
             throw new DataIntegrityException("status not supported", item.getItemId());
         }
-
     }
 
     @Override
@@ -116,8 +113,6 @@ public class ItemServiceImpl implements ItemService {
         logger.info("returning list of itemSize based on custom query");
         return itemDao.getAllItemSize();
     }
-
-
 //    public ItemDto itemToItemDto(Item item) {
 //        ItemDto itemDto = new ItemDto();
 //        itemDto = modelMapper.map(item, ItemDto.class);

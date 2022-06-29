@@ -35,8 +35,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
-
-        if(inventoryDetail.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+        if (inventoryDetail.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
             Item itemInInventory = inventoryDetail.getItem();
             int itemId = itemInInventory.getItemId();
             Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
@@ -59,14 +58,11 @@ public class InventoryServiceImpl implements InventoryService {
                 return inventoryDetailDao.save(inventoryDetail);
             }
         }
-        if(inventoryDetail.getStatus().equals(StatusConstant.DELETED.getValue())){
-            throw new DataIntegrityException("Cannot add inventory with status Deleted",inventoryDetail.getInventoryId());
-        }
-        else{
+        if (inventoryDetail.getStatus().equals(StatusConstant.DELETED.getValue())) {
+            throw new DataIntegrityException("Cannot add inventory with status Deleted", inventoryDetail.getInventoryId());
+        } else {
             throw new DataIntegrityException("status not supported", inventoryDetail.getInventoryId());
         }
-
-
     }
 
     @Override

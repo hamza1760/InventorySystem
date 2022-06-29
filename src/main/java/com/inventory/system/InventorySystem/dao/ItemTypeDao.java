@@ -14,7 +14,7 @@ public interface ItemTypeDao extends JpaRepository<ItemType, Integer> {
 
     @Modifying
     @Query("Update ItemType Set status=?1 Where itemTypeId =?2 ")
-    void softDelete(String status,int itemTypeId);
+    void softDelete(String status, int itemTypeId);
 
     List<ItemType> findByStatus(String status);
 
