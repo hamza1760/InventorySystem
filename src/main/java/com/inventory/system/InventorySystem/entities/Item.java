@@ -5,6 +5,7 @@ import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,9 @@ public class Item {
 
     @Id
     @Column(name = "item_id")
+    @Positive
     private int itemId;
+    @NotEmpty
     private String itemName;
 
 

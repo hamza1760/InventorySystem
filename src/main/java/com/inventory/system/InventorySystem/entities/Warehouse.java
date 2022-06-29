@@ -5,6 +5,8 @@ import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +16,9 @@ import java.util.Set;
 public class Warehouse {
 
     @Id
+    @Positive
     private int warehouseId;
+    @NotEmpty
     private String warehouseName;
 
 

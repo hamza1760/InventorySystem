@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,7 @@ public class WarehouseController {
 
     /* Warehouse Controller */
     @PostMapping("/warehouse/")
-    public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
+    public Warehouse addWarehouse(@Valid @RequestBody Warehouse warehouse) {
         logger.info("calling addWarehouse function");
         return warehouseService.addWarehouse(warehouse);
     }

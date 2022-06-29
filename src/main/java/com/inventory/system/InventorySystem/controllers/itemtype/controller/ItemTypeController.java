@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class ItemTypeController {
     private ProductTypeService productTypeService;
 
     @PostMapping("/itemtype/")
-    public ItemType addItemType(@RequestBody ItemType itemType) {
+    public ItemType addItemType(@Valid @RequestBody ItemType itemType) {
         return itemTypeService.addItemType(itemType);
     }
 

@@ -23,7 +23,7 @@ public interface ItemService {
 
     List<ItemSize> getAllItemSize();
 
-    Item itemDtoToItem(ItemDto itemDto);
-
-    ItemDto itemToItemDto(Item item);
+//    Item itemDtoToItem(ItemDto itemDto);
+//
+//    ItemDto itemToItemDto(Item item);
 }

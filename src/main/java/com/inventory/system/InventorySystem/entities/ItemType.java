@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +18,9 @@ import java.util.Set;
 @Proxy(lazy = false)
 public class ItemType {
     @Id
+    @Positive
     private int itemTypeId;
+    @NotEmpty
     private String itemType;
 
     private String status = StatusConstant.ACTIVE.getValue();

@@ -118,17 +118,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
 
-    public ItemDto itemToItemDto(Item item) {
-        ItemDto itemDto = new ItemDto();
-        itemDto = modelMapper.map(item, ItemDto.class);
-        return itemDto;
-    }
-
-    public Item itemDtoToItem(ItemDto itemDto) {
-        Item item = new Item();
-        item = modelMapper.map(itemDto, Item.class);
-        return item;
-    }
+//    public ItemDto itemToItemDto(Item item) {
+//        ItemDto itemDto = new ItemDto();
+//        itemDto = modelMapper.map(item, ItemDto.class);
+//        return itemDto;
+//    }
+//
+//    public Item itemDtoToItem(ItemDto itemDto) {
+//        Item item = new Item();
+//        item = modelMapper.map(itemDto, Item.class);
+//        return item;
+//    }
 }
 ////ItemDto itemDto = new ItemDto();
 ////itemDto.setItemId(item.getItemId());

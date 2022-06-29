@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /* inventory detail Controller*/
@@ -22,7 +23,7 @@ public class InventoryController {
     private ItemService itemService;
 
     @PostMapping("/inventory")
-    public InventoryDetail addInventory(@RequestBody InventoryDetail inventoryDetail) {
+    public InventoryDetail addInventory(@Valid @RequestBody InventoryDetail inventoryDetail) {
         return inventoryService.addInventory(inventoryDetail);
     }
 

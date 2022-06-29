@@ -5,12 +5,16 @@ import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Proxy(lazy = false)
 public class InventoryDetail {
 
     @Id
+    @Positive
     private int inventoryId;
     private String itemSize;
     private int inStock;
