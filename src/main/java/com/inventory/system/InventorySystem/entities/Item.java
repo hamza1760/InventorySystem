@@ -95,4 +95,17 @@ public class Item {
     public Set<InventoryDetail> getInventory() {
         return inventory;
     }
+
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", status='" + status + '\'' +
+                ", productType=" + productType +
+                ", brand=" + brand +
+                ", inventory=" + inventory +
+                '}';
+    }
 }

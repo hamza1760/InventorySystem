@@ -28,6 +28,7 @@ public class HandlingException {
     static Logger logger = LoggerFactory.getLogger(HandlingException.class);
     private ObjectError error;
     private ObjectError error1;
+    private String objectN;
 
 
     @ExceptionHandler(AlreadyExists.class)

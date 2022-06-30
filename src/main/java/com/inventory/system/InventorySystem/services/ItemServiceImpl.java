@@ -42,24 +42,42 @@ public class ItemServiceImpl implements ItemService {
 
     public Item addItem(Item item) {
         if (item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+            logger.info("getting productTypeId from request body");
             int productTypeId = item.getProductType().getProductTypeId();
+            logger.info("checking if productType exists in database with productId: "+productTypeId);
             ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
+            logger.info("returning product");
+            logger.info("checking product status");
             if (productType.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                logger.info("productType status is deleted");
+                logger.info("throwing exception product type not found with productTypeId: "+productTypeId);
                 throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
             }
-            BrandDetail brandInItem = item.getBrand();
-            int brandId = brandInItem.getBrandId();
+            logger.info("getting brandId from request body");
+            int brandId = item.getBrand().getBrandId();
+            logger.info("checking if brand exists in database with brandId: "+brandId);
             BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(() -> new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
+            logger.info("returning brand");
+            logger.info("checking brand status");
             if (brand.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                logger.info("brand status is deleted");
+                logger.info("throwing exception brand not found with brand id: "+brandId);
                 throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
             }
+            logger.info("getting itemId from request body");
             int itemId = item.getItemId();
+            logger.info("checking if item is already present in database with itemId: "+itemId);
             boolean checkItemId = itemDao.findById(itemId).isPresent();
             if (checkItemId) {
+                logger.info("item found in database");
+                logger.info("throwing exception item already exist in database with itemId: "+itemId);
                 throw new AlreadyExists(AlreadyExistsConstant.ITEM_ALREADY_EXISTS, itemId);
             } else {
+                logger.info("setting productType to item");
                 item.setProductType(productType);
+                logger.info("setting brand to item");
                 item.setBrand(brand);
+                logger.info("Saving item in database with itemId: "+itemId +" productTypeId: "+productTypeId + " brandId: "+brandId);
                 return itemDao.save(item);
             }
         }
