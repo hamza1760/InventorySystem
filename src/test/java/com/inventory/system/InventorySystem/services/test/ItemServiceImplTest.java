@@ -6,6 +6,7 @@ import com.inventory.system.InventorySystem.dao.BrandDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
+import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -82,10 +83,24 @@ public class ItemServiceImplTest {
 
     @Test
     public void getItemById() {
-        when(itemDao.findById(item1.getItemId())).thenReturn(Optional.of(item1));
-        when(itemDao.findByStatusAndItemId(item1.getStatus(), item1.getItemId())).thenReturn(item1);
-        assertEquals(item1, itemService.getItemById(item1.getItemId()));
+        int id = 3;
+        Item item = new Item();
+        List<Item> items = Arrays.asList(item1, item2, item3);
+
+
+        items.forEach((i) -> {
+            if (id == i.getItemId()) {
+                when(itemDao.findById(i.getItemId())).thenReturn(Optional.of(i));
+                when(itemDao.findByStatusAndItemId(i.getStatus(), i.getItemId())).thenReturn(i);
+                item.setItemId(i.getItemId());
+
+            }
+
+        });
+
+        assertEquals(item3,itemService.getItemById(item.getItemId()));
     }
+
 
     @Test
     public void updateItem() {
@@ -105,12 +120,27 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void testNotFoundException() {
-        when(itemDao.findById(item1.getItemId())).thenReturn(Optional.of(item1));
-        when(itemDao.findByStatusAndItemId(item1.getStatus(), item1.getItemId())).thenReturn(item1);
-        assertEquals(item1, itemService.getItemById(item1.getItemId()));
-        assertThrows(NotFoundException.class, () -> itemService.getItemById(5));
+    public void testItemNotFoundException() {
+        int id = 4;
+        Item item = new Item();
+        List<Item> items = Arrays.asList(item1, item2, item3);
+
+
+        items.forEach((i) -> {
+             if (id == i.getItemId()) {
+                when(itemDao.findById(i.getItemId())).thenReturn(Optional.of(i));
+                when(itemDao.findByStatusAndItemId(i.getStatus(), i.getItemId())).thenReturn(i);
+                item.setItemId(i.getItemId());
+
+            }
+
+        });
+
+
+        assertThrows(NotFoundException.class,()-> itemService.getItemById(id));
+        logger.info(NotFoundConstant.ITEM_NOT_FOUND.getValue()+" with itemId: "+id);
     }
-}
+    }
+
 
 

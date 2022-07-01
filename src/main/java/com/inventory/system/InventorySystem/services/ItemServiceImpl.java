@@ -100,7 +100,7 @@ public class ItemServiceImpl implements ItemService {
     public Item getItemById(int itemId) {
         logger.info("checking if the item is present in database with itemId: " + itemId);
         itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
-        logger.info("returning item with itemId: " + itemId + " and status active");
+        logger.info("returning item with itemId: " + itemId);
         return itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), itemId);
     }
 
