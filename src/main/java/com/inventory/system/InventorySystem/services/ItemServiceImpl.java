@@ -40,7 +40,9 @@ public class ItemServiceImpl implements ItemService {
     private ModelMapper modelMapper;
 
 
+
     public Item addItem(Item item) {
+
         if (item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
             logger.info("getting productTypeId from request body");
             int productTypeId = item.getProductType().getProductTypeId();
