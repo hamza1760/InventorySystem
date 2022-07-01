@@ -87,12 +87,6 @@ public class InventoryServiceImpl implements InventoryService {
 
 
     @Override
-    public InventoryDetail updateInventoryById() {
-        return null;
-    }
-
-
-    @Override
     public void deleteInventory(int inventoryId) {
         inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
         inventoryDetailDao.softDelete(StatusConstant.DELETED.getValue(), inventoryId);

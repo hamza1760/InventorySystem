@@ -107,15 +107,20 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item updateItem(Item item, int itemId) {
+        logger.info("checking if the item is present in database with itemId: " + itemId);
         Item updateItem = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
+        logger.info("setting new item name");
         updateItem.setItemName(item.getItemName());
+        logger.info("saving item to database with new name: "+updateItem.getItemName());
         Item updatedItem = itemDao.save(updateItem);
         return updatedItem;
     }
 
     @Override
     public void deleteItemById(int itemId) {
+        logger.info("checking if the item is present in database with itemId: " + itemId);
         itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
+        logger.info("setting status of item to: "+StatusConstant.DELETED.getValue());
         itemDao.softDelete(StatusConstant.DELETED.getValue(), itemId);
     }
 
