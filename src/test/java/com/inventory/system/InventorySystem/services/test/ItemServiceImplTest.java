@@ -121,6 +121,11 @@ public class ItemServiceImplTest {
     }
 
     @Test
+    public void getItemSizeById(){
+        
+    }
+
+    @Test
     public void testItemNotFoundException() {
         int id = 4;
         List<Item> items = Arrays.asList(item1, item2, item3);

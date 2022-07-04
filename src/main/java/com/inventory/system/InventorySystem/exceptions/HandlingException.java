@@ -47,7 +47,7 @@ public class HandlingException {
     }
 
     @ExceptionHandler(DataIntegrityException.class)
-    public ResponseEntity<?> dataintegrityException(DataIntegrityException ex) {
+    public ResponseEntity<?> dataIntegrityException(DataIntegrityException ex) {
         String message = ex.msg;
         int id = ex.id;
         return new ResponseEntity<>(new ApiResponse(message, id), HttpStatus.CONFLICT);
@@ -56,7 +56,7 @@ public class HandlingException {
     @ExceptionHandler
     public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, String> exception = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        ex.getAllErrors().forEach((error) -> {
             String field = ((FieldError) error).getField();
             String defaultMessage = error.getDefaultMessage();
             exception.put(field, defaultMessage);
