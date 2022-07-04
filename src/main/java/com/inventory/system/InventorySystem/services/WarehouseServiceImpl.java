@@ -77,6 +77,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<Warehouse> getWarehouse() {
+        List<Warehouse> warehouses = warehouseDao.findAll();
+        for (Warehouse warehouse : warehouses) {
+            if (warehouse.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                logger.info("throwing exception " + NotFoundConstant.WAREHOUSE_NOT_FOUND.getValue());
+                throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, 0);
+            }
+        }
         logger.info("returning warehouse with status active");
         return warehouseDao.findByStatus(StatusConstant.ACTIVE.getValue());
     }
@@ -84,10 +91,14 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse getWarehouseById(int warehouseId) {
         logger.info("checking if warehouse exists in database with id: " + warehouseId);
-        warehouseDao.findById(warehouseId).orElseThrow(() -> {
+        Warehouse warehouse =warehouseDao.findById(warehouseId).orElseThrow(() -> {
             logger.info("throwing exception " + NotFoundConstant.WAREHOUSE_NOT_FOUND.getValue() + " with warehouseId: " + warehouseId);
             throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId);
         });
+        if(warehouse.getStatus().equals(StatusConstant.DELETED.getValue())){
+            logger.info("throwing exception " + NotFoundConstant.WAREHOUSE_NOT_FOUND.getValue() + " with warehouseId: " + warehouseId);
+            throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND,warehouseId);
+        }
         logger.info("returning warehouse with status active and id: " + warehouseId);
         return warehouseDao.findByStatusAndWarehouseId(StatusConstant.ACTIVE.getValue(), warehouseId);
     }
@@ -171,8 +182,30 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     public List<ItemQuantity> getItemQuantityInAllWarehouse() {
-        logger.info("returning itemQuantity in all warehouses");
-        return warehouseDao.getItemQuantityAllWarehouses();
+        int found =0;
+        List<Warehouse> warehouses = warehouseDao.findAll();
+        for(Warehouse warehouse :warehouses){
+            if(warehouse.getStatus().equals(StatusConstant.ACTIVE.getValue())){
+                Set<InventoryDetail> inventory = warehouse.getInventory();
+                if(inventory.size()!=0){
+                    found++;
+
+                }
+            }
+            else{
+                throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND,0);
+
+            }
+        }
+        if(found>0){
+            logger.info("returning itemQuantity in all warehouses");
+            return warehouseDao.getItemQuantityAllWarehouses();
+        }
+        else{
+            throw new DataIntegrityException("None of the warehouses has inventory",0);
+        }
+
+
     }
 
 

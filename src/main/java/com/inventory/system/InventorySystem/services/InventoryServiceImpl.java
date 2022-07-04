@@ -9,6 +9,7 @@ import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemType;
+import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -94,6 +95,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<InventoryDetail> getInventory() {
+        List<InventoryDetail> inventoryDetail = inventoryDetailDao.findAll();
+        for (InventoryDetail inventory : inventoryDetail) {
+            if (inventory.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                logger.info("Throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue());
+                throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, 0);
+            }
+        }
         logger.info("returning list of inventories from database");
         return inventoryDetailDao.findByStatus(StatusConstant.ACTIVE.getValue());
     }
@@ -101,10 +109,14 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryDetail getInventoryById(int inventoryId) {
         logger.info("checking if the inventory is present in database with inventoryId: " + inventoryId);
-        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+        InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
             logger.info("Throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " with inventoryId: " + inventoryId);
             throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
         });
+        if(inventory.getStatus().equals(StatusConstant.DELETED.getValue())){
+            logger.info("Throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " with inventoryId: " + inventoryId);
+            throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND,inventoryId);
+        }
         logger.info("returning inventory with inventoryId: " + inventoryId);
         return inventoryDetailDao.findByStatusAndInventoryId(StatusConstant.ACTIVE.getValue(), inventoryId);
     }
