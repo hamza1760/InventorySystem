@@ -76,6 +76,7 @@ public class InventoryServiceImplTest {
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         inventoryDetails.forEach((i -> {
             if (Objects.equals(i.getStatus(), StatusConstant.DELETED.getValue())) {
+                logger.info("inventory not found with inventoryId: "+i.getInventoryId());
                 throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, i.getInventoryId());
             }
         }));
