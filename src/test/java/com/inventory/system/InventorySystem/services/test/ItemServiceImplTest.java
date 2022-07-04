@@ -7,7 +7,6 @@ import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.*;
-import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import com.inventory.system.InventorySystem.services.ItemServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -47,8 +45,6 @@ public class ItemServiceImplTest {
 
     @InjectMocks
     private ItemServiceImpl itemService;
-
-
 
 
     //item entity
@@ -139,12 +135,12 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void getAllItemSize(){
+    public void getAllItemSize() {
         List<ItemSize> itemSizes = Arrays.asList(itemSize1, itemSize2, itemSize3);
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         when(inventoryDetailDao.findAll()).thenReturn(inventoryDetails);
         when(itemDao.getAllItemSize()).thenReturn(itemSizes);
-        assertEquals(itemSizes,itemService.getAllItemSize());
+        assertEquals(itemSizes, itemService.getAllItemSize());
     }
 
     @Test
@@ -160,8 +156,6 @@ public class ItemServiceImplTest {
                 inventory.add(inventory2);
                 inventory.add(inventory3);
             }
-
-
         });
         when(itemDao.getItemSizeById(id)).thenReturn((itemSizes));
         assertEquals(itemSizes, itemService.getItemSizeById(id));
