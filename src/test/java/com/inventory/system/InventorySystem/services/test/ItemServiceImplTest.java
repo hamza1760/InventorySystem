@@ -93,7 +93,6 @@ public class ItemServiceImplTest {
                 when(itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
-
         assertEquals(item3, itemService.getItemById(id));
     }
 
@@ -112,8 +111,8 @@ public class ItemServiceImplTest {
     public void deleteItemById() {
         int id = 3;
         List<Item> itemList = Arrays.asList(item1, item2, item3);
-        itemList.forEach((i)->{
-            if(id==i.getItemId()){
+        itemList.forEach((i) -> {
+            if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
             }
         });

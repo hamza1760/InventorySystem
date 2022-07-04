@@ -76,7 +76,7 @@ public class InventoryServiceImplTest {
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         inventoryDetails.forEach((i -> {
             if (Objects.equals(i.getStatus(), StatusConstant.DELETED.getValue())) {
-                logger.info("inventory not found with inventoryId: "+i.getInventoryId());
+                logger.info("inventory not found with inventoryId: " + i.getInventoryId());
                 throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, i.getInventoryId());
             }
         }));
@@ -112,12 +112,11 @@ public class InventoryServiceImplTest {
     public void deleteInventory() {
         int id = 3;
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
-        inventoryDetails.forEach((i)->{
-            if(id==i.getInventoryId()){
+        inventoryDetails.forEach((i) -> {
+            if (id == i.getInventoryId()) {
                 when(inventoryDetailDao.findById(id)).thenReturn(Optional.of(i));
             }
         });
-
         inventoryService.deleteInventoryById(id);
         verify(inventoryDetailDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), id);
     }
