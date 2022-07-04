@@ -86,7 +86,7 @@ public class InventoryServiceImplTest {
 
     @Test
     public void getInventoryById() {
-        int id = 4;
+        int id = 3;
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         inventoryDetails.forEach((i) -> {
             if (id == i.getInventoryId()) {

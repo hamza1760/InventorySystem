@@ -3,11 +3,11 @@ package com.inventory.system.InventorySystem.services.test;
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.BrandDetailDao;
+import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
-import com.inventory.system.InventorySystem.entities.BrandDetail;
-import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.ProductType;
+import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import com.inventory.system.InventorySystem.services.ItemServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,9 +41,14 @@ public class ItemServiceImplTest {
     @Mock
     private BrandDetailDao brandDetailDao;
 
+    @Mock
+    private InventoryDetailDao inventoryDetailDao;
+
 
     @InjectMocks
     private ItemServiceImpl itemService;
+
+
 
 
     //item entity
@@ -53,11 +56,26 @@ public class ItemServiceImplTest {
     Item item2 = new Item(2, "PumaShoe", StatusConstant.ACTIVE.getValue());
     Item item3 = new Item(3, "NikeShoe", StatusConstant.ACTIVE.getValue());
 
-    //product entity
+    //product type entity
     ProductType productType = new ProductType(StatusConstant.ACTIVE.getValue(), 1, "Shoe");
 
     //brand entity
     BrandDetail brandDetail = new BrandDetail(StatusConstant.ACTIVE.getValue(), 1, "Adidas");
+
+    //Inventory entity
+    InventoryDetail inventory1 = new InventoryDetail(1, "small", 40, 20, 35, 70,
+            10, 60, StatusConstant.ACTIVE.getValue());
+
+    InventoryDetail inventory2 = new InventoryDetail(2, "medium", 40, 20, 35, 70,
+            10, 60, StatusConstant.ACTIVE.getValue());
+
+    InventoryDetail inventory3 = new InventoryDetail(3, "large", 40, 20, 35, 70,
+            10, 60, StatusConstant.ACTIVE.getValue());
+
+    //Item Size entity
+    ItemSize itemSize1 = new ItemSize(1, 1, "small", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
+    ItemSize itemSize2 = new ItemSize(2, 1, "medium", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
+    ItemSize itemSize3 = new ItemSize(3, 1, "large", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
 
     @Test
     public void addItem() {
@@ -85,7 +103,7 @@ public class ItemServiceImplTest {
 
     @Test
     public void getItemById() {
-        int id = 4;
+        int id = 3;
         List<Item> items = Arrays.asList(item1, item2, item3);
         items.forEach((i) -> {
             if (id == i.getItemId()) {
@@ -121,8 +139,32 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void getItemSizeById(){
-        
+    public void getAllItemSize(){
+        List<ItemSize> itemSizes = Arrays.asList(itemSize1, itemSize2, itemSize3);
+        List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
+        when(inventoryDetailDao.findAll()).thenReturn(inventoryDetails);
+        when(itemDao.getAllItemSize()).thenReturn(itemSizes);
+        assertEquals(itemSizes,itemService.getAllItemSize());
+    }
+
+    @Test
+    public void getItemSizeById() {
+        List<ItemSize> itemSizes = Arrays.asList(itemSize1, itemSize2, itemSize3);
+        int id = 1;
+        List<Item> itemList = Arrays.asList(item1, item2, item3);
+        itemList.forEach((i) -> {
+            if (id == i.getItemId()) {
+                when(itemDao.findById(id)).thenReturn(Optional.of(i));
+                Set<InventoryDetail> inventory = i.getInventory();
+                inventory.add(inventory1);
+                inventory.add(inventory2);
+                inventory.add(inventory3);
+            }
+
+
+        });
+        when(itemDao.getItemSizeById(id)).thenReturn((itemSizes));
+        assertEquals(itemSizes, itemService.getItemSizeById(id));
     }
 
     @Test
