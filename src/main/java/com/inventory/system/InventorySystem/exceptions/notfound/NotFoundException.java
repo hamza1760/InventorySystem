@@ -4,6 +4,7 @@ import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 
 public class NotFoundException extends RuntimeException {
 
+
     public NotFoundConstant message;
     public int id;
 

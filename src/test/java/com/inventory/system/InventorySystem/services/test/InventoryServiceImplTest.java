@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -86,22 +85,15 @@ public class InventoryServiceImplTest {
 
     @Test
     public void getInventoryById() {
-        int id = 3;
-        InventoryDetail inventoryDetail = new InventoryDetail();
+        int id = 4;
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
-
-
         inventoryDetails.forEach((i) -> {
             if (id == i.getInventoryId()) {
-                when(inventoryDetailDao.findById(i.getInventoryId())).thenReturn(Optional.of(i));
-                when(inventoryDetailDao.findByStatusAndInventoryId(i.getStatus(), i.getInventoryId())).thenReturn(i);
-                inventoryDetail.setInventoryId(i.getInventoryId());
-
+                when(inventoryDetailDao.findById(id)).thenReturn(Optional.of(i));
+                when(inventoryDetailDao.findByStatusAndInventoryId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
-
         });
-
-        assertEquals(inventory3,inventoryService.getInventoryById(inventoryDetail.getInventoryId()));
+        assertEquals(inventory3, inventoryService.getInventoryById(id));
     }
 
     @Test
@@ -117,29 +109,29 @@ public class InventoryServiceImplTest {
 
     @Test
     public void deleteInventory() {
-        when(inventoryDetailDao.findById(inventory1.getInventoryId())).thenReturn(Optional.of(inventory1));
-        inventoryService.deleteInventory(inventory1.getInventoryId());
-        verify(inventoryDetailDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), inventory1.getInventoryId());
+        int id = 3;
+        List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
+        inventoryDetails.forEach((i)->{
+            if(id==i.getInventoryId()){
+                when(inventoryDetailDao.findById(id)).thenReturn(Optional.of(i));
+            }
+        });
+
+        inventoryService.deleteInventoryById(id);
+        verify(inventoryDetailDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), id);
     }
 
     @Test
     public void testInventoryNotFoundException() {
         int id = 4;
-        InventoryDetail inventoryDetail = new InventoryDetail();
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
-
-
         inventoryDetails.forEach((i) -> {
-         if (id == i.getInventoryId()) {
-                when(inventoryDetailDao.findById(i.getInventoryId())).thenReturn(Optional.of(i));
-                when(inventoryDetailDao.findByStatusAndInventoryId(i.getStatus(), i.getInventoryId())).thenReturn(i);
-                 inventoryDetail.setInventoryId(i.getInventoryId());
-
+            if (id == i.getInventoryId()) {
+                when(inventoryDetailDao.findById(id)).thenReturn(Optional.of(i));
+                when(inventoryDetailDao.findByStatusAndInventoryId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
-
         });
-
-        assertThrows(NotFoundException.class,()-> inventoryService.getInventoryById(id) );
-        logger.info(NotFoundConstant.INVENTORY_NOT_FOUND.getValue()+" with inventoryId: "+id);
+        assertThrows(NotFoundException.class, () -> inventoryService.getInventoryById(id));
+        logger.info(NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " with inventoryId: " + id);
     }
 }

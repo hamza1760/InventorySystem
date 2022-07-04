@@ -30,43 +30,45 @@ public class ItemController {
     /* Item Controller */
     @GetMapping("/item")
     public List<Item> getItem() {
-        logger.info("calling getItem function");
+        logger.info("calling getItem method from controller");
         return itemService.getItem();
     }
 
     @GetMapping("/item/{itemId}")
     public ResponseEntity<?> getItemById(@PathVariable int itemId) {
-        logger.info("calling getItemById function");
+        logger.info("calling getItemById method from controller");
         Item item = itemService.getItemById(itemId);
         return new ResponseEntity<>(item, HttpStatus.FOUND);
     }
 
     @GetMapping("/item/size/")
     public List<ItemSize> getItemSize() {
-        logger.info("calling getItemSize function");
+        logger.info("calling getItemSize method from controller");
         return itemService.getAllItemSize();
     }
 
     @GetMapping("/item/size/{itemId}")
     public List<ItemSize> getItemSizeById(@PathVariable int itemId) {
-        logger.info("calling getItemSizeById function");
+        logger.info("calling getItemSizeById method from controller");
         return itemService.getItemSizeById(itemId);
     }
 
     @PostMapping("/item/")
     public Item addItem(@Valid @RequestBody Item item) {
-        logger.info("calling addItem function");
+        logger.info("calling addItem method from controller");
         return itemService.addItem(item);
     }
 
     @PutMapping("/item/{itemId}")
     public ResponseEntity<?> updateItem(@RequestBody Item item, @PathVariable int itemId) {
+        logger.info("calling updateItem method from controller");
         Item updatedItem = itemService.updateItem(item, itemId);
         return new ResponseEntity<>(updatedItem, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/item/{itemId}")
     public ResponseEntity<?> deleteItemById(@PathVariable int itemId) {
+        logger.info("calling deleteItemById method from controller");
         itemService.deleteItemById(itemId);
         return new ResponseEntity<>(new ApiResponse("Item deleted successfully ", itemId), HttpStatus.FOUND);
     }

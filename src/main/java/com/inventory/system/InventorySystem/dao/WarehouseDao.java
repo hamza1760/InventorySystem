@@ -43,8 +43,8 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
 
 
     @Modifying
-    @Query("Update Warehouse Set status='deleted' Where warehouseId =?1 ")
-    void softDelete(int warehouseId);
+    @Query("Update Warehouse Set status= ?1 Where warehouseId =?2")
+    void softDelete(String status ,int warehouseId);
 
     List<Warehouse> findByStatus(String status);
 

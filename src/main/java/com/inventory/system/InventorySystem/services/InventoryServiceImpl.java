@@ -40,25 +40,48 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
         if (inventoryDetail.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
-            Item itemInInventory = inventoryDetail.getItem();
-            int itemId = itemInInventory.getItemId();
-            Item item = itemDao.findById(itemId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
+            logger.info("getting item from request body");
+            int itemId = inventoryDetail.getItem().getItemId();
+            logger.info("checking if item exists in database with itemId: "+itemId);
+            Item item = itemDao.findById(itemId).orElseThrow(() -> {
+                logger.info("Throwing exception "+NotFoundConstant.ITEM_NOT_FOUND.getValue() +" with itemId: " +itemId);
+                throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
+            });
+            logger.info("returning item");
+            logger.info("checking item status");
             if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                logger.info("item status is deleted");
+                logger.info("throwing exception " +NotFoundConstant.ITEM_NOT_FOUND.getValue()+" with itemId: "+itemId);
                 throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
             }
-            ItemType itemTypeInInventory = inventoryDetail.getItemType();
-            int itemTypeId = itemTypeInInventory.getItemTypeId();
-            ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId));
+            logger.info("getting itemTypeId from request body");
+            int itemTypeId = inventoryDetail.getItemType().getItemTypeId();
+            logger.info("checking if itemType exists in database with itemTypeId: "+itemTypeId);
+            ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> {
+                logger.info("Throwing exception "+NotFoundConstant.ITEM_TYPE_NOT_FOUND.getValue() +" with itemTypeId: " +itemTypeId);
+                throw new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId);
+            });
+            logger.info("returning itemType");
+            logger.info("checking itemType status");
             if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                logger.info("itemType status is deleted");
+                logger.info("throwing exception " +NotFoundConstant.ITEM_TYPE_NOT_FOUND.getValue() + " with itemTypeId: "+itemTypeId);
                 throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemTypeId);
             }
+            logger.info("getting inventoryId from request body");
             int inventoryId = inventoryDetail.getInventoryId();
+            logger.info("checking if inventory is already present in database with inventoryId: "+inventoryId);
             boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
             if (checkInventory) {
+                logger.info("inventory found in database");
+                logger.info("throwing exception "+ AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS.getValue() +" with inventoryId: "+inventoryId);
                 throw new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId);
             } else {
+                logger.info("setting item to inventory");
                 inventoryDetail.setItem(item);
-                inventoryDetail.setItemType(itemTypeInInventory);
+                logger.info("setting itemType to inventory");
+                inventoryDetail.setItemType(itemType);
+                logger.info("Saving inventory in database with inventoryId: "+inventoryId +" itemId: "+itemId+ " itemTypeId: "+itemTypeId);
                 return inventoryDetailDao.save(inventoryDetail);
             }
         }
@@ -71,13 +94,18 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<InventoryDetail> getInventory() {
+        logger.info("returning list of inventories from database");
         return inventoryDetailDao.findByStatus(StatusConstant.ACTIVE.getValue());
     }
 
     @Override
     public InventoryDetail getInventoryById(int inventoryId) {
         logger.info("checking if the inventory is present in database with inventoryId: " + inventoryId);
-        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+            logger.info("Throwing exception "+NotFoundConstant.INVENTORY_NOT_FOUND.getValue() +" with inventoryId: " +inventoryId);
+            throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
+
+        });
         logger.info("returning inventory with inventoryId: " + inventoryId);
         return inventoryDetailDao.findByStatusAndInventoryId(StatusConstant.ACTIVE.getValue(), inventoryId);
     }
@@ -85,16 +113,28 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
-        InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+        logger.info("checking if the inventory is present in database with inventoryId: " + inventoryId);
+        InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+            logger.info("Throwing exception "+NotFoundConstant.INVENTORY_NOT_FOUND.getValue() +" with inventoryId: " +inventoryId);
+            throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
+        });
+        logger.info("setting Available Quantity of item in database");
         setItemQuantity.setAvlQty(inventoryDetail.getAvlQty());
+        logger.info("setting In Stock Quantity of item in database");
         setItemQuantity.setInStock(inventoryDetail.getInStock());
+        logger.info("saving updated inventory in database");
         return inventoryDetailDao.save(setItemQuantity);
     }
 
 
     @Override
-    public void deleteInventory(int inventoryId) {
-        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+    public void deleteInventoryById(int inventoryId) {
+        logger.info("checking if the inventory is present in database with inventoryId: " + inventoryId);
+        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+            logger.info("Throwing exception "+NotFoundConstant.INVENTORY_NOT_FOUND.getValue() +" with inventoryId: " +inventoryId);
+            throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
+        });
+        logger.info("setting status of inventory to: "+StatusConstant.DELETED.getValue());
         inventoryDetailDao.softDelete(StatusConstant.DELETED.getValue(), inventoryId);
     }
 }

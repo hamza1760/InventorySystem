@@ -6,7 +6,6 @@ import com.inventory.system.InventorySystem.dao.BrandDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -19,7 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,7 +50,7 @@ public class ItemServiceImplTest {
 
     //item entity
     Item item1 = new Item(1, "AdidasShoe", StatusConstant.ACTIVE.getValue());
-    Item item2= new Item(2, "PumaShoe", StatusConstant.ACTIVE.getValue());
+    Item item2 = new Item(2, "PumaShoe", StatusConstant.ACTIVE.getValue());
     Item item3 = new Item(3, "NikeShoe", StatusConstant.ACTIVE.getValue());
 
     //product entity
@@ -70,7 +72,7 @@ public class ItemServiceImplTest {
 
     @Test
     public void getItem() {
-        List<Item> itemList = Arrays.asList(item1,item2,item3);
+        List<Item> itemList = Arrays.asList(item1, item2, item3);
         itemList.forEach((i) -> {
             if (Objects.equals(i.getStatus(), StatusConstant.DELETED.getValue())) {
                 logger.info("item not found with itemId: " + i.getItemId());
@@ -83,22 +85,16 @@ public class ItemServiceImplTest {
 
     @Test
     public void getItemById() {
-        int id = 3;
-        Item item = new Item();
+        int id = 4;
         List<Item> items = Arrays.asList(item1, item2, item3);
-
-
         items.forEach((i) -> {
             if (id == i.getItemId()) {
-                when(itemDao.findById(i.getItemId())).thenReturn(Optional.of(i));
-                when(itemDao.findByStatusAndItemId(i.getStatus(), i.getItemId())).thenReturn(i);
-                item.setItemId(i.getItemId());
-
+                when(itemDao.findById(id)).thenReturn(Optional.of(i));
+                when(itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
-
         });
 
-        assertEquals(item3,itemService.getItemById(item.getItemId()));
+        assertEquals(item3, itemService.getItemById(id));
     }
 
 
@@ -114,33 +110,30 @@ public class ItemServiceImplTest {
 
     @Test
     public void deleteItemById() {
-        when(itemDao.findById(item1.getItemId())).thenReturn(Optional.of(item1));
-        itemService.deleteItemById(item1.getItemId());
-        verify(itemDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), item1.getItemId());
+        int id = 3;
+        List<Item> itemList = Arrays.asList(item1, item2, item3);
+        itemList.forEach((i)->{
+            if(id==i.getItemId()){
+                when(itemDao.findById(id)).thenReturn(Optional.of(i));
+            }
+        });
+        itemService.deleteItemById(id);
+        verify(itemDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), id);
     }
 
     @Test
     public void testItemNotFoundException() {
         int id = 4;
-        Item item = new Item();
         List<Item> items = Arrays.asList(item1, item2, item3);
-
-
         items.forEach((i) -> {
-             if (id == i.getItemId()) {
-                when(itemDao.findById(i.getItemId())).thenReturn(Optional.of(i));
-                when(itemDao.findByStatusAndItemId(i.getStatus(), i.getItemId())).thenReturn(i);
-                item.setItemId(i.getItemId());
-
+            if (id == i.getItemId()) {
+                when(itemDao.findById(id)).thenReturn(Optional.of(i));
+                when(itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
-
         });
-
-
-        assertThrows(NotFoundException.class,()-> itemService.getItemById(id));
-        logger.info(NotFoundConstant.ITEM_NOT_FOUND.getValue()+" with itemId: "+id);
+        assertThrows(NotFoundException.class, () -> itemService.getItemById(id));
     }
-    }
+}
 
 
 

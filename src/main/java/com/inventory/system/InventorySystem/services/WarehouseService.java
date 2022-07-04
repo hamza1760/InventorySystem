@@ -24,5 +24,5 @@ public interface WarehouseService {
 
     List<ItemQuantity> getItemQuantityInAllWarehouse();
 
-    void deleteWarehouse(int warehouseId);
+    void deleteWarehouseById(int warehouseId);
 }
