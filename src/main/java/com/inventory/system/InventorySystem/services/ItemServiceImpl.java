@@ -4,12 +4,10 @@ import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExists
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.BrandDetailDao;
+import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
-import com.inventory.system.InventorySystem.entities.BrandDetail;
-import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.ItemSize;
-import com.inventory.system.InventorySystem.entities.ProductType;
+import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -19,7 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -37,12 +37,15 @@ public class ItemServiceImpl implements ItemService {
     private ProductTypeDao productTypeDao;
 
     @Autowired
+    private InventoryDetailDao  inventoryDetailDao;
+
+    @Autowired
     private ModelMapper modelMapper;
 
 
     public Item addItem(Item item) {
         if (item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
-            logger.info("getting productTypeId from request body");
+            logger.info("getting product type id from request body");
             int productTypeId = item.getProductType().getProductTypeId();
             logger.info("checking if productType exists in database with productId: " + productTypeId);
             ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> {
@@ -122,8 +125,7 @@ public class ItemServiceImpl implements ItemService {
         logger.info("setting new item name");
         updateItem.setItemName(item.getItemName());
         logger.info("saving item to database with new name: " + updateItem.getItemName());
-       return itemDao.save(updateItem);
-
+        return itemDao.save(updateItem);
     }
 
     @Override
@@ -141,16 +143,34 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemSize> getItemSizeById(int itemId) {
         logger.info("checking if the item is present in the database with itemId: " + itemId);
-        itemDao.findById(itemId).orElseThrow(() -> {
+        Item item = itemDao.findById(itemId).orElseThrow(() -> {
             logger.info("Throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue() + " with itemId: " + itemId);
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         });
-        logger.info("returning item size of of item with itemId: " + itemId);
+        logger.info("item found in database");
+        if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
+            logger.info("item status is deleted");
+            logger.info("throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue() + " with itemId: " + itemId);
+            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
+        }
+        Set<InventoryDetail> inventory = item.getInventory();
+        logger.info("checking if item has inventory");
+        if (inventory.size() == 0) {
+            logger.info("throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " in item with itemId: " + itemId);
+            throw new DataIntegrityException("This item does not have any inventory ", itemId);
+        }
+        logger.info("returning item size of item with itemId: " + itemId);
         return itemDao.getItemSizeById(itemId);
     }
 
     @Override
     public List<ItemSize> getAllItemSize() {
+        List<InventoryDetail> inventory = inventoryDetailDao.findAll();
+        logger.info("checking if item has inventory");
+        if(inventory.size()==0){
+            logger.info("throwing exception none of the item has inventory");
+            throw new DataIntegrityException("None of the Item has inventory",0);
+        }
         logger.info("returning list of itemSize based on custom query");
         return itemDao.getAllItemSize();
     }

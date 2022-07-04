@@ -159,13 +159,14 @@ public class WarehouseServiceImpl implements WarehouseService {
             throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId);
         } else {
             Set<InventoryDetail> inventoryDetail = warehouse.getInventory();
+            logger.info("checking if inventory exist in warehouse");
             if (inventoryDetail.size() == 0) {
                 logger.info("throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " in warehouse with warehouseId: " + warehouseId);
-                throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, 0);
-            } else {
+                throw new DataIntegrityException("This warehouse does not have any inventory",warehouseId);
+            }
                 logger.info("returning itemQuantity in warehouse with warehouseId: " + warehouseId);
                 return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
-            }
+
         }
     }
 
@@ -198,10 +199,10 @@ public class WarehouseServiceImpl implements WarehouseService {
                     warehouse.setInventory(setItemQuantity);
                     inventoryDetailDao.save(setItemQuantity);
                     return warehouseDao.save(warehouse);
-                } else {
+                }
                     logger.info("Throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " with inventoryId: " + inventoryId);
                     throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
-                }
+
             }
             return null;
         }

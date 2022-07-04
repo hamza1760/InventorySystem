@@ -13,7 +13,7 @@ import java.util.List;
 public interface ItemDao extends JpaRepository<Item, Integer> {
 
 
-    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,B.itemId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
             "FROM InventoryDetail A " +
             "JOIN A.item B " +
             "JOIN A.itemType C " +
@@ -22,7 +22,7 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
             "where B.itemId =?1")
     List<ItemSize> getItemSizeById(int itemId);
 
-    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+    @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,B.itemId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
             "FROM InventoryDetail A " +
             "JOIN A.item B " +
             "JOIN A.itemType C " +

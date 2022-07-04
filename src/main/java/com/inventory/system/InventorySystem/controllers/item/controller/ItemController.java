@@ -42,8 +42,8 @@ public class ItemController {
     }
 
     @GetMapping("/item/size/")
-    public List<ItemSize> getItemSize() {
-        logger.info("calling getItemSize method from controller");
+    public List<ItemSize> getAllItemSize() {
+        logger.info("calling getAllItemSize method from controller");
         return itemService.getAllItemSize();
     }
 
