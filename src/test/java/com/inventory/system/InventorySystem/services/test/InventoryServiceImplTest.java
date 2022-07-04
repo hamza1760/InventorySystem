@@ -132,6 +132,5 @@ public class InventoryServiceImplTest {
             }
         });
         assertThrows(NotFoundException.class, () -> inventoryService.getInventoryById(id));
-        logger.info(NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " with inventoryId: " + id);
     }
 }
