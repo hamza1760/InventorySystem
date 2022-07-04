@@ -1,9 +1,11 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.*;
 import com.inventory.system.InventorySystem.entities.ProductType;
+import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,18 +23,6 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     @Autowired
     private ProductTypeDao productTypeDao;
 
-    @Autowired
-    private BrandDetailDao brandDetailDao;
-
-    @Autowired
-    private ItemTypeDao itemTypeDao;
-
-    @Autowired
-    private ItemDao itemDao;
-
-    @Autowired
-    private InventoryDetailDao inventoryDetailDao;
-
 
     @Override
     public List<ProductType> getProductType() {
@@ -48,7 +38,15 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
     @Override
     public ProductType addProductType(ProductType productDetail) {
-        return productTypeDao.save(productDetail);
+        int productTypeId = productDetail.getProductTypeId();
+        boolean checkProductType = productTypeDao.findById(productTypeId).isPresent();
+        if (checkProductType){
+            throw new AlreadyExists(AlreadyExistsConstant.PRODUCT_TYPE_ALREADY_EXISTS,productTypeId);
+        }
+        else{
+            return productTypeDao.save(productDetail);
+        }
+
     }
 
 

@@ -11,7 +11,7 @@ public interface CountryDetailDao extends JpaRepository<CountryDetail, Integer> 
 
     @Query("update CountryDetail set status = ?1 where countryId = ?2")
     @Modifying
-    public void softDelete(String status, int countryId);
+    void softDelete(String status, int countryId);
 
 
     @Query("From CountryDetail where status='active' and countryId =?1")

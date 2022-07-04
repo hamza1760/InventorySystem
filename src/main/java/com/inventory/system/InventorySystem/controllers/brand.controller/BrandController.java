@@ -3,6 +3,7 @@ package com.inventory.system.InventorySystem.controllers.brand.controller;
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.BrandDetail;
 import com.inventory.system.InventorySystem.services.BrandService;
+import com.inventory.system.InventorySystem.services.BrandServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

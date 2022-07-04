@@ -12,5 +12,5 @@ public interface AddressDao extends JpaRepository<Address, Integer> {
     @Transactional
     @Query("update Address set status = ?1 where addressId = ?2")
     @Modifying
-    public void softDelete(String status, int addressId);
+     void softDelete(String status, int addressId);
 }

@@ -18,5 +18,5 @@ public interface ItemTypeDao extends JpaRepository<ItemType, Integer> {
 
     List<ItemType> findByStatus(String status);
 
-    ItemType findByStatusAndItemTypeId(String status, int itemtypeId);
+    ItemType findByStatusAndItemTypeId(String status, int itemTypeId);
 }

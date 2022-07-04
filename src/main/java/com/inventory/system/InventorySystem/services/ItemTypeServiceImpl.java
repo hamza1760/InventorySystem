@@ -1,11 +1,13 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
+import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,6 @@ public class ItemTypeServiceImpl implements ItemTypeService {
     @Autowired
     private ItemTypeDao itemTypeDao;
 
-    @Autowired
-    private ProductTypeDao productTypeDao;
 
 
     @Override
@@ -36,15 +36,21 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
     @Override
     public ItemType addItemType(ItemType itemType) {
-        if (itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
-            return itemTypeDao.save(itemType);
+        int itemTypeId = itemType.getItemTypeId();
+        boolean checkItemType = itemTypeDao.findById(itemTypeId).isPresent();
+        if (checkItemType) {
+            throw new AlreadyExists(AlreadyExistsConstant.ITEM_TYPE_ALREADY_EXISTS,itemTypeId);
         }
-        if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
-            throw new DataIntegrityException("Cannot add itemType with status Deleted", itemType.getItemTypeId());
-        } else {
-            throw new DataIntegrityException("Status not supported", itemType.getItemTypeId());
+            if (itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+                return itemTypeDao.save(itemType);
+            }
+            if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
+                throw new DataIntegrityException("Cannot add itemType with status Deleted", itemType.getItemTypeId());
+            } else {
+                throw new DataIntegrityException("Status not supported", itemType.getItemTypeId());
+            }
         }
-    }
+
 
 
     @Override
