@@ -35,46 +35,46 @@ public class WarehouseController {
     /* Warehouse Controller */
     @PostMapping("/warehouse/")
     public Warehouse addWarehouse(@Valid @RequestBody Warehouse warehouse) {
-        logger.info("calling addWarehouse function");
+        logger.info("Calling addWarehouse function");
         return warehouseService.addWarehouse(warehouse);
     }
 
     @GetMapping("/warehouse")
     public List<Warehouse> getWarehouse() {
-        logger.info("calling getWarehouse method from controller");
+        logger.info("Calling getWarehouse method from controller");
         return warehouseService.getWarehouse();
     }
 
     @GetMapping("/warehouse/{warehouseId}")
     public Warehouse getWarehouseById(@PathVariable int warehouseId) {
-        logger.info("calling getWarehouseById method from controller");
+        logger.info("Calling getWarehouseById method from controller");
         return warehouseService.getWarehouseById(warehouseId);
     }
 
 
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
-        logger.info("calling getItemQuantityInSingleWarehouse method from controller");
+        logger.info("Calling getItemQuantityInSingleWarehouse method from controller");
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }
 
 
     @GetMapping("/itemsinwarehouse/")
     public List<ItemQuantity> getItemQuantityInAllWarehouses() {
-        logger.info("calling getItemQuantityInAllWarehouses method from controller");
+        logger.info("Calling getItemQuantityInAllWarehouses method from controller");
         return warehouseService.getItemQuantityInAllWarehouses();
     }
 
     @PutMapping("/warehouse/{warehouseId}")
     public Warehouse updateWarehouse(@RequestBody Warehouse warehouse, @PathVariable int warehouseId) {
-        logger.info("calling updateWarehouse method from controller");
+        logger.info("Calling updateWarehouse method from controller");
         return warehouseService.updateWarehouse(warehouse, warehouseId);
     }
 
 
     @DeleteMapping("/warehouse/{warehouseId}")
     public ResponseEntity<?> deleteWarehouseById(@PathVariable int warehouseId) {
-        logger.info("calling deleteWarehouse method from controller");
+        logger.info("Calling deleteWarehouse method from controller");
         warehouseService.deleteWarehouseById(warehouseId);
         return new ResponseEntity<>(new ApiResponse("warehouse deleted succesfully", warehouseId),
                 HttpStatus.FOUND);
@@ -82,13 +82,13 @@ public class WarehouseController {
 
     @PutMapping("warehouse/{warehouseId}/inventory/{inventoryId}")
     public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId) {
-        logger.info("calling putInventoryInWarehouse method from controller");
+        logger.info("Calling putInventoryInWarehouse method from controller");
         return warehouseService.putInventoryInWarehouse(warehouseId, inventoryId);
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
     public Warehouse setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId, @PathVariable int warehouseId) {
-        logger.info("calling setItemQuantityInSingleWarehouse method from controller");
+        logger.info("Calling setItemQuantityInSingleWarehouse method from controller");
         return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId, inventoryId);
     }
 }
