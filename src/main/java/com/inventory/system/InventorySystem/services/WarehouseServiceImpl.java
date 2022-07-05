@@ -181,6 +181,11 @@ public class WarehouseServiceImpl implements WarehouseService {
                 logger.info("throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " in warehouse with warehouseId: " + warehouseId);
                 throw new DataIntegrityException("This warehouse does not have any inventory", warehouseId);
             }
+            List<ItemQuantity> itemQuantity = warehouseDao.getItemQuantityInSingleWarehouse(StatusConstant.ACTIVE.getValue(), warehouseId);
+            if(itemQuantity.size()==0){
+                logger.info("throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " in warehouse with warehouseId: " + warehouseId);
+                throw new DataIntegrityException("This warehouse does not have any inventory", warehouseId);
+            }
             logger.info("returning itemQuantity in warehouse with warehouseId: " + warehouseId);
             return warehouseDao.getItemQuantityInSingleWarehouse(StatusConstant.ACTIVE.getValue(), warehouseId);
         }
@@ -203,6 +208,11 @@ public class WarehouseServiceImpl implements WarehouseService {
             }
         }
         if (found > 0) {
+            List<ItemQuantity> itemQuantity = warehouseDao.getItemQuantityAllWarehouses(StatusConstant.ACTIVE.getValue());
+            if(itemQuantity.size()==0){
+                logger.info("throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " because none of the warehouse has inventory");
+                throw new DataIntegrityException("None of the warehouses has inventory", 0);
+            }
             logger.info("returning itemQuantity in all warehouses");
             return warehouseDao.getItemQuantityAllWarehouses(StatusConstant.ACTIVE.getValue());
         } else {
