@@ -80,8 +80,7 @@ public class ItemServiceImplTest {
         item1.setProductType(productType);
         item1.setBrand(brandDetail);
         when(itemDao.save(item1)).thenReturn(item1);
-        Item checkItem = itemService.addItem(item1);
-        assertEquals(item1, checkItem);
+        assertEquals(item1, itemService.addItem(item1));
     }
 
     @Test
@@ -115,9 +114,8 @@ public class ItemServiceImplTest {
     public void updateItem() {
         Item updateItem = new Item(1, "Adidas", StatusConstant.ACTIVE.getValue());
         when(itemDao.findById(item1.getItemId())).thenReturn(Optional.of(item1));
-        item1.setItemName(updateItem.getItemName());
         when(itemDao.save(item1)).thenReturn(item1);
-        Item updatedItem = itemService.updateItem(item1, item1.getItemId());
+        Item updatedItem = itemService.updateItem(updateItem, item1.getItemId());
         assertEquals(item1.getItemName(), updatedItem.getItemName());
     }
 
@@ -145,16 +143,14 @@ public class ItemServiceImplTest {
 
     @Test
     public void getItemSizeById() {
+        Set<InventoryDetail> inventoryDetails = Set.of(inventory1, inventory2, inventory3);
         List<ItemSize> itemSizes = Arrays.asList(itemSize1, itemSize2, itemSize3);
         int id = 1;
         List<Item> itemList = Arrays.asList(item1, item2, item3);
+        item1.setInventory(inventoryDetails);
         itemList.forEach((i) -> {
             if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
-                Set<InventoryDetail> inventory = i.getInventory();
-                inventory.add(inventory1);
-                inventory.add(inventory2);
-                inventory.add(inventory3);
             }
         });
         when(itemDao.getItemSizeById(id)).thenReturn((itemSizes));

@@ -48,7 +48,7 @@ public class InventoryServiceImpl implements InventoryService {
                 logger.info("Throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue() + " with itemId: " + itemId);
                 throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
             });
-            logger.info("returning item");
+            logger.info("item found in database");
             logger.info("checking item status");
             if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
                 logger.info("item status is deleted");
@@ -62,7 +62,7 @@ public class InventoryServiceImpl implements InventoryService {
                 logger.info("Throwing exception " + NotFoundConstant.ITEM_TYPE_NOT_FOUND.getValue() + " with itemTypeId: " + itemTypeId);
                 throw new NotFoundException(NotFoundConstant.ITEM_TYPE_NOT_FOUND, itemTypeId);
             });
-            logger.info("returning itemType");
+            logger.info("itemType found in database");
             logger.info("checking itemType status");
             if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
                 logger.info("itemType status is deleted");
@@ -145,7 +145,7 @@ public class InventoryServiceImpl implements InventoryService {
             logger.info("Throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " with inventoryId: " + inventoryId);
             throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
         });
-        logger.info("setting status of inventory to: " + StatusConstant.DELETED.getValue());
+        logger.info("setting status of inventory to " + StatusConstant.DELETED.getValue());
         inventoryDetailDao.softDelete(StatusConstant.DELETED.getValue(), inventoryId);
     }
 }

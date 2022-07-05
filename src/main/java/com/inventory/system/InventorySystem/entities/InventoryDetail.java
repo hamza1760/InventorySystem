@@ -152,4 +152,22 @@ public class InventoryDetail {
     public Warehouse getWarehouse() {
         return warehouse;
     }
+
+    @Override
+    public String toString() {
+        return "InventoryDetail{" +
+                "inventoryId=" + inventoryId +
+                ", itemSize='" + itemSize + '\'' +
+                ", inStock=" + inStock +
+                ", avlQty=" + avlQty +
+                ", inTransit=" + inTransit +
+                ", minOrderQuantity=" + minOrderQuantity +
+                ", quantityPerBox=" + quantityPerBox +
+                ", reorderPoint=" + reorderPoint +
+                ", status='" + status + '\'' +
+                ", item=" + item +
+                ", itemType=" + itemType +
+                ", warehouse=" + warehouse +
+                '}';
+    }
 }

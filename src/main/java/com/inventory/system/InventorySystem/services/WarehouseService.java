@@ -22,7 +22,7 @@ public interface WarehouseService {
 
     List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
 
-    List<ItemQuantity> getItemQuantityInAllWarehouse();
+    List<ItemQuantity> getItemQuantityInAllWarehouses();
 
     void deleteWarehouseById(int warehouseId);
 }

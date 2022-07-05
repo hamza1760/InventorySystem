@@ -98,14 +98,12 @@ public class InventoryServiceImplTest {
     }
 
     @Test
-    public void setItemQuantityInAllWarehouse() {
-        InventoryDetail updateInventory = new InventoryDetail(1, "small", 50, 100, 35, 70,
+    public void setItemQuantityInAllWarehouses() {
+        InventoryDetail updateInventory = new InventoryDetail(1, "small", 500, 200, 35, 70,
                 10, 60, StatusConstant.ACTIVE.getValue());
         when(inventoryDetailDao.findById(inventory1.getInventoryId())).thenReturn(Optional.of(inventory1));
-        inventory1.setInStock(updateInventory.getInStock());
-        inventory1.setAvlQty(updateInventory.getAvlQty());
         when(inventoryDetailDao.save(inventory1)).thenReturn(inventory1);
-        assertEquals(inventory1, inventoryService.setItemQuantityInAllWarehouses(inventory1, inventory1.getInventoryId()));
+        assertEquals(inventory1, inventoryService.setItemQuantityInAllWarehouses(updateInventory, inventory1.getInventoryId()));
     }
 
     @Test

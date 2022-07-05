@@ -61,9 +61,9 @@ public class WarehouseController {
 
 
     @GetMapping("/itemsinwarehouse/")
-    public List<ItemQuantity> getItemQuantityInAllWarehouse() {
-        logger.info("calling getItemQuantityInAllWarehouse method from controller");
-        return warehouseService.getItemQuantityInAllWarehouse();
+    public List<ItemQuantity> getItemQuantityInAllWarehouses() {
+        logger.info("calling getItemQuantityInAllWarehouses method from controller");
+        return warehouseService.getItemQuantityInAllWarehouses();
     }
 
     @PutMapping("/warehouse/{warehouseId}")

@@ -92,6 +92,10 @@ public class Item {
         return brand;
     }
 
+    public void setInventory(Set<InventoryDetail> inventory) {
+        this.inventory = inventory;
+    }
+
     public Set<InventoryDetail> getInventory() {
         return inventory;
     }

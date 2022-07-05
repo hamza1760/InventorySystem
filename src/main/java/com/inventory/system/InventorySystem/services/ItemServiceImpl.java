@@ -52,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
                 logger.info("throwing exception " + NotFoundConstant.PRODUCT_TYPE_NOT_FOUND.getValue() + " with productTypeId: " + productTypeId);
                 throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
             });
-            logger.info("returning product");
+            logger.info("product found in database");
             logger.info("checking product status");
             if (productType.getStatus().equals(StatusConstant.DELETED.getValue())) {
                 logger.info("productType status is deleted");
@@ -66,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
                 logger.info("throwing exception " + NotFoundConstant.BRAND_NOT_FOUND.getValue() + " with brandId: " + brandId);
                 throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
             });
-            logger.info("returning brand");
+            logger.info("brand found in database");
             logger.info("checking brand status");
             if (brand.getStatus().equals(StatusConstant.DELETED.getValue())) {
                 logger.info("brand status is deleted");
@@ -146,7 +146,7 @@ public class ItemServiceImpl implements ItemService {
             logger.info("Throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue() + " with itemId: " + itemId);
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         });
-        logger.info("setting status of item to: " + StatusConstant.DELETED.getValue());
+        logger.info("setting status of item to " + StatusConstant.DELETED.getValue());
         itemDao.softDelete(StatusConstant.DELETED.getValue(), itemId);
     }
 
