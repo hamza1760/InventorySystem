@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
     private ProductTypeDao productTypeDao;
 
     @Autowired
-    private InventoryDetailDao  inventoryDetailDao;
+    private InventoryDetailDao inventoryDetailDao;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -117,9 +116,9 @@ public class ItemServiceImpl implements ItemService {
             logger.info("Throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue() + " with itemId: " + itemId);
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         });
-        if(item.getStatus().equals(StatusConstant.DELETED.getValue())){
+        if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
             logger.info("Throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue() + " with itemId: " + itemId);
-            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND,itemId);
+            throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         }
         logger.info("returning item with itemId: " + itemId);
         return itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), itemId);
@@ -178,9 +177,9 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemSize> getAllItemSize() {
         List<InventoryDetail> inventory = inventoryDetailDao.findAll();
         logger.info("checking if item has inventory");
-        if(inventory.size()==0){
+        if (inventory.size() == 0) {
             logger.info("throwing exception none of the item has inventory");
-            throw new DataIntegrityException("None of the Item has inventory",0);
+            throw new DataIntegrityException("None of the Item has inventory", 0);
         }
         logger.info("returning list of itemSize based on custom query");
         return itemDao.getAllItemSize();

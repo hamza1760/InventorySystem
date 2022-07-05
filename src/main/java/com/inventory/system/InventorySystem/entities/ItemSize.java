@@ -9,7 +9,7 @@ public class ItemSize {
     private String productType;
     private String brandName;
 
-    public ItemSize(int inventoryId, int itemId,String itemSize, String itemName, String itemType, String productType, String brandName) {
+    public ItemSize(int inventoryId, int itemId, String itemSize, String itemName, String itemType, String productType, String brandName) {
         this.inventoryId = inventoryId;
         this.itemId = itemId;
         this.itemSize = itemSize;

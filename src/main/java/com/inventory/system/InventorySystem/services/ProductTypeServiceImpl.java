@@ -3,7 +3,7 @@ package com.inventory.system.InventorySystem.services;
 import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExistsConstant;
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
-import com.inventory.system.InventorySystem.dao.*;
+import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ProductType;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
@@ -40,13 +40,11 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     public ProductType addProductType(ProductType productDetail) {
         int productTypeId = productDetail.getProductTypeId();
         boolean checkProductType = productTypeDao.findById(productTypeId).isPresent();
-        if (checkProductType){
-            throw new AlreadyExists(AlreadyExistsConstant.PRODUCT_TYPE_ALREADY_EXISTS,productTypeId);
-        }
-        else{
+        if (checkProductType) {
+            throw new AlreadyExists(AlreadyExistsConstant.PRODUCT_TYPE_ALREADY_EXISTS, productTypeId);
+        } else {
             return productTypeDao.save(productDetail);
         }
-
     }
 
 

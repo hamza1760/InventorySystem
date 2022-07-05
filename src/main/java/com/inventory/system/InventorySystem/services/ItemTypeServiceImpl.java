@@ -4,7 +4,6 @@ import com.inventory.system.InventorySystem.constant.alreadyexists.AlreadyExists
 import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
-import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
@@ -20,7 +19,6 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
     @Autowired
     private ItemTypeDao itemTypeDao;
-
 
 
     @Override
@@ -39,18 +37,17 @@ public class ItemTypeServiceImpl implements ItemTypeService {
         int itemTypeId = itemType.getItemTypeId();
         boolean checkItemType = itemTypeDao.findById(itemTypeId).isPresent();
         if (checkItemType) {
-            throw new AlreadyExists(AlreadyExistsConstant.ITEM_TYPE_ALREADY_EXISTS,itemTypeId);
+            throw new AlreadyExists(AlreadyExistsConstant.ITEM_TYPE_ALREADY_EXISTS, itemTypeId);
         }
-            if (itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
-                return itemTypeDao.save(itemType);
-            }
-            if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
-                throw new DataIntegrityException("Cannot add itemType with status Deleted", itemType.getItemTypeId());
-            } else {
-                throw new DataIntegrityException("Status not supported", itemType.getItemTypeId());
-            }
+        if (itemType.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
+            return itemTypeDao.save(itemType);
         }
-
+        if (itemType.getStatus().equals(StatusConstant.DELETED.getValue())) {
+            throw new DataIntegrityException("Cannot add itemType with status Deleted", itemType.getItemTypeId());
+        } else {
+            throw new DataIntegrityException("Status not supported", itemType.getItemTypeId());
+        }
+    }
 
 
     @Override

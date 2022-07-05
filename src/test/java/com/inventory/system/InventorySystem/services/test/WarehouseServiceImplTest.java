@@ -200,7 +200,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(i));
             }
         });
-        assertThrows(NotFoundException.class,()->warehouseService.getWarehouseById(warehouseId));
+        assertThrows(NotFoundException.class, () -> warehouseService.getWarehouseById(warehouseId));
     }
 }
 
