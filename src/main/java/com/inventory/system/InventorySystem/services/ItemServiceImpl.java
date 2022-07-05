@@ -43,46 +43,46 @@ public class ItemServiceImpl implements ItemService {
 
     public Item addItem(Item item) {
         if (item.getStatus().equals(StatusConstant.ACTIVE.getValue())) {
-            logger.info("getting product type id from request body");
+            logger.info("Getting product type id from request body");
             int productTypeId = item.getProductType().getProductTypeId();
-            logger.info("checking if productType exists in database with productId: " + productTypeId);
+            logger.info("Checking if productType exists in database with productTypeId: " + productTypeId);
             ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> {
-                logger.info("throwing exception " + NotFoundConstant.PRODUCT_TYPE_NOT_FOUND.getValue() + " with productTypeId: " + productTypeId);
+                logger.error("Product Type not found",new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
                 throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
             });
-            logger.info("product found in database");
-            logger.info("checking product status");
+            logger.info("Product Type found in database");
+            logger.info("Checking productType status");
             if (productType.getStatus().equals(StatusConstant.DELETED.getValue())) {
-                logger.info("productType status is deleted");
-                logger.info("throwing exception " + NotFoundConstant.PRODUCT_TYPE_NOT_FOUND.getValue() + " with productTypeId: " + productTypeId);
+                logger.info("Product Type status is deleted");
+                logger.error("Product Type not found",new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId));
                 throw new NotFoundException(NotFoundConstant.PRODUCT_TYPE_NOT_FOUND, productTypeId);
             }
-            logger.info("getting brandId from request body");
+            logger.info("Getting brandId from request body");
             int brandId = item.getBrand().getBrandId();
-            logger.info("checking if brand exists in database with brandId: " + brandId);
+            logger.info("Checking if brand exists in database with brandId: " + brandId);
             BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(() -> {
-                logger.info("throwing exception " + NotFoundConstant.BRAND_NOT_FOUND.getValue() + " with brandId: " + brandId);
+                logger.error("Brand not found",new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
                 throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
             });
-            logger.info("brand found in database");
-            logger.info("checking brand status");
+            logger.info("Brand found in database");
+            logger.info("Checking brand status");
             if (brand.getStatus().equals(StatusConstant.DELETED.getValue())) {
-                logger.info("brand status is deleted");
-                logger.info("throwing exception " + NotFoundConstant.BRAND_NOT_FOUND.getValue() + " with brandId: " + brandId);
+                logger.info("Brand status is deleted");
+                logger.error("Brand not found",new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId));
                 throw new NotFoundException(NotFoundConstant.BRAND_NOT_FOUND, brandId);
             }
-            logger.info("getting itemId from request body");
+            logger.info("Getting itemId from request body");
             int itemId = item.getItemId();
-            logger.info("checking if item is already present in database with itemId: " + itemId);
+            logger.info("Checking if item is already present in database with itemId: " + itemId);
             boolean checkItemId = itemDao.findById(itemId).isPresent();
             if (checkItemId) {
-                logger.info("item found in database");
-                logger.info("throwing exception " + AlreadyExistsConstant.ITEM_ALREADY_EXISTS.getValue() + " with itemId: " + itemId);
+                logger.info("Item found in database");
+                logger.error("Item already exists",new AlreadyExists(AlreadyExistsConstant.ITEM_ALREADY_EXISTS, itemId));
                 throw new AlreadyExists(AlreadyExistsConstant.ITEM_ALREADY_EXISTS, itemId);
             } else {
-                logger.info("setting productType to item");
+                logger.info("Setting productType to item");
                 item.setProductType(productType);
-                logger.info("setting brand to item");
+                logger.info("Setting brand to item");
                 item.setBrand(brand);
                 logger.info("Saving item in database with itemId: " + itemId + " productTypeId: " + productTypeId + " brandId: " + brandId);
                 return itemDao.save(item);
@@ -100,17 +100,17 @@ public class ItemServiceImpl implements ItemService {
         List<Item> items = itemDao.findAll();
         for (Item item : items) {
             if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
-                logger.info("Throwing exception " + NotFoundConstant.ITEM_NOT_FOUND.getValue());
+                logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND,0));
                 throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, 0);
             }
         }
-        logger.info("returning list of items with status active");
+        logger.info("Returning list of items with status active");
         return itemDao.findByStatus(StatusConstant.ACTIVE.getValue());
     }
 
     @Override
     public Item getItemById(int itemId) {
-        logger.info("checking if the item is present in database with itemId: " + itemId);
+        logger.info("Checking if the item is present in database with itemId: " + itemId);
         Item item = itemDao.findById(itemId).orElseThrow(() -> {
             logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
@@ -119,27 +119,27 @@ public class ItemServiceImpl implements ItemService {
             logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         }
-        logger.info("returning item with itemId: " + itemId);
+        logger.info("Returning item with itemId: " + itemId);
         return itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), itemId);
     }
 
 
     @Override
     public Item updateItem(Item item, int itemId) {
-        logger.info("checking if the item is present in database with itemId: " + itemId);
+        logger.info("Checking if the item is present in database with itemId: " + itemId);
         Item updateItem = itemDao.findById(itemId).orElseThrow(() -> {
             logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         });
-        logger.info("setting new item name");
+        logger.info("Setting new item name");
         updateItem.setItemName(item.getItemName());
-        logger.info("saving item to database with new name: " + updateItem.getItemName());
+        logger.info("Saving item to database with new name: " + updateItem.getItemName());
         return itemDao.save(updateItem);
     }
 
     @Override
     public void deleteItemById(int itemId) {
-        logger.info("checking if the item is present in database with itemId: " + itemId);
+        logger.info("Checking if the item is present in database with itemId: " + itemId);
         Item item = itemDao.findById(itemId).orElseThrow(() -> {
             logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
@@ -150,26 +150,26 @@ public class ItemServiceImpl implements ItemService {
             inventoryDetailDao.save(inventory);
         }
 
-        logger.info("setting status of item to " + StatusConstant.DELETED.getValue());
+        logger.info("Setting status of item to " + StatusConstant.DELETED.getValue());
         itemDao.softDelete(StatusConstant.DELETED.getValue(), itemId);
     }
 
 
     @Override
     public List<ItemSize> getItemSizeById(int itemId) {
-        logger.info("checking if the item is present in the database with itemId: " + itemId);
+        logger.info("Checking if the item is present in the database with itemId: " + itemId);
         Item item = itemDao.findById(itemId).orElseThrow(() -> {
             logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         });
-        logger.info("item found in database");
+        logger.info("Item found in database");
         if (item.getStatus().equals(StatusConstant.DELETED.getValue())) {
-            logger.info("item status is deleted");
+            logger.info("Item status is deleted");
             logger.error("Item not found ", new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId));
             throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, itemId);
         }
         Set<InventoryDetail> inventoryDetail = item.getInventory();
-        logger.info("checking if item has inventory");
+        logger.info("Checking if item has inventory");
         if (inventoryDetail.size() == 0) {
             logger.error("Inventory not found", new DataIntegrityException("This item does not have any inventory ", itemId));
             throw new DataIntegrityException("This item does not have any inventory ", itemId);
@@ -179,7 +179,7 @@ public class ItemServiceImpl implements ItemService {
             logger.error("Inventory not found", new DataIntegrityException("This item does not have any inventory ", itemId));
             throw new DataIntegrityException("This item does not have any inventory ", itemId);
         }
-        logger.info("returning item size of item with itemId: " + itemId);
+        logger.info("Returning item size of item with itemId: " + itemId);
         return itemDao.getItemSizeById(StatusConstant.ACTIVE.getValue(), itemId);
     }
 
@@ -187,17 +187,17 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemSize> getAllItemSize() {
         List<InventoryDetail> inventory = inventoryDetailDao.findAll();
-        logger.info("checking if item has inventory");
+        logger.info("Checking if item has inventory");
         if (inventory.size() == 0) {
-            logger.error("throwing exception none of the item has inventory");
+            logger.error("Throwing exception none of the item has inventory");
             throw new DataIntegrityException("None of the Item has inventory", 0);
         }
         List<ItemSize> itemSizes = itemDao.getAllItemSize(StatusConstant.ACTIVE.getValue());
         if (itemSizes.size() == 0) {
-            logger.error("throwing exception none of the item has inventory");
+            logger.error("Throwing exception none of the item has inventory");
             throw new DataIntegrityException("None of the Item has inventory", 0);
         }
-        logger.info("returning list of itemSize based on custom query");
+        logger.info("Returning list of itemSize based on custom query");
         return itemDao.getAllItemSize(StatusConstant.ACTIVE.getValue());
     }
 //    public ItemDto itemToItemDto(Item item) {
