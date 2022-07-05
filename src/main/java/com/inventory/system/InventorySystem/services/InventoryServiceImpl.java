@@ -12,8 +12,7 @@ import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ import java.util.List;
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
-    static Logger logger = LoggerFactory.getLogger(InventoryServiceImpl.class);
+    static Logger logger = Logger.getLogger(InventoryServiceImpl.class);
 
 
     @Autowired

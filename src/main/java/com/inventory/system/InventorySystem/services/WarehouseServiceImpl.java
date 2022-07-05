@@ -13,8 +13,7 @@ import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ import java.util.Set;
 public class WarehouseServiceImpl implements WarehouseService {
 
 
-    static Logger logger = LoggerFactory.getLogger(WarehouseServiceImpl.class);
+    static Logger logger = Logger.getLogger(WarehouseServiceImpl.class);
 
 
     @Autowired
@@ -183,7 +182,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                 throw new DataIntegrityException("This warehouse does not have any inventory", warehouseId);
             }
             logger.info("returning itemQuantity in warehouse with warehouseId: " + warehouseId);
-            return warehouseDao.getItemQuantityInSingleWarehouse(warehouseId);
+            return warehouseDao.getItemQuantityInSingleWarehouse(StatusConstant.ACTIVE.getValue(), warehouseId);
         }
     }
 
@@ -205,7 +204,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         if (found > 0) {
             logger.info("returning itemQuantity in all warehouses");
-            return warehouseDao.getItemQuantityAllWarehouses();
+            return warehouseDao.getItemQuantityAllWarehouses(StatusConstant.ACTIVE.getValue());
         } else {
             logger.info("inventory not found");
             logger.info("throwing exception " + NotFoundConstant.INVENTORY_NOT_FOUND.getValue() + " because none of the warehouse has inventory");

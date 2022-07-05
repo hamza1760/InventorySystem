@@ -5,8 +5,7 @@ import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.services.ItemService;
 import com.inventory.system.InventorySystem.services.ItemTypeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import java.util.List;
 @RestController
 public class ItemController {
 
-    static Logger logger = LoggerFactory.getLogger(ItemController.class);
+    static Logger logger = Logger.getLogger(ItemController.class);
 
     @Autowired
     private ItemService itemService;

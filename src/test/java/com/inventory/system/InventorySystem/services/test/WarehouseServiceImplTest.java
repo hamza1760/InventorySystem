@@ -17,8 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +31,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class WarehouseServiceImplTest {
 
-    static Logger logger = LoggerFactory.getLogger(WarehouseServiceImplTest.class);
+    static Logger logger = Logger.getLogger(WarehouseServiceImplTest.class);
 
 
     @Mock
@@ -159,7 +158,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(i));
             }
         });
-        when(warehouseDao.getItemQuantityInSingleWarehouse(warehouseId)).thenReturn(itemQuantityList);
+        when(warehouseDao.getItemQuantityInSingleWarehouse(StatusConstant.ACTIVE.getValue(), warehouseId)).thenReturn(itemQuantityList);
         assertEquals(itemQuantityList, warehouseService.getItemQuantityInSingleWarehouse(warehouseId));
     }
 
@@ -169,7 +168,7 @@ public class WarehouseServiceImplTest {
         warehouse1.setInventory(inventory1);
         List<ItemQuantity> itemQuantityList = Arrays.asList(itemQuantity1, itemQuantity2);
         when(warehouseDao.findAll()).thenReturn(warehouses);
-        when(warehouseDao.getItemQuantityAllWarehouses()).thenReturn(itemQuantityList);
+        when(warehouseDao.getItemQuantityAllWarehouses(StatusConstant.ACTIVE.getValue())).thenReturn(itemQuantityList);
         assertEquals(itemQuantityList, warehouseService.getItemQuantityInAllWarehouses());
     }
 

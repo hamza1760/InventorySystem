@@ -8,8 +8,7 @@ import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import java.util.List;
 @RestController
 public class WarehouseController {
 
-    static Logger logger = LoggerFactory.getLogger(WarehouseController.class);
+    static Logger logger = Logger.getLogger(WarehouseController.class);
 
     @Autowired
     private WarehouseService warehouseService;
