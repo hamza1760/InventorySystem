@@ -14,8 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 
 import java.util.*;
 
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
 
-    static Logger logger = LoggerFactory.getLogger(ItemServiceImplTest.class);
+    static Logger logger = Logger.getLogger(ItemServiceImplTest.class);
 
 
     @Mock
@@ -137,7 +136,7 @@ public class ItemServiceImplTest {
         List<ItemSize> itemSizes = Arrays.asList(itemSize1, itemSize2, itemSize3);
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         when(inventoryDetailDao.findAll()).thenReturn(inventoryDetails);
-        when(itemDao.getAllItemSize()).thenReturn(itemSizes);
+        when(itemDao.getAllItemSize(StatusConstant.ACTIVE.getValue())).thenReturn(itemSizes);
         assertEquals(itemSizes, itemService.getAllItemSize());
     }
 
@@ -153,7 +152,7 @@ public class ItemServiceImplTest {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
             }
         });
-        when(itemDao.getItemSizeById(id)).thenReturn((itemSizes));
+        when(itemDao.getItemSizeById(StatusConstant.ACTIVE.getValue(), id)).thenReturn((itemSizes));
         assertEquals(itemSizes, itemService.getItemSizeById(id));
     }
 

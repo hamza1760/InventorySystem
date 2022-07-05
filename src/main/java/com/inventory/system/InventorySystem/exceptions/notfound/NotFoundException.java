@@ -12,4 +12,8 @@ public class NotFoundException extends RuntimeException {
         this.message = message;
         this.id = id;
     }
+
+    public void Throwable() {
+        fillInStackTrace();
+    }
 }

@@ -15,8 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class InventoryServiceImplTest {
 
-    static Logger logger = LoggerFactory.getLogger(InventoryServiceImplTest.class);
+    static Logger logger = Logger.getLogger(InventoryServiceImplTest.class);
 
     @Mock
     private InventoryDetailDao inventoryDetailDao;
