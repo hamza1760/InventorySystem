@@ -55,6 +55,7 @@ public class WarehouseController {
 
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
+        logger.info("checking1");
         logger.info("Calling getItemQuantityInSingleWarehouse method from controller");
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }
