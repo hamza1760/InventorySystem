@@ -95,7 +95,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public Warehouse getWarehouseById(int warehouseId) {
+    public Warehouse getWarehouseById(Warehouse getWarehouse) {
+        int warehouseId = getWarehouse.getWarehouseId();
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
             logger.error("Warehouse not found",new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, warehouseId));

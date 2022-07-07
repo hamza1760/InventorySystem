@@ -12,7 +12,7 @@ public interface WarehouseService {
 
     List<Warehouse> getWarehouse();
 
-    Warehouse getWarehouseById(int warehouseId);
+    Warehouse getWarehouseById(Warehouse getWarehouse);
 
     Warehouse updateWarehouse(Warehouse warehouse, int warehouseId);
 

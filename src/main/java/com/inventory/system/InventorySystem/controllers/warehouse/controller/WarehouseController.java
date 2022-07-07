@@ -46,10 +46,10 @@ public class WarehouseController {
         return warehouseService.getWarehouse();
     }
 
-    @GetMapping("/warehouse/{warehouseId}")
-    public Warehouse getWarehouseById(@PathVariable int warehouseId) {
+    @GetMapping("/warehouseById")
+    public Warehouse getWarehouseById(@RequestBody Warehouse getWarehouse) {
         logger.info("Calling getWarehouseById method from controller");
-        return warehouseService.getWarehouseById(warehouseId);
+        return warehouseService.getWarehouseById(getWarehouse);
     }
 
 

@@ -99,7 +99,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findByStatusAndWarehouseId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
-        assertEquals(warehouse1, warehouseService.getWarehouseById(id));
+        assertEquals(warehouse1, warehouseService.getWarehouseById(warehouse1));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(i));
             }
         });
-        assertThrows(NotFoundException.class, () -> warehouseService.getWarehouseById(warehouseId));
+        assertThrows(NotFoundException.class, () -> warehouseService.getWarehouseById(warehouse1));
     }
 }
 
