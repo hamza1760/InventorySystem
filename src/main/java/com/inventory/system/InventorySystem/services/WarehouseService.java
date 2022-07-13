@@ -5,6 +5,7 @@ import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
 
 import java.util.List;
+import java.util.Set;
 
 public interface WarehouseService {
 
@@ -16,7 +17,7 @@ public interface WarehouseService {
 
     Warehouse updateWarehouse(Warehouse warehouse, int warehouseId);
 
-    Warehouse putInventoryInWarehouse(int warehouseId, int inventoryId);
+    Warehouse putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails,int warehouseId);
 
     Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
 
