@@ -5,6 +5,8 @@ import com.inventory.system.InventorySystem.dao.BrandDetailDao;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
+import com.inventory.system.InventorySystem.dto.ItemDto;
+import com.inventory.system.InventorySystem.dto.ItemSizeDto;
 import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.exceptions.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -37,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Item addItem(Item item) {
+    public ItemDto addItem(Item item) {
         if (item.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting product type id from request body");
             int productTypeId = item.getProductType().getProductTypeId();
@@ -81,7 +84,7 @@ public class ItemServiceImpl implements ItemService {
                 logger.info("Setting brand to item");
                 item.setBrand(brand);
                 logger.info("Saving item in database with itemId: " + itemId + " productTypeId: " + productTypeId + " brandId: " + brandId);
-                return itemDao.save(item);
+                return itemToItemDto(itemDao.save(item));
             }
         }
         if (item.getStatus().equals(Constants.DELETED.getValue())) {
@@ -92,7 +95,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getItem() {
+    public List<ItemDto> getItem() {
         List<Item> items = itemDao.findAll();
         for (Item item : items) {
             if (item.getStatus().equals(Constants.DELETED.getValue())) {
@@ -101,11 +104,11 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         logger.info("Returning list of items with status active");
-        return itemDao.findByStatus(Constants.ACTIVE.getValue());
+        return itemDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(this::itemToItemDto).collect(Collectors.toList());
     }
 
     @Override
-    public Item getItemById(int itemId) {
+    public ItemDto getItemById(int itemId) {
         logger.info("Checking if the item is present in database with itemId: " + itemId);
         Item item = itemDao.findById(itemId).orElseThrow(() -> {
             logger.error("Item not found ", new NotFoundException(Constants.ITEM_NOT_FOUND, itemId));
@@ -116,7 +119,7 @@ public class ItemServiceImpl implements ItemService {
             throw new NotFoundException(Constants.ITEM_NOT_FOUND, itemId);
         }
         logger.info("Returning item with itemId: " + itemId);
-        return itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), itemId);
+        return itemToItemDto(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), itemId));
     }
 
     @Override
@@ -149,7 +152,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemSize> getItemSizeById(int itemId) {
+    public List<ItemSizeDto> getItemSizeById(int itemId) {
         logger.info("Checking if the item is present in the database with itemId: " + itemId);
         Item item = itemDao.findById(itemId).orElseThrow(() -> {
             logger.error("Item not found ", new NotFoundException(Constants.ITEM_NOT_FOUND, itemId));
@@ -173,11 +176,11 @@ public class ItemServiceImpl implements ItemService {
             throw new DataIntegrityException("This item does not have any inventory ", itemId);
         }
         logger.info("Returning item size of item with itemId: " + itemId);
-        return itemDao.getItemSizeById(Constants.ACTIVE.getValue(), itemId);
+        return itemDao.getItemSizeById(Constants.ACTIVE.getValue(), itemId).stream().map(this::itemSizeToItemSizeDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<ItemSize> getAllItemSize() {
+    public List<ItemSizeDto> getAllItemSize() {
         List<InventoryDetail> inventory = inventoryDetailDao.findAll();
         logger.info("Checking if item has inventory");
         if (inventory.size() == 0) {
@@ -190,21 +193,14 @@ public class ItemServiceImpl implements ItemService {
             throw new DataIntegrityException("None of the Item has inventory", 0);
         }
         logger.info("Returning list of itemSize based on custom query");
-        return itemDao.getAllItemSize(Constants.ACTIVE.getValue());
+        return itemDao.getAllItemSize(Constants.ACTIVE.getValue()).stream().map(this::itemSizeToItemSizeDto).collect(Collectors.toList());
     }
-//    public ItemDto itemToItemDto(Item item) {
-//        ItemDto itemDto = new ItemDto();
-//        itemDto = modelMapper.map(item, ItemDto.class);
-//        return itemDto;
-//    }
-//
-//    public Item itemDtoToItem(ItemDto itemDto) {
-//        Item item = new Item();
-//        item = modelMapper.map(itemDto, Item.class);
-//        return item;
-//    }
+
+    public ItemDto itemToItemDto(Item item) {
+        return modelMapper.map(item, ItemDto.class);
+    }
+
+    public ItemSizeDto itemSizeToItemSizeDto(ItemSize itemSize) {
+        return modelMapper.map(itemSize, ItemSizeDto.class);
+    }
 }
-////ItemDto itemDto = new ItemDto();
-////itemDto.setItemId(item.getItemId());
-////itemDto.setItemType(item.getItemType());
-////return itemDto;

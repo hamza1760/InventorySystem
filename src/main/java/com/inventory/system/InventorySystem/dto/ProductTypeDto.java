@@ -1,38 +1,15 @@
-package com.inventory.system.InventorySystem.entities;
+package com.inventory.system.InventorySystem.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-@Entity
-@Proxy(lazy = false)
-public class ProductType {
-
-    @Id
+public class ProductTypeDto {
     private int productTypeId;
     private String productType;
-
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
-
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "productType")
-    private Item item;
-
-    public ProductType() {
-    }
-
-    public ProductType(String status, int productTypeId, String productType) {
-        super();
-        this.productTypeId = productTypeId;
-        this.productType = productType;
-        this.status = status;
-    }
+    private ItemDto item;
 
     public int getProductTypeId() {
         return productTypeId;
@@ -58,7 +35,11 @@ public class ProductType {
         this.status = status;
     }
 
-    public Item getItem() {
+    public ItemDto getItem() {
         return item;
+    }
+
+    public void setItem(ItemDto item) {
+        this.item = item;
     }
 }

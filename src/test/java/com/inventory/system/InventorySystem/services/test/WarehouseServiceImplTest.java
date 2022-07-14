@@ -95,16 +95,6 @@ public class WarehouseServiceImplTest {
         });
         assertEquals(warehouse1, warehouseService.getWarehouseById(warehouse1));
     }
-
-    @Test
-    public void updateWarehouse() {
-        Warehouse updateWarehouse = new Warehouse(1, "Pak", Constants.ACTIVE.getValue());
-        when(warehouseDao.findById(warehouse1.getWarehouseId())).thenReturn(Optional.of(warehouse1));
-        when(warehouseDao.save(warehouse1)).thenReturn(warehouse1);
-        Warehouse updatedWarehouse = warehouseService.updateWarehouse(updateWarehouse, warehouse1.getWarehouseId());
-        assertEquals(warehouse1.getWarehouseName(), updatedWarehouse.getWarehouseName());
-    }
-
     @Test
     public void deleteWarehouseById() {
         int id = 1;

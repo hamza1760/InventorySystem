@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
+import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.ItemService;
@@ -26,25 +27,25 @@ public class InventoryController {
     private ItemService itemService;
 
     @PostMapping("/inventory")
-    public InventoryDetail addInventory(@Valid @RequestBody InventoryDetail inventoryDetail) {
+    public InventoryDetailDto addInventory(@Valid @RequestBody InventoryDetail inventoryDetail) {
         logger.info("Calling addInventory method from controller");
         return inventoryService.addInventory(inventoryDetail);
     }
 
     @GetMapping("/inventory")
-    public List<InventoryDetail> getInventory() {
+    public List<InventoryDetailDto> getInventory() {
         logger.info("Calling getInventory method from controller");
         return inventoryService.getInventory();
     }
 
     @GetMapping("/inventory/{inventoryId}")
-    public InventoryDetail getInventoryById(@PathVariable int inventoryId) {
+    public InventoryDetailDto getInventoryById(@PathVariable int inventoryId) {
         logger.info("Calling getInventoryById method from controller");
         return inventoryService.getInventoryById(inventoryId);
     }
 
     @PutMapping("/inventory/{inventoryId}")
-    public InventoryDetail setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId) {
+    public InventoryDetailDto setItemQuantityInAllWarehouses(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId) {
         logger.info("Calling setItemQuantityInAllWarehouses method from controller");
         return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
     }

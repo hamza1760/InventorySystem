@@ -1,6 +1,7 @@
-package com.inventory.system.InventorySystem.entities;
+package com.inventory.system.InventorySystem.dto;
 
-public class ItemQuantity {
+public class ItemQuantityDto {
+
     private int warehouseId;
     private String warehouseName;
     private String areaName;
@@ -15,26 +16,6 @@ public class ItemQuantity {
     private String itemType;
     private String productType;
     private String brandName;
-
-    public ItemQuantity() {
-    }
-
-    public ItemQuantity(int warehouseId, String warehouseName, String areaName, String cityName, String countryName, int inventoryId, String itemSize, int inStock, int avlQty, String itemName, int itemId, String itemType, String productType, String brandName) {
-        this.warehouseId = warehouseId;
-        this.warehouseName = warehouseName;
-        this.areaName = areaName;
-        this.cityName = cityName;
-        this.countryName = countryName;
-        this.inventoryId = inventoryId;
-        this.itemSize = itemSize;
-        this.inStock = inStock;
-        this.avlQty = avlQty;
-        this.itemName = itemName;
-        this.itemId = itemId;
-        this.itemType = itemType;
-        this.productType = productType;
-        this.brandName = brandName;
-    }
 
     public int getWarehouseId() {
         return warehouseId;

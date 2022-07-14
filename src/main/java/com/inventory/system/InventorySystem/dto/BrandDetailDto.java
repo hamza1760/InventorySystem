@@ -1,34 +1,15 @@
-package com.inventory.system.InventorySystem.entities;
+package com.inventory.system.InventorySystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-@Entity
-@Proxy(lazy = false)
-public class BrandDetail {
-
-    @Id
+public class BrandDetailDto {
     private int brandId;
     private String brandName;
+    @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
-
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "brand")
-    private Item item;
-
-    public BrandDetail() {
-    }
-
-    public BrandDetail(String status, int brandId, String brandName) {
-        super();
-        this.brandId = brandId;
-        this.brandName = brandName;
-        this.status = status;
-    }
+    @JsonIgnore
+    private ItemDto item;
 
     public int getBrandId() {
         return brandId;
@@ -54,7 +35,11 @@ public class BrandDetail {
         this.status = status;
     }
 
-    public Item getItem() {
+    public ItemDto getItem() {
         return item;
+    }
+
+    public void setItem(ItemDto item) {
+        this.item = item;
     }
 }

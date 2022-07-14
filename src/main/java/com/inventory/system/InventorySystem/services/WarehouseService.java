@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
+import com.inventory.system.InventorySystem.dto.WarehouseDto;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
@@ -9,21 +11,23 @@ import java.util.Set;
 
 public interface WarehouseService {
 
-    Warehouse addWarehouse(Warehouse warehouse);
+    WarehouseDto addWarehouse(Warehouse warehouse);
 
-    List<Warehouse> getWarehouse();
+    List<WarehouseDto> getWarehouse();
 
-    Warehouse getWarehouseById(Warehouse getWarehouse);
+    WarehouseDto getWarehouseById(Warehouse getWarehouse);
 
-    Warehouse updateWarehouse(Warehouse warehouse, int warehouseId);
+    WarehouseDto putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails, int warehouseId);
 
-    Warehouse putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails, int warehouseId);
+    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
 
-    Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
+    List<ItemQuantityDto> getItemQuantityInSingleWarehouse(int warehouseId);
 
-    List<ItemQuantity> getItemQuantityInSingleWarehouse(int warehouseId);
-
-    List<ItemQuantity> getItemQuantityInAllWarehouses();
+    List<ItemQuantityDto> getItemQuantityInAllWarehouses();
 
     void deleteWarehouseById(int warehouseId);
+
+    WarehouseDto warehouseToWarehouseDto(Warehouse warehouse);
+
+    ItemQuantityDto ItemQuantityToItemQuantityDto(ItemQuantity itemQuantity);
 }

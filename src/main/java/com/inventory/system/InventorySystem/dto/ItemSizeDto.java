@@ -1,6 +1,6 @@
-package com.inventory.system.InventorySystem.entities;
+package com.inventory.system.InventorySystem.dto;
 
-public class ItemSize {
+public class ItemSizeDto {
     private int inventoryId;
     private int itemId;
     private String itemSize;
@@ -8,19 +8,6 @@ public class ItemSize {
     private String itemType;
     private String productType;
     private String brandName;
-
-    public ItemSize() {
-    }
-
-    public ItemSize(int inventoryId, int itemId, String itemSize, String itemName, String itemType, String productType, String brandName) {
-        this.inventoryId = inventoryId;
-        this.itemId = itemId;
-        this.itemSize = itemSize;
-        this.itemName = itemName;
-        this.itemType = itemType;
-        this.productType = productType;
-        this.brandName = brandName;
-    }
 
     public int getInventoryId() {
         return inventoryId;
@@ -78,4 +65,3 @@ public class ItemSize {
         this.brandName = brandName;
     }
 }
-

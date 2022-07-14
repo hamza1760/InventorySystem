@@ -1,13 +1,12 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.Constants;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
 @Entity
-@Proxy(lazy = false)
+//@Proxy(lazy = false)
 public class Address {
 
     @Id
@@ -15,33 +14,16 @@ public class Address {
     private long postalCode;
     private String areaName;
     private String street;
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "addressId=" + addressId +
-                ", postalCode=" + postalCode +
-                ", areaName='" + areaName + '\'' +
-                ", street='" + street + '\'' +
-                ", status='" + status + '\'' +
-                ", city=" + city +
-                ", warehouse=" + warehouse +
-                '}';
-    }
-
-    @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id_fk")
     private CityDetail city;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "address")
     private Warehouse warehouse;
 
     public Address() {
-        super();
     }
 
     public Address(String status, int addressId, long postalCode, String areaName, String street) {

@@ -1,26 +1,26 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.dto.ItemDto;
+import com.inventory.system.InventorySystem.dto.ItemSizeDto;
 import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.ItemSize;
 
 import java.util.List;
 
 public interface ItemService {
 
-    List<Item> getItem();
+    List<ItemDto> getItem();
 
-    Item addItem(Item item);
+    ItemDto addItem(Item item);
 
     Item updateItem(Item item, int Itemid);
 
     void deleteItemById(int itemId);
 
-    Item getItemById(int itemId);
+    ItemDto getItemById(int itemId);
 
-    List<ItemSize> getItemSizeById(int itemId);
+    List<ItemSizeDto> getItemSizeById(int itemId);
 
-    List<ItemSize> getAllItemSize();
-//    Item itemDtoToItem(ItemDto itemDto);
-//
-//    ItemDto itemToItemDto(Item item);
+    List<ItemSizeDto> getAllItemSize();
+
+    ItemDto itemToItemDto(Item item);
 }

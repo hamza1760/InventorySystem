@@ -19,7 +19,6 @@ public class Warehouse {
     private int warehouseId;
     @NotEmpty
     private String warehouseName;
-
     private String status = Constants.ACTIVE.getValue();
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -28,11 +27,9 @@ public class Warehouse {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
-    private final Set<InventoryDetail> inventory = new HashSet<>();
+    private Set<InventoryDetail> inventory = new HashSet<>();
 
     public Warehouse() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     public Warehouse(int warehouseId, String warehouseName, String status) {
@@ -59,11 +56,6 @@ public class Warehouse {
 
     public Address getAddress() {
         return address;
-    }
-
-    public int getAddressId(Address address) {
-        int addressId = address.getAddressId();
-        return addressId;
     }
 
     public void setAddress(Address address) {

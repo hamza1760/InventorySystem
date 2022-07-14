@@ -1,8 +1,9 @@
 package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
+import com.inventory.system.InventorySystem.dto.ItemDto;
+import com.inventory.system.InventorySystem.dto.ItemSizeDto;
 import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.services.ItemService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class ItemController {
 
     /* Item Controller */
     @GetMapping("/item")
-    public List<Item> getItem() {
+    public List<ItemDto> getItem() {
         logger.info("Calling getItem method from controller");
         return itemService.getItem();
     }
@@ -31,24 +32,24 @@ public class ItemController {
     @GetMapping("/item/{itemId}")
     public ResponseEntity<?> getItemById(@PathVariable int itemId) {
         logger.info("Calling getItemById method from controller");
-        Item item = itemService.getItemById(itemId);
+        ItemDto item = itemService.getItemById(itemId);
         return new ResponseEntity<>(item, HttpStatus.FOUND);
     }
 
     @GetMapping("/item/size/")
-    public List<ItemSize> getAllItemSize() {
+    public List<ItemSizeDto> getAllItemSize() {
         logger.info("Calling getAllItemSize method from controller");
         return itemService.getAllItemSize();
     }
 
     @GetMapping("/item/size/{itemId}")
-    public List<ItemSize> getItemSizeById(@PathVariable int itemId) {
+    public List<ItemSizeDto> getItemSizeById(@PathVariable int itemId) {
         logger.info("Calling getItemSizeById method from controller");
         return itemService.getItemSizeById(itemId);
     }
 
     @PostMapping("/item/")
-    public Item addItem(@Valid @RequestBody Item item) {
+    public ItemDto addItem(@Valid @RequestBody Item item) {
         logger.info("Calling addItem method from controller");
         return itemService.addItem(item);
     }

@@ -4,6 +4,7 @@ import com.inventory.system.InventorySystem.constant.Constants;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ItemTypeDao;
+import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemType;
@@ -11,10 +12,12 @@ import com.inventory.system.InventorySystem.exceptions.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.NotFoundException;
 import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -30,8 +33,11 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private ItemTypeDao itemTypeDao;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
+    public InventoryDetailDto addInventory(InventoryDetail inventoryDetail) {
         if (inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting item from request body");
             int itemId = inventoryDetail.getItem().getItemId();
@@ -75,7 +81,7 @@ public class InventoryServiceImpl implements InventoryService {
                 logger.info("Setting itemType to inventory");
                 inventoryDetail.setItemType(itemType);
                 logger.info("Saving inventory in database with inventoryId: " + inventoryId + " itemId: " + itemId + " itemTypeId: " + itemTypeId);
-                return inventoryDetailDao.save(inventoryDetail);
+                return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
             }
         }
         if (inventoryDetail.getStatus().equals(Constants.DELETED.getValue())) {
@@ -86,7 +92,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<InventoryDetail> getInventory() {
+    public List<InventoryDetailDto> getInventory() {
         List<InventoryDetail> inventoryDetail = inventoryDetailDao.findAll();
         for (InventoryDetail inventory : inventoryDetail) {
             if (inventory.getStatus().equals(Constants.DELETED.getValue())) {
@@ -95,11 +101,11 @@ public class InventoryServiceImpl implements InventoryService {
             }
         }
         logger.info("Returning list of inventories from database");
-        return inventoryDetailDao.findByStatus(Constants.ACTIVE.getValue());
+        return inventoryDetailDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(this::inventoryDetailToInventoryDetailDto).collect(Collectors.toList());
     }
 
     @Override
-    public InventoryDetail getInventoryById(int inventoryId) {
+    public InventoryDetailDto getInventoryById(int inventoryId) {
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
         InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
             logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
@@ -110,11 +116,11 @@ public class InventoryServiceImpl implements InventoryService {
             throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId);
         }
         logger.info("Returning inventory with inventoryId: " + inventoryId);
-        return inventoryDetailDao.findByStatusAndInventoryId(Constants.ACTIVE.getValue(), inventoryId);
+        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.findByStatusAndInventoryId(Constants.ACTIVE.getValue(), inventoryId));
     }
 
     @Override
-    public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
+    public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
         InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
             logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
@@ -125,7 +131,7 @@ public class InventoryServiceImpl implements InventoryService {
         logger.info("Setting In Stock Quantity of item in database");
         setItemQuantity.setInStock(inventoryDetail.getInStock());
         logger.info("Saving updated inventory in database");
-        return inventoryDetailDao.save(setItemQuantity);
+        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(setItemQuantity));
     }
 
     @Override
@@ -137,5 +143,10 @@ public class InventoryServiceImpl implements InventoryService {
         });
         logger.info("Setting status of inventory to " + Constants.DELETED.getValue());
         inventoryDetailDao.softDelete(Constants.DELETED.getValue(), inventoryId);
+    }
+
+    public InventoryDetailDto inventoryDetailToInventoryDetailDto(InventoryDetail inventoryDetail) {
+
+        return modelMapper.map(inventoryDetail, InventoryDetailDto.class);
     }
 }

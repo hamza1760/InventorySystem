@@ -21,16 +21,12 @@ public class ItemType {
     private int itemTypeId;
     @NotEmpty
     private String itemType;
-
     private String status = Constants.ACTIVE.getValue();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "itemType")
     private final Set<InventoryDetail> inventory = new HashSet<>();
 
     public ItemType() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     public ItemType(String status, int itemTypeId, String itemType) {

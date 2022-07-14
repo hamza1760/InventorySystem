@@ -1,6 +1,6 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventory.system.InventorySystem.constant.Constants;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,16 +16,12 @@ public class CountryDetail {
     private int countryId;
     private String countryCode;
     private String countryName;
-    @JsonIgnore
-    private String status = "active";
+    private String status = Constants.ACTIVE.getValue();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
     private final Set<CityDetail> cityDetails = new HashSet<>();
 
     public CountryDetail() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     public CountryDetail(String status, int countryId, String countryCode, String countryName) {

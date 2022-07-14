@@ -1,6 +1,5 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.Constants;
 import org.hibernate.annotations.Proxy;
 
@@ -21,7 +20,6 @@ public class Item {
     private int itemId;
     @NotEmpty
     private String itemName;
-
     private String status = Constants.ACTIVE.getValue();
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -32,7 +30,6 @@ public class Item {
     @JoinColumn(name = "brandId")
     private BrandDetail brand;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
     private Set<InventoryDetail> inventory = new HashSet<>();
 
@@ -44,8 +41,6 @@ public class Item {
     }
 
     public Item() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     public int getItemId() {

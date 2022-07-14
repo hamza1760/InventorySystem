@@ -9,7 +9,6 @@ import javax.validation.constraints.Positive;
 @Entity
 @Proxy(lazy = false)
 public class InventoryDetail {
-
     @Id
     @Positive
     private int inventoryId;
@@ -20,7 +19,6 @@ public class InventoryDetail {
     private int minOrderQuantity;
     private int quantityPerBox;
     private int reorderPoint;
-
     private String status = Constants.ACTIVE.getValue();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,8 +34,6 @@ public class InventoryDetail {
     private Warehouse warehouse;
 
     public InventoryDetail() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     public InventoryDetail(int inventoryId, String itemSize, int inStock, int avlQty, int inTransit, int minOrderQuantity,

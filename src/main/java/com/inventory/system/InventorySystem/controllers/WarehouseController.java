@@ -1,8 +1,9 @@
 package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
+import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
+import com.inventory.system.InventorySystem.dto.WarehouseDto;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
@@ -29,40 +30,34 @@ public class WarehouseController {
     private InventoryService inventoryService;
 
     /* Warehouse Controller */
-    @PostMapping("/warehouse/")
-    public Warehouse addWarehouse(@Valid @RequestBody Warehouse warehouse) {
+    @PostMapping("/warehouse")
+    public WarehouseDto addWarehouse(@Valid @RequestBody Warehouse warehouse) {
         logger.info("Calling addWarehouse function");
         return warehouseService.addWarehouse(warehouse);
     }
 
     @GetMapping("/warehouse")
-    public List<Warehouse> getWarehouse() {
+    public List<WarehouseDto> getWarehouse() {
         logger.info("Calling getWarehouse method from controller");
         return warehouseService.getWarehouse();
     }
 
     @GetMapping("/warehouseById")
-    public Warehouse getWarehouseById(@RequestBody Warehouse getWarehouse) {
+    public WarehouseDto getWarehouseById(@RequestBody Warehouse getWarehouse) {
         logger.info("Calling getWarehouseById method from controller");
         return warehouseService.getWarehouseById(getWarehouse);
     }
 
     @GetMapping("/itemsinwarehouse/{warehouseId}")
-    public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
+    public List<ItemQuantityDto> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
         logger.info("Calling getItemQuantityInSingleWarehouse method from controller");
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }
 
     @GetMapping("/itemsinwarehouse/")
-    public List<ItemQuantity> getItemQuantityInAllWarehouses() {
+    public List<ItemQuantityDto> getItemQuantityInAllWarehouses() {
         logger.info("Calling getItemQuantityInAllWarehouses method from controller");
         return warehouseService.getItemQuantityInAllWarehouses();
-    }
-
-    @PutMapping("/warehouse/{warehouseId}")
-    public Warehouse updateWarehouse(@RequestBody Warehouse warehouse, @PathVariable int warehouseId) {
-        logger.info("Calling updateWarehouse method from controller");
-        return warehouseService.updateWarehouse(warehouse, warehouseId);
     }
 
     @DeleteMapping("/warehouse/{warehouseId}")
@@ -74,13 +69,13 @@ public class WarehouseController {
     }
 
     @PutMapping("/inventoryinwarehouse/{warehouseId}")
-    public Warehouse putInventoryInWarehouse(@RequestBody Set<InventoryDetail> inventoryDetails, @PathVariable int warehouseId) {
+    public WarehouseDto putInventoryInWarehouse(@RequestBody Set<InventoryDetail> inventoryDetails, @PathVariable int warehouseId) {
         logger.info("Calling putInventoryInWarehouse method from controller");
         return warehouseService.putInventoryInWarehouse(inventoryDetails, warehouseId);
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
-    public Warehouse setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId, @PathVariable int warehouseId) {
+    public WarehouseDto setItemQuantityInSingleWarehouse(@RequestBody InventoryDetail inventoryDetail, @PathVariable int inventoryId, @PathVariable int warehouseId) {
         logger.info("Calling setItemQuantityInSingleWarehouse method from controller");
         return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId, inventoryId);
     }

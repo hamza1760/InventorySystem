@@ -1,18 +1,21 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 
 import java.util.List;
 
 public interface InventoryService {
 
-    List<InventoryDetail> getInventory();
+    List<InventoryDetailDto> getInventory();
 
-    InventoryDetail getInventoryById(int inventoryId);
+    InventoryDetailDto getInventoryById(int inventoryId);
 
-    InventoryDetail addInventory(InventoryDetail inventoryDetail);
+    InventoryDetailDto addInventory(InventoryDetail inventoryDetail);
 
-    InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId);
+    InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId);
 
     void deleteInventoryById(int inventoryId);
+
+    InventoryDetailDto inventoryDetailToInventoryDetailDto(InventoryDetail inventoryDetail);
 }
