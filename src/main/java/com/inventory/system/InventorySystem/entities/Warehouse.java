@@ -1,7 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.status.StatusConstant;
+import com.inventory.system.InventorySystem.constant.Constants;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -9,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
-
 
 @Entity
 @Proxy(lazy = false)
@@ -21,19 +20,15 @@ public class Warehouse {
     @NotEmpty
     private String warehouseName;
 
-
-    private String status = StatusConstant.ACTIVE.getValue();
-
+    private String status = Constants.ACTIVE.getValue();
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id_fk")
     private Address address;
 
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
-    private Set<InventoryDetail> inventory = new HashSet<>();
-
+    private final Set<InventoryDetail> inventory = new HashSet<>();
 
     public Warehouse() {
         super();
@@ -86,8 +81,6 @@ public class Warehouse {
     public void setInventory(InventoryDetail inventory) {
         this.inventory.add(inventory);
     }
-
-
 
     public Set<InventoryDetail> getInventory() {
         return inventory;

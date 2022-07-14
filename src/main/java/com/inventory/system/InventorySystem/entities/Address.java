@@ -1,7 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.status.StatusConstant;
+import com.inventory.system.InventorySystem.constant.Constants;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -30,8 +30,7 @@ public class Address {
     }
 
     @JsonIgnore
-    private String status = StatusConstant.ACTIVE.getValue();
-
+    private String status = Constants.ACTIVE.getValue();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id_fk")
@@ -40,7 +39,6 @@ public class Address {
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "address")
     private Warehouse warehouse;
-
 
     public Address() {
         super();

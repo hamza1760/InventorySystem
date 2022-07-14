@@ -16,15 +16,13 @@ public class CityDetail {
     @JsonIgnore
     private String status = "active";
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id_fk")
     private CountryDetail country;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
-    private Set<Address> address = new HashSet<>();
-
+    private final Set<Address> address = new HashSet<>();
 
     public CityDetail() {
         super();

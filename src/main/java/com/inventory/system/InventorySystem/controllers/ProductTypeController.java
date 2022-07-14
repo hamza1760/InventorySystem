@@ -1,8 +1,7 @@
-package com.inventory.system.InventorySystem.controllers.product.controller;
+package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.ProductType;
-import com.inventory.system.InventorySystem.services.BrandService;
 import com.inventory.system.InventorySystem.services.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,17 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 /* product type Controller*/
 @RestController
 public class ProductTypeController {
 
-
     @Autowired
     private ProductTypeService productTypeService;
-
-    @Autowired
-    private BrandService brandService;
 
     @PostMapping("/product/")
     public ProductType addProductType(@RequestBody ProductType productType) {

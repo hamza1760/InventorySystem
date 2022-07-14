@@ -1,10 +1,9 @@
-package com.inventory.system.InventorySystem.controllers.item.controller;
+package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemSize;
 import com.inventory.system.InventorySystem.services.ItemService;
-import com.inventory.system.InventorySystem.services.ItemTypeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +20,6 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
-
-    @Autowired
-    private ItemTypeService itemTypeService;
-
 
     /* Item Controller */
     @GetMapping("/item")

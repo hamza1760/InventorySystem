@@ -14,7 +14,7 @@ public class ItemDto {
     private String itemName;
     private String itemColor;
 
-    private Set<InventoryDetail> inventoryDetail = new HashSet<>();
+    private final Set<InventoryDetail> inventoryDetail = new HashSet<>();
 
     @JsonIgnore
     private List<Warehouse> warehouse;

@@ -15,7 +15,6 @@ public interface ItemService {
 
     void deleteItemById(int itemId);
 
-
     Item getItemById(int itemId);
 
     List<ItemSize> getItemSizeById(int itemId);

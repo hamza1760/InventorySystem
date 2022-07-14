@@ -17,7 +17,7 @@ public interface WarehouseService {
 
     Warehouse updateWarehouse(Warehouse warehouse, int warehouseId);
 
-    Warehouse putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails,int warehouseId);
+    Warehouse putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails, int warehouseId);
 
     Warehouse setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
 

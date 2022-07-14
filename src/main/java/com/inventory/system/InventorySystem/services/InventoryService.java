@@ -4,7 +4,6 @@ import com.inventory.system.InventorySystem.entities.InventoryDetail;
 
 import java.util.List;
 
-
 public interface InventoryService {
 
     List<InventoryDetail> getInventory();
@@ -14,7 +13,6 @@ public interface InventoryService {
     InventoryDetail addInventory(InventoryDetail inventoryDetail);
 
     InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId);
-
 
     void deleteInventoryById(int inventoryId);
 }

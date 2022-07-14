@@ -1,11 +1,9 @@
-package com.inventory.system.InventorySystem.controllers.warehouse.controller;
-
+package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.services.AddressService;
 import com.inventory.system.InventorySystem.services.InventoryService;
 import com.inventory.system.InventorySystem.services.WarehouseService;
 import org.apache.log4j.Logger;
@@ -28,11 +26,7 @@ public class WarehouseController {
     private WarehouseService warehouseService;
 
     @Autowired
-    private AddressService addressService;
-
-    @Autowired
     private InventoryService inventoryService;
-
 
     /* Warehouse Controller */
     @PostMapping("/warehouse/")
@@ -53,13 +47,11 @@ public class WarehouseController {
         return warehouseService.getWarehouseById(getWarehouse);
     }
 
-
     @GetMapping("/itemsinwarehouse/{warehouseId}")
     public List<ItemQuantity> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
         logger.info("Calling getItemQuantityInSingleWarehouse method from controller");
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }
-
 
     @GetMapping("/itemsinwarehouse/")
     public List<ItemQuantity> getItemQuantityInAllWarehouses() {
@@ -73,7 +65,6 @@ public class WarehouseController {
         return warehouseService.updateWarehouse(warehouse, warehouseId);
     }
 
-
     @DeleteMapping("/warehouse/{warehouseId}")
     public ResponseEntity<?> deleteWarehouseById(@PathVariable int warehouseId) {
         logger.info("Calling deleteWarehouse method from controller");
@@ -83,9 +74,9 @@ public class WarehouseController {
     }
 
     @PutMapping("/inventoryinwarehouse/{warehouseId}")
-    public Warehouse putInventoryInWarehouse( @RequestBody Set<InventoryDetail> inventoryDetails,  @PathVariable int warehouseId) {
+    public Warehouse putInventoryInWarehouse(@RequestBody Set<InventoryDetail> inventoryDetails, @PathVariable int warehouseId) {
         logger.info("Calling putInventoryInWarehouse method from controller");
-        return warehouseService.putInventoryInWarehouse(inventoryDetails,warehouseId);
+        return warehouseService.putInventoryInWarehouse(inventoryDetails, warehouseId);
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")

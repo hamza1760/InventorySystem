@@ -1,20 +1,19 @@
 package com.inventory.system.InventorySystem.services.test;
 
-import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
-import com.inventory.system.InventorySystem.constant.status.StatusConstant;
+import com.inventory.system.InventorySystem.constant.Constants;
 import com.inventory.system.InventorySystem.dao.BrandDetailDao;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.*;
-import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
+import com.inventory.system.InventorySystem.exceptions.NotFoundException;
 import com.inventory.system.InventorySystem.services.ItemServiceImpl;
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.apache.log4j.*;
 
 import java.util.*;
 
@@ -22,12 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
 
     static Logger logger = Logger.getLogger(ItemServiceImplTest.class);
-
 
     @Mock
     private ItemDao itemDao;
@@ -41,31 +38,29 @@ public class ItemServiceImplTest {
     @Mock
     private InventoryDetailDao inventoryDetailDao;
 
-
     @InjectMocks
     private ItemServiceImpl itemService;
 
-
     //item entity
-    Item item1 = new Item(1, "AdidasShoe", StatusConstant.ACTIVE.getValue());
-    Item item2 = new Item(2, "PumaShoe", StatusConstant.ACTIVE.getValue());
-    Item item3 = new Item(3, "NikeShoe", StatusConstant.ACTIVE.getValue());
+    Item item1 = new Item(1, "AdidasShoe", Constants.ACTIVE.getValue());
+    Item item2 = new Item(2, "PumaShoe", Constants.ACTIVE.getValue());
+    Item item3 = new Item(3, "NikeShoe", Constants.ACTIVE.getValue());
 
     //product type entity
-    ProductType productType = new ProductType(StatusConstant.ACTIVE.getValue(), 1, "Shoe");
+    ProductType productType = new ProductType(Constants.ACTIVE.getValue(), 1, "Shoe");
 
     //brand entity
-    BrandDetail brandDetail = new BrandDetail(StatusConstant.ACTIVE.getValue(), 1, "Adidas");
+    BrandDetail brandDetail = new BrandDetail(Constants.ACTIVE.getValue(), 1, "Adidas");
 
     //Inventory entity
     InventoryDetail inventory1 = new InventoryDetail(1, "small", 40, 20, 35, 70,
-            10, 60, StatusConstant.ACTIVE.getValue());
+            10, 60, Constants.ACTIVE.getValue());
 
     InventoryDetail inventory2 = new InventoryDetail(2, "medium", 40, 20, 35, 70,
-            10, 60, StatusConstant.ACTIVE.getValue());
+            10, 60, Constants.ACTIVE.getValue());
 
     InventoryDetail inventory3 = new InventoryDetail(3, "large", 40, 20, 35, 70,
-            10, 60, StatusConstant.ACTIVE.getValue());
+            10, 60, Constants.ACTIVE.getValue());
 
     //Item Size entity
     ItemSize itemSize1 = new ItemSize(1, 1, "small", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
@@ -86,12 +81,12 @@ public class ItemServiceImplTest {
     public void getItem() {
         List<Item> itemList = Arrays.asList(item1, item2, item3);
         itemList.forEach((i) -> {
-            if (Objects.equals(i.getStatus(), StatusConstant.DELETED.getValue())) {
+            if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("item not found with itemId: " + i.getItemId());
-                throw new NotFoundException(NotFoundConstant.ITEM_NOT_FOUND, i.getItemId());
+                throw new NotFoundException(Constants.ITEM_NOT_FOUND, i.getItemId());
             }
         });
-        when(itemDao.findByStatus(StatusConstant.ACTIVE.getValue())).thenReturn(itemList);
+        when(itemDao.findByStatus(Constants.ACTIVE.getValue())).thenReturn(itemList);
         assertEquals(itemList.size(), itemService.getItem().size());
     }
 
@@ -102,16 +97,15 @@ public class ItemServiceImplTest {
         items.forEach((i) -> {
             if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
-                when(itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
+                when(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
         assertEquals(item3, itemService.getItemById(id));
     }
 
-
     @Test
     public void updateItem() {
-        Item updateItem = new Item(1, "Adidas", StatusConstant.ACTIVE.getValue());
+        Item updateItem = new Item(1, "Adidas", Constants.ACTIVE.getValue());
         when(itemDao.findById(item1.getItemId())).thenReturn(Optional.of(item1));
         when(itemDao.save(item1)).thenReturn(item1);
         Item updatedItem = itemService.updateItem(updateItem, item1.getItemId());
@@ -128,7 +122,7 @@ public class ItemServiceImplTest {
             }
         });
         itemService.deleteItemById(id);
-        verify(itemDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), id);
+        verify(itemDao, times(1)).softDelete(Constants.DELETED.getValue(), id);
     }
 
     @Test
@@ -136,7 +130,7 @@ public class ItemServiceImplTest {
         List<ItemSize> itemSizes = Arrays.asList(itemSize1, itemSize2, itemSize3);
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         when(inventoryDetailDao.findAll()).thenReturn(inventoryDetails);
-        when(itemDao.getAllItemSize(StatusConstant.ACTIVE.getValue())).thenReturn(itemSizes);
+        when(itemDao.getAllItemSize(Constants.ACTIVE.getValue())).thenReturn(itemSizes);
         assertEquals(itemSizes, itemService.getAllItemSize());
     }
 
@@ -152,7 +146,7 @@ public class ItemServiceImplTest {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
             }
         });
-        when(itemDao.getItemSizeById(StatusConstant.ACTIVE.getValue(), id)).thenReturn((itemSizes));
+        when(itemDao.getItemSizeById(Constants.ACTIVE.getValue(), id)).thenReturn((itemSizes));
         assertEquals(itemSizes, itemService.getItemSizeById(id));
     }
 
@@ -163,7 +157,7 @@ public class ItemServiceImplTest {
         items.forEach((i) -> {
             if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
-                when(itemDao.findByStatusAndItemId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
+                when(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
         assertThrows(NotFoundException.class, () -> itemService.getItemById(id));

@@ -1,7 +1,6 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.status.StatusConstant;
+import com.inventory.system.InventorySystem.constant.Constants;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -22,7 +21,7 @@ public class InventoryDetail {
     private int quantityPerBox;
     private int reorderPoint;
 
-    private String status = StatusConstant.ACTIVE.getValue();
+    private String status = Constants.ACTIVE.getValue();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
@@ -31,7 +30,6 @@ public class InventoryDetail {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "itemTypeId")
     private ItemType itemType;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "warehouse_id")

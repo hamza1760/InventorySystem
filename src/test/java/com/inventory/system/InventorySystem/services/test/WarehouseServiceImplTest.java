@@ -1,8 +1,6 @@
 package com.inventory.system.InventorySystem.services.test;
 
-
-import com.inventory.system.InventorySystem.constant.notfound.NotFoundConstant;
-import com.inventory.system.InventorySystem.constant.status.StatusConstant;
+import com.inventory.system.InventorySystem.constant.Constants;
 import com.inventory.system.InventorySystem.dao.AddressDao;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.WarehouseDao;
@@ -10,14 +8,14 @@ import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
+import com.inventory.system.InventorySystem.exceptions.NotFoundException;
 import com.inventory.system.InventorySystem.services.WarehouseServiceImpl;
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.apache.log4j.*;
 
 import java.util.*;
 
@@ -29,7 +27,6 @@ import static org.mockito.Mockito.*;
 public class WarehouseServiceImplTest {
 
     static Logger logger = Logger.getLogger(WarehouseServiceImplTest.class);
-
 
     @Mock
     private WarehouseDao warehouseDao;
@@ -44,22 +41,22 @@ public class WarehouseServiceImplTest {
     private WarehouseServiceImpl warehouseService;
 
     //warehouse entity
-    Warehouse warehouse1 = new Warehouse(1, "PAK", StatusConstant.ACTIVE.getValue());
-    Warehouse warehouse2 = new Warehouse(2, "USA", StatusConstant.ACTIVE.getValue());
-    Warehouse warehouse3 = new Warehouse(3, "UK", StatusConstant.ACTIVE.getValue());
+    Warehouse warehouse1 = new Warehouse(1, "PAK", Constants.ACTIVE.getValue());
+    Warehouse warehouse2 = new Warehouse(2, "USA", Constants.ACTIVE.getValue());
+    Warehouse warehouse3 = new Warehouse(3, "UK", Constants.ACTIVE.getValue());
 
     //address entity
-    Address address = new Address(StatusConstant.ACTIVE.getValue(), 1, 75600, "clifton", "10A");
+    Address address = new Address(Constants.ACTIVE.getValue(), 1, 75600, "clifton", "10A");
 
     //inventory entity
     InventoryDetail inventory1 = new InventoryDetail(1, "small", 40, 20, 35, 70,
-            10, 60, StatusConstant.ACTIVE.getValue());
+            10, 60, Constants.ACTIVE.getValue());
 
     InventoryDetail inventory2 = new InventoryDetail(2, "medium", 40, 20, 35, 70,
-            10, 60, StatusConstant.ACTIVE.getValue());
+            10, 60, Constants.ACTIVE.getValue());
 
     InventoryDetail inventory3 = new InventoryDetail(3, "large", 40, 20, 35, 70,
-            10, 60, StatusConstant.ACTIVE.getValue());
+            10, 60, Constants.ACTIVE.getValue());
 
     //item quantity entity
     ItemQuantity itemQuantity1 = new ItemQuantity(1, "PAK", "Clifton", "Karachi", "Pakistan", 1, "small", 40, 20, "AdidasShoe", 1, "Finished Product", "Shoe", "Adidas");
@@ -77,12 +74,12 @@ public class WarehouseServiceImplTest {
     public void getWarehouse() {
         List<Warehouse> warehouses = Arrays.asList(warehouse1, warehouse2, warehouse3);
         warehouses.forEach((i) -> {
-            if (Objects.equals(i.getStatus(), StatusConstant.DELETED.getValue())) {
+            if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("warehouse not found with warehouseId: " + i.getWarehouseId());
-                throw new NotFoundException(NotFoundConstant.WAREHOUSE_NOT_FOUND, i.getWarehouseId());
+                throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, i.getWarehouseId());
             }
         });
-        when(warehouseDao.findByStatus(StatusConstant.ACTIVE.getValue())).thenReturn(warehouses);
+        when(warehouseDao.findByStatus(Constants.ACTIVE.getValue())).thenReturn(warehouses);
         assertEquals(warehouses.size(), warehouseService.getWarehouse().size());
     }
 
@@ -93,7 +90,7 @@ public class WarehouseServiceImplTest {
         warehouses.forEach((i) -> {
             if (id == i.getWarehouseId()) {
                 when(warehouseDao.findById(id)).thenReturn(Optional.of(i));
-                when(warehouseDao.findByStatusAndWarehouseId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
+                when(warehouseDao.findByStatusAndWarehouseId(Constants.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
         assertEquals(warehouse1, warehouseService.getWarehouseById(warehouse1));
@@ -101,7 +98,7 @@ public class WarehouseServiceImplTest {
 
     @Test
     public void updateWarehouse() {
-        Warehouse updateWarehouse = new Warehouse(1, "Pak", StatusConstant.ACTIVE.getValue());
+        Warehouse updateWarehouse = new Warehouse(1, "Pak", Constants.ACTIVE.getValue());
         when(warehouseDao.findById(warehouse1.getWarehouseId())).thenReturn(Optional.of(warehouse1));
         when(warehouseDao.save(warehouse1)).thenReturn(warehouse1);
         Warehouse updatedWarehouse = warehouseService.updateWarehouse(updateWarehouse, warehouse1.getWarehouseId());
@@ -120,7 +117,7 @@ public class WarehouseServiceImplTest {
         });
         when(inventoryDetailDao.save(inventory1)).thenReturn(inventory1);
         warehouseService.deleteWarehouseById(id);
-        verify(warehouseDao, times(1)).softDelete(StatusConstant.DELETED.getValue(), id);
+        verify(warehouseDao, times(1)).softDelete(Constants.DELETED.getValue(), id);
     }
 
     @Test
@@ -140,9 +137,8 @@ public class WarehouseServiceImplTest {
             }
         });
         when(inventoryDetailDao.save(inventory1)).thenReturn(inventory1);
-        assertEquals(warehouse1, warehouseService.putInventoryInWarehouse(inventoryDetails,warehouseId));
+        assertEquals(warehouse1, warehouseService.putInventoryInWarehouse(inventoryDetails, warehouseId));
     }
-
 
     @Test
     public void getItemQuantityInSingleWarehouse() {
@@ -155,7 +151,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(i));
             }
         });
-        when(warehouseDao.getItemQuantityInSingleWarehouse(StatusConstant.ACTIVE.getValue(), warehouseId)).thenReturn(itemQuantityList);
+        when(warehouseDao.getItemQuantityInSingleWarehouse(Constants.ACTIVE.getValue(), warehouseId)).thenReturn(itemQuantityList);
         assertEquals(itemQuantityList, warehouseService.getItemQuantityInSingleWarehouse(warehouseId));
     }
 
@@ -165,7 +161,7 @@ public class WarehouseServiceImplTest {
         warehouse1.setInventory(inventory1);
         List<ItemQuantity> itemQuantityList = Arrays.asList(itemQuantity1, itemQuantity2);
         when(warehouseDao.findAll()).thenReturn(warehouses);
-        when(warehouseDao.getItemQuantityAllWarehouses(StatusConstant.ACTIVE.getValue())).thenReturn(itemQuantityList);
+        when(warehouseDao.getItemQuantityAllWarehouses(Constants.ACTIVE.getValue())).thenReturn(itemQuantityList);
         assertEquals(itemQuantityList, warehouseService.getItemQuantityInAllWarehouses());
     }
 
@@ -175,7 +171,7 @@ public class WarehouseServiceImplTest {
         int inventoryId = 1;
         List<Warehouse> warehouses = Arrays.asList(warehouse1, warehouse2, warehouse3);
         InventoryDetail updateInventory = new InventoryDetail(1, "small", 100, 50, 35, 70,
-                10, 60, StatusConstant.ACTIVE.getValue());
+                10, 60, Constants.ACTIVE.getValue());
         warehouse1.setInventory(inventory1);
         warehouses.forEach((i) -> {
             if (warehouseId == i.getWarehouseId()) {

@@ -12,7 +12,6 @@ import java.util.List;
 @Transactional
 public interface ItemDao extends JpaRepository<Item, Integer> {
 
-
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemSize(A.inventoryId,B.itemId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
             "FROM InventoryDetail A " +
             "JOIN A.item B " +
@@ -30,7 +29,6 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
             "JOIN B.brand E " +
             "where A.status =?1")
     List<ItemSize> getAllItemSize(String status);
-
 
     @Modifying
     @Query("Update Item Set status=?1 Where itemId =?2 ")

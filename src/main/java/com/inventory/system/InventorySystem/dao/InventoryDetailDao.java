@@ -11,7 +11,6 @@ import java.util.List;
 @Transactional
 public interface InventoryDetailDao extends JpaRepository<InventoryDetail, Integer> {
 
-
     @Modifying
     @Query("Update InventoryDetail Set status=?1 Where inventoryId =?2 ")
     void softDelete(String status, int inventoryId);

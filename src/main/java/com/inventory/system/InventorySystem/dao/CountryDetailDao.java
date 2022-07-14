@@ -13,7 +13,6 @@ public interface CountryDetailDao extends JpaRepository<CountryDetail, Integer> 
     @Modifying
     void softDelete(String status, int countryId);
 
-
     @Query("From CountryDetail where status='active' and countryId =?1")
     CountryDetail getCountryById(Integer id);
 }

@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventory.system.InventorySystem.constant.Constants;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class ProductType {
     private String productType;
 
     @JsonIgnore
-    private String status = "active";
+    private String status = Constants.ACTIVE.getValue();
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "productType")

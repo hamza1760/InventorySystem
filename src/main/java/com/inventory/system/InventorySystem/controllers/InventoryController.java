@@ -1,4 +1,4 @@
-package com.inventory.system.InventorySystem.controllers.inventory.controller;
+package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
@@ -37,7 +37,6 @@ public class InventoryController {
         return inventoryService.getInventory();
     }
 
-
     @GetMapping("/inventory/{inventoryId}")
     public InventoryDetail getInventoryById(@PathVariable int inventoryId) {
         logger.info("Calling getInventoryById method from controller");
@@ -49,7 +48,6 @@ public class InventoryController {
         logger.info("Calling setItemQuantityInAllWarehouses method from controller");
         return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail, inventoryId);
     }
-
 
     @DeleteMapping("/inventory/{inventoryId}")
     public ResponseEntity<?> deleteInventoryById(@PathVariable int inventoryId) {

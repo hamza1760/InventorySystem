@@ -19,10 +19,9 @@ public class CountryDetail {
     @JsonIgnore
     private String status = "active";
 
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
-    private Set<CityDetail> cityDetails = new HashSet<>();
+    private final Set<CityDetail> cityDetails = new HashSet<>();
 
     public CountryDetail() {
         super();
@@ -35,7 +34,6 @@ public class CountryDetail {
         this.countryName = countryName;
         this.status = status;
     }
-
 
     public int getCountryId() {
         return countryId;
