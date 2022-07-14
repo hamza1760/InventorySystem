@@ -19,10 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.apache.log4j.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -99,7 +96,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findByStatusAndWarehouseId(StatusConstant.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
-        assertEquals(warehouse1, warehouseService.getWarehouseById(id));
+        assertEquals(warehouse1, warehouseService.getWarehouseById(warehouse1));
     }
 
     @Test
@@ -128,22 +125,22 @@ public class WarehouseServiceImplTest {
 
     @Test
     public void putInventoryInWarehouse() {
+        List<Warehouse> warehouses = Arrays.asList(warehouse1, warehouse2, warehouse3);
         int warehouseId = 1;
         int inventoryId = 1;
-        List<Warehouse> warehouses = Arrays.asList(warehouse1, warehouse2, warehouse3);
         warehouses.forEach((war) -> {
             if (warehouseId == war.getWarehouseId()) {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(war));
             }
         });
-        List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
+        Set<InventoryDetail> inventoryDetails = Set.of(inventory1);
         inventoryDetails.forEach((inv) -> {
             if (inventoryId == inv.getInventoryId()) {
                 when(inventoryDetailDao.findById(inventoryId)).thenReturn(Optional.of(inv));
             }
         });
         when(inventoryDetailDao.save(inventory1)).thenReturn(inventory1);
-        assertEquals(warehouse1, warehouseService.putInventoryInWarehouse(warehouseId, inventoryId));
+        assertEquals(warehouse1, warehouseService.putInventoryInWarehouse(inventoryDetails,warehouseId));
     }
 
 
@@ -199,7 +196,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(i));
             }
         });
-        assertThrows(NotFoundException.class, () -> warehouseService.getWarehouseById(warehouseId));
+        assertThrows(NotFoundException.class, () -> warehouseService.getWarehouseById(warehouse1));
     }
 }
 
