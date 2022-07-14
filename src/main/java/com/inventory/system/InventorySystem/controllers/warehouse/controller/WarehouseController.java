@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -46,10 +47,10 @@ public class WarehouseController {
         return warehouseService.getWarehouse();
     }
 
-    @GetMapping("/warehouse/{warehouseId}")
-    public Warehouse getWarehouseById(@PathVariable int warehouseId) {
+    @GetMapping("/warehouseById")
+    public Warehouse getWarehouseById(@RequestBody Warehouse getWarehouse) {
         logger.info("Calling getWarehouseById method from controller");
-        return warehouseService.getWarehouseById(warehouseId);
+        return warehouseService.getWarehouseById(getWarehouse);
     }
 
 
@@ -81,10 +82,10 @@ public class WarehouseController {
                 HttpStatus.FOUND);
     }
 
-    @PutMapping("warehouse/{warehouseId}/inventory/{inventoryId}")
-    public Warehouse putInventoryInWarehouse(@PathVariable int warehouseId, @PathVariable int inventoryId) {
+    @PutMapping("/inventoryinwarehouse/{warehouseId}")
+    public Warehouse putInventoryInWarehouse( @RequestBody Set<InventoryDetail> inventoryDetails,  @PathVariable int warehouseId) {
         logger.info("Calling putInventoryInWarehouse method from controller");
-        return warehouseService.putInventoryInWarehouse(warehouseId, inventoryId);
+        return warehouseService.putInventoryInWarehouse(inventoryDetails,warehouseId);
     }
 
     @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")

@@ -32,7 +32,7 @@ public class InventoryDetail {
     @JoinColumn(name = "itemTypeId")
     private ItemType itemType;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;

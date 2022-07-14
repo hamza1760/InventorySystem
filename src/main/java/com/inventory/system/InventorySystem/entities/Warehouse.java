@@ -1,5 +1,6 @@
 package com.inventory.system.InventorySystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.status.StatusConstant;
 import org.hibernate.annotations.Proxy;
 
@@ -29,6 +30,7 @@ public class Warehouse {
     private Address address;
 
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
     private Set<InventoryDetail> inventory = new HashSet<>();
 
@@ -84,6 +86,7 @@ public class Warehouse {
     public void setInventory(InventoryDetail inventory) {
         this.inventory.add(inventory);
     }
+
 
 
     public Set<InventoryDetail> getInventory() {
