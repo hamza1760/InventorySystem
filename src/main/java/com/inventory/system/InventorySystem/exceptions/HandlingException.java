@@ -1,7 +1,6 @@
 package com.inventory.system.InventorySystem.exceptions;
 
 import com.inventory.system.InventorySystem.api.response.ApiResponse;
-import com.inventory.system.InventorySystem.constant.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,27 +21,11 @@ import java.util.Map;
 public class HandlingException {
 
     static Logger logger = LoggerFactory.getLogger(HandlingException.class);
-    private ObjectError error;
-    private ObjectError error1;
-    private String objectN;
 
-    @ExceptionHandler(AlreadyExists.class)
-    public ResponseEntity<?> alreadyExistsException(AlreadyExists ex) {
-        Constants message = ex.message;
-        int id = ex.id;
-        return new ResponseEntity<>(new ApiResponse(message.getValue(), id), HttpStatus.CONFLICT);
-    }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> notFoundException(NotFoundException ex) {
-        Constants message = ex.message;
-        int id = ex.id;
-        return new ResponseEntity<>(new ApiResponse(message.getValue(), id), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(DataIntegrityException.class)
-    public ResponseEntity<?> dataIntegrityException(DataIntegrityException ex) {
-        String message = ex.msg;
+    @ExceptionHandler(GlobalException.class)
+    public ResponseEntity<?> globalException(GlobalException ex) {
+        String message = ex.message;
         int id = ex.id;
         return new ResponseEntity<>(new ApiResponse(message, id), HttpStatus.CONFLICT);
     }

@@ -10,9 +10,7 @@ import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.exceptions.AlreadyExists;
-import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
-import com.inventory.system.InventorySystem.exceptions.NotFoundException;
+import com.inventory.system.InventorySystem.exceptions.GlobalException;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,21 +44,21 @@ public class WarehouseServiceImpl implements WarehouseService {
             int addressId = warehouse.getAddress().getAddressId();
             logger.info("Checking if address is present in database with addressId: " + addressId);
             Address address = addressDao.findById(addressId).orElseThrow(() -> {
-                logger.error("Address not found", new NotFoundException(Constants.ADDRESS_NOT_FOUND, addressId));
-                throw new NotFoundException(Constants.ADDRESS_NOT_FOUND, addressId);
+                logger.error("Address not found", new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId));
+                throw new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId);
             });
             logger.info("Address found in database");
             logger.info("Checking address status");
             if (address.getStatus().equals(Constants.DELETED.getValue())) {
                 logger.info("Address status is deleted");
-                logger.error("Address not found", new NotFoundException(Constants.ADDRESS_NOT_FOUND, addressId));
-                throw new NotFoundException(Constants.ADDRESS_NOT_FOUND, addressId);
+                logger.error("Address not found", new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId));
+                throw new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId);
             }
             int warehouseId = warehouse.getWarehouseId();
             boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
             if (checkWarehouseId) {
-                logger.error("Warehouse already exist in database", new AlreadyExists(Constants.WAREHOUSE_ALREADY_EXISTS, warehouseId));
-                throw new AlreadyExists(Constants.WAREHOUSE_ALREADY_EXISTS, warehouseId);
+                logger.error("Warehouse already exist in database", new GlobalException(Constants.WAREHOUSE_ALREADY_EXISTS.getValue(), warehouseId));
+                throw new GlobalException(Constants.WAREHOUSE_ALREADY_EXISTS.getValue(), warehouseId);
             } else {
                 Warehouse warehouseInAddress = address.getWarehouse();
                 if (warehouseInAddress == null) {
@@ -70,15 +68,15 @@ public class WarehouseServiceImpl implements WarehouseService {
                     return warehouseToWarehouseDto(warehouseDao.save(warehouse));
                 } else {
                     int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
-                    logger.error("Address is already assigned to warehouse", new DataIntegrityException("Address is already assigned to warehouse", warehouseIdInAddress));
-                    throw new DataIntegrityException("Address is already assigned to warehouse", warehouseIdInAddress);
+                    logger.error("Address is already assigned to warehouse", new GlobalException("Address is already assigned to warehouse", warehouseIdInAddress));
+                    throw new GlobalException("Address is already assigned to warehouse", warehouseIdInAddress);
                 }
             }
         }
         if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new DataIntegrityException("Cannot add warehouse with status Deleted", warehouse.getWarehouseId());
+            throw new GlobalException("Cannot add warehouse with status Deleted", warehouse.getWarehouseId());
         } else {
-            throw new DataIntegrityException("Status not supported", warehouse.getWarehouseId());
+            throw new GlobalException("Status not supported", warehouse.getWarehouseId());
         }
     }
 
@@ -87,8 +85,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         List<Warehouse> warehouses = warehouseDao.findAll();
         for (Warehouse warehouse : warehouses) {
             if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-                logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, 0));
-                throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, 0);
+                logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), 0));
+                throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), 0);
             }
         }
         logger.info("Returning warehouse with status active");
@@ -100,12 +98,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         int warehouseId = getWarehouse.getWarehouseId();
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         });
         if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         }
         logger.info("Returning warehouse with status active and id: " + warehouseId);
         return warehouseToWarehouseDto(warehouseDao.findByStatusAndWarehouseId(Constants.ACTIVE.getValue(), warehouseId));
@@ -114,25 +112,25 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails, int warehouseId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         });
         logger.info("Getting warehouse status");
         if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         } else {
             for (InventoryDetail inventory1 : inventoryDetails) {
                 int inventoryId = inventory1.getInventoryId();
                 logger.info("Checking if inventory exist in database with id: " + inventoryId);
                 InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
-                    logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
-                    throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId);
+                    logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
+                    throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
                 });
                 logger.info("Getting inventory status");
                 if (inventory.getStatus().equals(Constants.DELETED.getValue())) {
-                    logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
-                    throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId);
+                    logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
+                    throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
                 } else {
                     logger.info("Checking if the inventory with id: " + inventoryId + " is not present in any other warehouse");
                     Warehouse checkWarehouse = inventory.getWarehouse();
@@ -143,8 +141,8 @@ public class WarehouseServiceImpl implements WarehouseService {
                         inventoryDetailDao.save(inventory);
                     } else {
                         int warehouseIdInInventory = checkWarehouse.getWarehouseId();
-                        logger.error("This inventory is already in warehouse", new DataIntegrityException("The inventory with inventory id: " + inventoryId + " is already in warehouse", warehouseIdInInventory));
-                        throw new DataIntegrityException("The inventory with inventory id: " + inventoryId + " is already in warehouse", warehouseIdInInventory);
+                        logger.error("This inventory is already in warehouse", new GlobalException("The inventory with inventory id: " + inventoryId + " is already in warehouse", warehouseIdInInventory));
+                        throw new GlobalException("The inventory with inventory id: " + inventoryId + " is already in warehouse", warehouseIdInInventory);
                     }
                 }
             }
@@ -156,24 +154,24 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<ItemQuantityDto> getItemQuantityInSingleWarehouse(int warehouseId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         });
         logger.info("Getting warehouse status");
         if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         } else {
             Set<InventoryDetail> inventoryDetail = warehouse.getInventory();
             logger.info("Checking if inventory exist in warehouse");
             if (inventoryDetail.size() == 0) {
-                logger.error("his warehouse does not have any inventory", new DataIntegrityException("This warehouse does not have any inventory", warehouseId));
-                throw new DataIntegrityException("This warehouse does not have any inventory", warehouseId);
+                logger.error("his warehouse does not have any inventory", new GlobalException("This warehouse does not have any inventory", warehouseId));
+                throw new GlobalException("This warehouse does not have any inventory", warehouseId);
             }
             List<ItemQuantity> itemQuantity = warehouseDao.getItemQuantityInSingleWarehouse(Constants.ACTIVE.getValue(), warehouseId);
             if (itemQuantity.size() == 0) {
-                logger.error("his warehouse does not have any inventory", new DataIntegrityException("This warehouse does not have any inventory", warehouseId));
-                throw new DataIntegrityException("This warehouse does not have any inventory", warehouseId);
+                logger.error("his warehouse does not have any inventory", new GlobalException("This warehouse does not have any inventory", warehouseId));
+                throw new GlobalException("This warehouse does not have any inventory", warehouseId);
             }
             logger.info("Returning itemQuantity in warehouse with warehouseId: " + warehouseId);
             return warehouseDao.getItemQuantityInSingleWarehouse(Constants.ACTIVE.getValue(), warehouseId).stream().map(this::ItemQuantityToItemQuantityDto).collect(Collectors.toList());
@@ -193,22 +191,22 @@ public class WarehouseServiceImpl implements WarehouseService {
                     found++;
                 }
             } else {
-                logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, 0));
-                throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, 0);
+                logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), 0));
+                throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), 0);
             }
         }
         if (found > 0) {
             List<ItemQuantity> itemQuantity = warehouseDao.getItemQuantityAllWarehouses(Constants.ACTIVE.getValue());
             if (itemQuantity.size() == 0) {
-                logger.error("None of the warehouses has inventory", new DataIntegrityException("None of the warehouses has inventory", 0));
-                throw new DataIntegrityException("None of the warehouses has inventory", 0);
+                logger.error("None of the warehouses has inventory", new GlobalException("None of the warehouses has inventory", 0));
+                throw new GlobalException("None of the warehouses has inventory", 0);
             }
             logger.info("Returning itemQuantity in all warehouses");
             return warehouseDao.getItemQuantityAllWarehouses(Constants.ACTIVE.getValue()).stream().map(this::ItemQuantityToItemQuantityDto).collect(Collectors.toList());
         } else {
             logger.info("Inventory not found");
-            logger.error("None of the warehouses has inventory", new DataIntegrityException("None of the warehouses has inventory", 0));
-            throw new DataIntegrityException("None of the warehouses has inventory", 0);
+            logger.error("None of the warehouses has inventory", new GlobalException("None of the warehouses has inventory", 0));
+            throw new GlobalException("None of the warehouses has inventory", 0);
         }
     }
 
@@ -217,13 +215,13 @@ public class WarehouseServiceImpl implements WarehouseService {
                                                          int inventoryId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         });
         logger.info("Getting warehouse status");
         if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         } else {
             logger.info("Getting list of inventories from warehouse");
             Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
@@ -244,8 +242,8 @@ public class WarehouseServiceImpl implements WarehouseService {
                     return warehouseToWarehouseDto(warehouseDao.save(warehouse));
                 }
             }
-            logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
-            throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId);
+            logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
+            throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         }
     }
 
@@ -253,8 +251,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     public void deleteWarehouseById(int warehouseId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
-            logger.error("Warehouse not found", new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId));
-            throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, warehouseId);
+            logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
+            throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         });
         logger.info("Getting the list of inventory in warehouse");
         Set<InventoryDetail> inventoryDetailSet = warehouse.getInventory();

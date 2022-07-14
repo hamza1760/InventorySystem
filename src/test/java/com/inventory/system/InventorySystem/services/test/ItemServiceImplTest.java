@@ -6,7 +6,7 @@ import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.ItemDao;
 import com.inventory.system.InventorySystem.dao.ProductTypeDao;
 import com.inventory.system.InventorySystem.entities.*;
-import com.inventory.system.InventorySystem.exceptions.NotFoundException;
+import com.inventory.system.InventorySystem.exceptions.GlobalException;
 import com.inventory.system.InventorySystem.services.ItemServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -83,7 +83,7 @@ public class ItemServiceImplTest {
         itemList.forEach((i) -> {
             if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("item not found with itemId: " + i.getItemId());
-                throw new NotFoundException(Constants.ITEM_NOT_FOUND, i.getItemId());
+                throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), i.getItemId());
             }
         });
         when(itemDao.findByStatus(Constants.ACTIVE.getValue())).thenReturn(itemList);
@@ -151,7 +151,7 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void testItemNotFoundException() {
+    public void testItemGlobalException() {
         int id = 4;
         List<Item> items = Arrays.asList(item1, item2, item3);
         items.forEach((i) -> {
@@ -160,7 +160,7 @@ public class ItemServiceImplTest {
                 when(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
-        assertThrows(NotFoundException.class, () -> itemService.getItemById(id));
+        assertThrows(GlobalException.class, () -> itemService.getItemById(id));
     }
 }
 

@@ -8,7 +8,7 @@ import com.inventory.system.InventorySystem.entities.Address;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.exceptions.NotFoundException;
+import com.inventory.system.InventorySystem.exceptions.GlobalException;
 import com.inventory.system.InventorySystem.services.WarehouseServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ public class WarehouseServiceImplTest {
         warehouses.forEach((i) -> {
             if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("warehouse not found with warehouseId: " + i.getWarehouseId());
-                throw new NotFoundException(Constants.WAREHOUSE_NOT_FOUND, i.getWarehouseId());
+                throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), i.getWarehouseId());
             }
         });
         when(warehouseDao.findByStatus(Constants.ACTIVE.getValue())).thenReturn(warehouses);
@@ -174,7 +174,7 @@ public class WarehouseServiceImplTest {
     }
 
     @Test
-    public void testNotFoundException() {
+    public void testGlobalException() {
         int warehouseId = 4;
         List<Warehouse> warehouses = Arrays.asList(warehouse1, warehouse2, warehouse3);
         warehouses.forEach((i) -> {
@@ -182,7 +182,7 @@ public class WarehouseServiceImplTest {
                 when(warehouseDao.findById(warehouseId)).thenReturn(Optional.of(i));
             }
         });
-        assertThrows(NotFoundException.class, () -> warehouseService.getWarehouseById(warehouse1));
+        assertThrows(GlobalException.class, () -> warehouseService.getWarehouseById(warehouse1));
     }
 }
 

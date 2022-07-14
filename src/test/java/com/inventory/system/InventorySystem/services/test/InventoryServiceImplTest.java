@@ -7,7 +7,7 @@ import com.inventory.system.InventorySystem.dao.ItemTypeDao;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemType;
-import com.inventory.system.InventorySystem.exceptions.NotFoundException;
+import com.inventory.system.InventorySystem.exceptions.GlobalException;
 import com.inventory.system.InventorySystem.services.InventoryServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ public class InventoryServiceImplTest {
         inventoryDetails.forEach((i -> {
             if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("inventory not found with inventoryId: " + i.getInventoryId());
-                throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, i.getInventoryId());
+                throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), i.getInventoryId());
             }
         }));
         when(inventoryDetailDao.findByStatus(Constants.ACTIVE.getValue())).thenReturn(inventoryDetails);
@@ -119,7 +119,7 @@ public class InventoryServiceImplTest {
     }
 
     @Test
-    public void testInventoryNotFoundException() {
+    public void testInventoryGlobalException() {
         int id = 4;
         List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
         inventoryDetails.forEach((i) -> {
@@ -128,6 +128,6 @@ public class InventoryServiceImplTest {
                 when(inventoryDetailDao.findByStatusAndInventoryId(Constants.ACTIVE.getValue(), id)).thenReturn(i);
             }
         });
-        assertThrows(NotFoundException.class, () -> inventoryService.getInventoryById(id));
+        assertThrows(GlobalException.class, () -> inventoryService.getInventoryById(id));
     }
 }
