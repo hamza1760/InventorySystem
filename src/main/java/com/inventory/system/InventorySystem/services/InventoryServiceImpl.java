@@ -12,29 +12,25 @@ import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.DataIntegrityException;
 import com.inventory.system.InventorySystem.exceptions.alreadyexists.AlreadyExists;
 import com.inventory.system.InventorySystem.exceptions.notfound.NotFoundException;
-import org.apache.log4j.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
     static Logger logger = Logger.getLogger(InventoryServiceImpl.class);
 
-
     @Autowired
     private InventoryDetailDao inventoryDetailDao;
-
 
     @Autowired
     private ItemDao itemDao;
 
     @Autowired
     private ItemTypeDao itemTypeDao;
-
 
     @Override
     public InventoryDetail addInventory(InventoryDetail inventoryDetail) {
@@ -73,7 +69,7 @@ public class InventoryServiceImpl implements InventoryService {
             boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
             if (checkInventory) {
                 logger.info("Inventory found in database");
-                logger.error("Inventory already exists",new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId));
+                logger.error("Inventory already exists", new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId));
                 throw new AlreadyExists(AlreadyExistsConstant.INVENTORY_ALREADY_EXISTS, inventoryId);
             } else {
                 logger.info("Setting item to inventory");
@@ -96,7 +92,7 @@ public class InventoryServiceImpl implements InventoryService {
         List<InventoryDetail> inventoryDetail = inventoryDetailDao.findAll();
         for (InventoryDetail inventory : inventoryDetail) {
             if (inventory.getStatus().equals(StatusConstant.DELETED.getValue())) {
-                logger.error("Inventory not found",new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, 0));
+                logger.error("Inventory not found", new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, 0));
                 throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, 0);
             }
         }
@@ -108,11 +104,11 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryDetail getInventoryById(int inventoryId) {
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
         InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
-            logger.error("Inventory not found",new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+            logger.error("Inventory not found", new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
             throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
         });
         if (inventory.getStatus().equals(StatusConstant.DELETED.getValue())) {
-            logger.error("Inventory not found",new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+            logger.error("Inventory not found", new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
             throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
         }
         logger.info("Returning inventory with inventoryId: " + inventoryId);
@@ -124,7 +120,7 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryDetail setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
         InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
-            logger.error("Inventory not found",new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+            logger.error("Inventory not found", new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
             throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
         });
         logger.info("Setting Available Quantity of item in database");
@@ -140,7 +136,7 @@ public class InventoryServiceImpl implements InventoryService {
     public void deleteInventoryById(int inventoryId) {
         logger.info("checking if the inventory is present in database with inventoryId: " + inventoryId);
         inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
-            logger.error("Inventory not found",new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
+            logger.error("Inventory not found", new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId));
             throw new NotFoundException(NotFoundConstant.INVENTORY_NOT_FOUND, inventoryId);
         });
         logger.info("Setting status of inventory to " + StatusConstant.DELETED.getValue());

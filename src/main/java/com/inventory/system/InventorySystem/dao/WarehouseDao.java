@@ -25,7 +25,7 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
             "Join F.productType H " +
             "Join F.brand I " +
             "Where E.status =?1 and A.warehouseId =?2")
-    List<ItemQuantity> getItemQuantityInSingleWarehouse(String status,int warehouseId);
+    List<ItemQuantity> getItemQuantityInSingleWarehouse(String status, int warehouseId);
 
 
     @Query("Select new com.inventory.system.InventorySystem.entities.ItemQuantity(A.warehouseId,A.warehouseName,B.areaName," +
@@ -38,7 +38,7 @@ public interface WarehouseDao extends JpaRepository<Warehouse, Integer> {
             "Join E.item F " +
             "Join E.itemType G " +
             "Join F.productType H " +
-            "Join F.brand I "+
+            "Join F.brand I " +
             "Where E.status =?1")
     List<ItemQuantity> getItemQuantityAllWarehouses(String status);
 

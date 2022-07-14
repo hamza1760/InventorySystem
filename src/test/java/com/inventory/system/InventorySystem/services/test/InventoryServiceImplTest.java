@@ -59,6 +59,8 @@ public class InventoryServiceImplTest {
     //itemType entity
     ItemType itemType = new ItemType(StatusConstant.ACTIVE.getValue(), 3, "Finished Product");
 
+    MockData mockData = new MockData();
+
 
     @Test
     public void addInventory() {
@@ -72,7 +74,7 @@ public class InventoryServiceImplTest {
 
     @Test
     public void getInventory() {
-        List<InventoryDetail> inventoryDetails = Arrays.asList(inventory1, inventory2, inventory3);
+        List<InventoryDetail> inventoryDetails = mockData.getInventoryDetails();
         inventoryDetails.forEach((i -> {
             if (Objects.equals(i.getStatus(), StatusConstant.DELETED.getValue())) {
                 logger.info("inventory not found with inventoryId: " + i.getInventoryId());

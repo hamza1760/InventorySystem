@@ -24,7 +24,6 @@ public class InventoryDetail {
 
     private String status = StatusConstant.ACTIVE.getValue();
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
     private Item item;
@@ -127,7 +126,6 @@ public class InventoryDetail {
     public void setItemSize(String itemSize) {
         this.itemSize = itemSize;
     }
-
 
     public void setItem(Item item) {
         this.item = item;
