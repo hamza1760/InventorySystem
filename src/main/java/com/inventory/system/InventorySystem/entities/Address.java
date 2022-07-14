@@ -6,7 +6,7 @@ import org.hibernate.annotations.Proxy;
 import javax.persistence.*;
 
 @Entity
-//@Proxy(lazy = false)
+@Proxy(lazy = false)
 public class Address {
 
     @Id

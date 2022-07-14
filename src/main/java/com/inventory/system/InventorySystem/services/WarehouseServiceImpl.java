@@ -241,12 +241,12 @@ public class WarehouseServiceImpl implements WarehouseService {
                     inventoryDetailDao.save(setItemQuantity);
                     logger.info("Saving warehouse in database");
                     logger.info("Returning warehouse with updated inventory");
+                    return warehouseToWarehouseDto(warehouseDao.save(warehouse));
                 }
-                logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
-                throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId);
             }
+            logger.error("Inventory not found", new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId));
+            throw new NotFoundException(Constants.INVENTORY_NOT_FOUND, inventoryId);
         }
-        return warehouseToWarehouseDto(warehouseDao.save(warehouse));
     }
 
     @Override

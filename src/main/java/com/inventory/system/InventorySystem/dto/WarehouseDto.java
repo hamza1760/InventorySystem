@@ -2,8 +2,6 @@ package com.inventory.system.InventorySystem.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.Constants;
-import com.inventory.system.InventorySystem.entities.Address;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +11,7 @@ public class WarehouseDto {
     private String warehouseName;
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
-    private Address address;
+    private AddressDto address;
 
     private Set<InventoryDetailDto> inventory = new HashSet<>();
 
@@ -41,11 +39,11 @@ public class WarehouseDto {
         this.status = status;
     }
 
-    public Address getAddress() {
+    public AddressDto getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDto address) {
         this.address = address;
     }
 
