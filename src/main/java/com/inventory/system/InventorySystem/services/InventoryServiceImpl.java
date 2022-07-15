@@ -120,16 +120,11 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
-        InventoryDetail setItemQuantity = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         });
-        logger.info("Setting Available Quantity of item in database");
-        setItemQuantity.setAvlQty(inventoryDetail.getAvlQty());
-        logger.info("Setting In Stock Quantity of item in database");
-        setItemQuantity.setInStock(inventoryDetail.getInStock());
-        logger.info("Saving updated inventory in database");
-        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(setItemQuantity));
+        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
     }
 
     @Override

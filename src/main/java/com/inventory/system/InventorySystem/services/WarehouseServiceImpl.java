@@ -139,10 +139,6 @@ public class WarehouseServiceImpl implements WarehouseService {
                         inventory.setWarehouse(warehouse);
                         logger.info("Saving inventory in database with warehouse id: " + warehouseId);
                         inventoryDetailDao.save(inventory);
-                    } else {
-                        int warehouseIdInInventory = checkWarehouse.getWarehouseId();
-                        logger.error("This inventory is already in warehouse", new GlobalException("The inventory with inventory id: " + inventoryId + " is already in warehouse", warehouseIdInInventory));
-                        throw new GlobalException("The inventory with inventory id: " + inventoryId + " is already in warehouse", warehouseIdInInventory);
                     }
                 }
             }
