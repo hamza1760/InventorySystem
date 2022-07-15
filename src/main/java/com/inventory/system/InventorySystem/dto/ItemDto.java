@@ -20,6 +20,7 @@ public class ItemDto {
     public ItemDto() {
     }
 
+
     public int getItemId() {
         return itemId;
     }

@@ -9,6 +9,7 @@ import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.Item;
 import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.GlobalException;
+import com.inventory.system.InventorySystem.mapper.GlobalMapper;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class InventoryServiceImpl implements InventoryService {
     private ItemTypeDao itemTypeDao;
 
     @Autowired
-    private ModelMapper modelMapper;
+    GlobalMapper globalMapper;
 
     @Override
     public InventoryDetailDto addInventory(InventoryDetail inventoryDetail) {
@@ -79,7 +80,7 @@ public class InventoryServiceImpl implements InventoryService {
                 logger.info("Setting itemType to inventory");
                 inventoryDetail.setItemType(itemType);
                 logger.info("Saving inventory in database with inventoryId: " + inventoryId + " itemId: " + itemId + " itemTypeId: " + itemTypeId);
-                return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
+                return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
             }
         }
         if (inventoryDetail.getStatus().equals(Constants.DELETED.getValue())) {
@@ -99,7 +100,7 @@ public class InventoryServiceImpl implements InventoryService {
             }
         }
         logger.info("Returning list of inventories from database");
-        return inventoryDetailDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(this::inventoryDetailToInventoryDetailDto).collect(Collectors.toList());
+        return inventoryDetailDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(globalMapper::inventoryDetailToInventoryDetailDto).collect(Collectors.toList());
     }
 
     @Override
@@ -114,7 +115,7 @@ public class InventoryServiceImpl implements InventoryService {
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         }
         logger.info("Returning inventory with inventoryId: " + inventoryId);
-        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.findByStatusAndInventoryId(Constants.ACTIVE.getValue(), inventoryId));
+        return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.findByStatusAndInventoryId(Constants.ACTIVE.getValue(), inventoryId));
     }
 
     @Override
@@ -125,13 +126,11 @@ public class InventoryServiceImpl implements InventoryService {
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         });
-        inventoryDetailDto.setItem(inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
-        inventoryDetailDto.setItemType(inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
-        inventoryDetailDto.setWarehouse(inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
-
-
-        InventoryDetail updatedInventory = inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
-        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
+        inventoryDetailDto.setItem(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
+        inventoryDetailDto.setItemType(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
+        inventoryDetailDto.setWarehouse(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
+        InventoryDetail updatedInventory = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
+        return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
     }
 
     @Override
@@ -145,11 +144,5 @@ public class InventoryServiceImpl implements InventoryService {
         inventoryDetailDao.softDelete(Constants.DELETED.getValue(), inventoryId);
     }
 
-    public InventoryDetailDto inventoryDetailToInventoryDetailDto(InventoryDetail inventoryDetail) {
-        return modelMapper.map(inventoryDetail, InventoryDetailDto.class);
-    }
 
-    public InventoryDetail inventoryDetailDtoToInventoryDetail(InventoryDetailDto inventoryDetailDto) {
-        return modelMapper.map(inventoryDetailDto, InventoryDetail.class);
-    }
 }

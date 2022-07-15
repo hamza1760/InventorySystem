@@ -10,9 +10,7 @@ public interface ItemService {
 
     List<ItemDto> getItem();
 
-    ItemDto addItem(Item item);
-
-    Item updateItem(Item item, int Itemid);
+    ItemDto addItem(ItemDto item);
 
     void deleteItemById(int itemId);
 
@@ -21,6 +19,4 @@ public interface ItemService {
     List<ItemSizeDto> getItemSizeById(int itemId);
 
     List<ItemSizeDto> getAllItemSize();
-
-    ItemDto itemToItemDto(Item item);
 }

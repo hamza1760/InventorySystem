@@ -16,6 +16,4 @@ public interface InventoryService {
     InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetail);
 
     void deleteInventoryById(int inventoryId);
-
-    InventoryDetailDto inventoryDetailToInventoryDetailDto(InventoryDetail inventoryDetail);
 }

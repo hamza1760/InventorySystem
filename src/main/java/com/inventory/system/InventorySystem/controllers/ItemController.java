@@ -49,16 +49,9 @@ public class ItemController {
     }
 
     @PostMapping("/item/")
-    public ItemDto addItem(@Valid @RequestBody Item item) {
+    public ItemDto addItem(@Valid @RequestBody ItemDto item) {
         logger.info("Calling addItem method from controller");
         return itemService.addItem(item);
-    }
-
-    @PutMapping("/item/{itemId}")
-    public ResponseEntity<?> updateItem(@RequestBody Item item, @PathVariable int itemId) {
-        logger.info("Calling updateItem method from controller");
-        Item updatedItem = itemService.updateItem(item, itemId);
-        return new ResponseEntity<>(updatedItem, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/item/{itemId}")

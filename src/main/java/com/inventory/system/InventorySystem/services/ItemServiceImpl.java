@@ -9,8 +9,8 @@ import com.inventory.system.InventorySystem.dto.ItemDto;
 import com.inventory.system.InventorySystem.dto.ItemSizeDto;
 import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.exceptions.GlobalException;
+import com.inventory.system.InventorySystem.mapper.GlobalMapper;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +36,12 @@ public class ItemServiceImpl implements ItemService {
     private InventoryDetailDao inventoryDetailDao;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private GlobalMapper globalMapper;
 
-    public ItemDto addItem(Item item) {
-        if (item.getStatus().equals(Constants.ACTIVE.getValue())) {
+    public ItemDto addItem(ItemDto itemDto) {
+        if (itemDto.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting product type id from request body");
-            int productTypeId = item.getProductType().getProductTypeId();
+            int productTypeId = itemDto.getProductType().getProductTypeId();
             logger.info("Checking if productType exists in database with productTypeId: " + productTypeId);
             ProductType productType = productTypeDao.findById(productTypeId).orElseThrow(() -> {
                 logger.error("Product Type not found", new GlobalException(Constants.PRODUCT_TYPE_NOT_FOUND.getValue(), productTypeId));
@@ -55,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
                 throw new GlobalException(Constants.PRODUCT_TYPE_NOT_FOUND.getValue(), productTypeId);
             }
             logger.info("Getting brandId from request body");
-            int brandId = item.getBrand().getBrandId();
+            int brandId = itemDto.getBrand().getBrandId();
             logger.info("Checking if brand exists in database with brandId: " + brandId);
             BrandDetail brand = brandDetailDao.findById(brandId).orElseThrow(() -> {
                 logger.error("Brand not found", new GlobalException(Constants.BRAND_NOT_FOUND.getValue(), brandId));
@@ -69,7 +69,7 @@ public class ItemServiceImpl implements ItemService {
                 throw new GlobalException(Constants.BRAND_NOT_FOUND.getValue(), brandId);
             }
             logger.info("Getting itemId from request body");
-            int itemId = item.getItemId();
+            int itemId = itemDto.getItemId();
             logger.info("Checking if item is already present in database with itemId: " + itemId);
             boolean checkItemId = itemDao.findById(itemId).isPresent();
             if (checkItemId) {
@@ -78,17 +78,18 @@ public class ItemServiceImpl implements ItemService {
                 throw new GlobalException(Constants.ITEM_ALREADY_EXISTS.getValue(), itemId);
             } else {
                 logger.info("Setting productType to item");
-                item.setProductType(productType);
+                itemDto.setProductType(globalMapper.productTypeToProductTypeDto(productType));
                 logger.info("Setting brand to item");
-                item.setBrand(brand);
+                itemDto.setBrand(globalMapper.brandDetailToBrandDetailDto(brand));
                 logger.info("Saving item in database with itemId: " + itemId + " productTypeId: " + productTypeId + " brandId: " + brandId);
-                return itemToItemDto(itemDao.save(item));
+                Item item = globalMapper.itemDtoItem(itemDto);
+                return globalMapper.itemToItemDto(itemDao.save(item));
             }
         }
-        if (item.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new GlobalException("Cannot add item with status deleted", item.getItemId());
+        if (itemDto.getStatus().equals(Constants.DELETED.getValue())) {
+            throw new GlobalException("Cannot add item with status deleted", itemDto.getItemId());
         } else {
-            throw new GlobalException("status not supported", item.getItemId());
+            throw new GlobalException("status not supported", itemDto.getItemId());
         }
     }
 
@@ -102,7 +103,7 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         logger.info("Returning list of items with status active");
-        return itemDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(this::itemToItemDto).collect(Collectors.toList());
+        return itemDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(globalMapper::itemToItemDto).collect(Collectors.toList());
     }
 
     @Override
@@ -117,20 +118,7 @@ public class ItemServiceImpl implements ItemService {
             throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
         }
         logger.info("Returning item with itemId: " + itemId);
-        return itemToItemDto(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), itemId));
-    }
-
-    @Override
-    public Item updateItem(Item item, int itemId) {
-        logger.info("Checking if the item is present in database with itemId: " + itemId);
-        Item updateItem = itemDao.findById(itemId).orElseThrow(() -> {
-            logger.error("Item not found ", new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId));
-            throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
-        });
-        logger.info("Setting new item name");
-        updateItem.setItemName(item.getItemName());
-        logger.info("Saving item to database with new name: " + updateItem.getItemName());
-        return itemDao.save(updateItem);
+        return globalMapper.itemToItemDto(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), itemId));
     }
 
     @Override
@@ -174,7 +162,7 @@ public class ItemServiceImpl implements ItemService {
             throw new GlobalException("This item does not have any inventory ", itemId);
         }
         logger.info("Returning item size of item with itemId: " + itemId);
-        return itemDao.getItemSizeById(Constants.ACTIVE.getValue(), itemId).stream().map(this::itemSizeToItemSizeDto).collect(Collectors.toList());
+        return itemDao.getItemSizeById(Constants.ACTIVE.getValue(), itemId).stream().map(globalMapper::itemSizeToItemSizeDto).collect(Collectors.toList());
     }
 
     @Override
@@ -191,14 +179,6 @@ public class ItemServiceImpl implements ItemService {
             throw new GlobalException("None of the Item has inventory", 0);
         }
         logger.info("Returning list of itemSize based on custom query");
-        return itemDao.getAllItemSize(Constants.ACTIVE.getValue()).stream().map(this::itemSizeToItemSizeDto).collect(Collectors.toList());
-    }
-
-    public ItemDto itemToItemDto(Item item) {
-        return modelMapper.map(item, ItemDto.class);
-    }
-
-    public ItemSizeDto itemSizeToItemSizeDto(ItemSize itemSize) {
-        return modelMapper.map(itemSize, ItemSizeDto.class);
+        return itemDao.getAllItemSize(Constants.ACTIVE.getValue()).stream().map(globalMapper::itemSizeToItemSizeDto).collect(Collectors.toList());
     }
 }
