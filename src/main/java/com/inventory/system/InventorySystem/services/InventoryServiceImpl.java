@@ -118,13 +118,20 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId) {
+    public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetailDto) {
+        int inventoryId = inventoryDetailDto.getInventoryId();
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
-        inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+        InventoryDetail inventoryDetail = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         });
-        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
+        inventoryDetailDto.setItem(inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
+        inventoryDetailDto.setItemType(inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
+        inventoryDetailDto.setWarehouse(inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
+
+
+        InventoryDetail updatedInventory = inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
+        return inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
     }
 
     @Override
@@ -140,5 +147,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     public InventoryDetailDto inventoryDetailToInventoryDetailDto(InventoryDetail inventoryDetail) {
         return modelMapper.map(inventoryDetail, InventoryDetailDto.class);
+    }
+
+    public InventoryDetail inventoryDetailDtoToInventoryDetail(InventoryDetailDto inventoryDetailDto) {
+        return modelMapper.map(inventoryDetailDto, InventoryDetail.class);
     }
 }

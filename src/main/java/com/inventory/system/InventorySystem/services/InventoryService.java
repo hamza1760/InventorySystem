@@ -13,7 +13,7 @@ public interface InventoryService {
 
     InventoryDetailDto addInventory(InventoryDetail inventoryDetail);
 
-    InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetail inventoryDetail, int inventoryId);
+    InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetail);
 
     void deleteInventoryById(int inventoryId);
 
