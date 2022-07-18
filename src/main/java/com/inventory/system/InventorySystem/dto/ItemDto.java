@@ -20,6 +20,11 @@ public class ItemDto {
     public ItemDto() {
     }
 
+    public ItemDto(int itemId, String itemName, String status) {
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.status = status;
+    }
 
     public int getItemId() {
         return itemId;
@@ -67,6 +72,18 @@ public class ItemDto {
 
     public void setInventory(Set<InventoryDetailDto> inventory) {
         this.inventory = inventory;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemDto{" +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", status='" + status + '\'' +
+                ", productType=" + productType +
+                ", brand=" + brand +
+                ", inventory=" + inventory +
+                '}';
     }
 }
 

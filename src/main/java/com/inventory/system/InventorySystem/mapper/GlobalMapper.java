@@ -32,16 +32,8 @@ public class GlobalMapper {
         return modelMapper.map(productType, ProductTypeDto.class);
     }
 
-    public ProductType productTypeDtoProductType(ProductTypeDto productTypeDto) {
-        return modelMapper.map(productTypeDto, ProductType.class);
-    }
-
     public BrandDetailDto brandDetailToBrandDetailDto(BrandDetail brandDetail) {
         return modelMapper.map(brandDetail, BrandDetailDto.class);
-    }
-
-    public BrandDetail brandDetailDtoBrandDetail(BrandDetailDto brandDetailDto) {
-        return modelMapper.map(brandDetailDto, BrandDetail.class);
     }
 
     public ItemSizeDto itemSizeToItemSizeDto(ItemSize itemSize) {

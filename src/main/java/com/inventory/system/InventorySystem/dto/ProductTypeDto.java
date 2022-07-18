@@ -11,6 +11,15 @@ public class ProductTypeDto {
     @JsonIgnore
     private ItemDto item;
 
+    public ProductTypeDto() {
+    }
+
+    public ProductTypeDto(String status, int productTypeId, String productType) {
+        this.productTypeId = productTypeId;
+        this.productType = productType;
+        this.status = status;
+    }
+
     public int getProductTypeId() {
         return productTypeId;
     }

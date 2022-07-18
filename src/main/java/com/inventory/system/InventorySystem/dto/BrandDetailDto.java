@@ -11,6 +11,15 @@ public class BrandDetailDto {
     @JsonIgnore
     private ItemDto item;
 
+    public BrandDetailDto() {
+    }
+
+    public BrandDetailDto(String status, int brandId, String brandName) {
+        this.brandId = brandId;
+        this.brandName = brandName;
+        this.status = status;
+    }
+
     public int getBrandId() {
         return brandId;
     }

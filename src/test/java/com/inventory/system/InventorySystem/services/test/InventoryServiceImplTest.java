@@ -98,7 +98,7 @@ public class InventoryServiceImplTest {
 
 //    @Test
 //    public void setItemQuantityInAllWarehouses() {
-//        InventoryDetailDto updateInventory = new InventoryDetail(1, "small", 500, 200, 35, 70,
+//        InventoryDetail updateInventory = new InventoryDetail(1, "small", 500, 200, 35, 70,
 //                10, 60, Constants.ACTIVE.getValue());
 //        when(inventoryDetailDao.findById(inventory1.getInventoryId())).thenReturn(Optional.of(inventory1));
 //        when(inventoryDetailDao.save(inventory1)).thenReturn(inventory1);
