@@ -1,10 +1,9 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.inventory.system.InventorySystem.constant.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class CityDetail {
@@ -20,7 +19,7 @@ public class CityDetail {
     private CountryDetail country;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
-    private Set<Address> address = new HashSet<>();
+    private final Set<Address> address = new HashSet<>();
 
     public CityDetail() {
     }

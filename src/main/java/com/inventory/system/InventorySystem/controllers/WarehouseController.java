@@ -1,22 +1,16 @@
 package com.inventory.system.InventorySystem.controllers;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponse;
-import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
-import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
-import com.inventory.system.InventorySystem.dto.WarehouseDto;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.services.InventoryService;
-import com.inventory.system.InventorySystem.services.WarehouseService;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.inventory.system.InventorySystem.api.response.*;
+import com.inventory.system.InventorySystem.dto.*;
+import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.services.*;
+import org.apache.log4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
+import javax.validation.*;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")

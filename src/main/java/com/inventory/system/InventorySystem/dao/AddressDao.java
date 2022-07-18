@@ -1,10 +1,8 @@
 package com.inventory.system.InventorySystem.dao;
 
-import com.inventory.system.InventorySystem.entities.Address;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
+import com.inventory.system.InventorySystem.entities.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.transaction.annotation.*;
 
 public interface AddressDao extends JpaRepository<Address, Integer> {
 

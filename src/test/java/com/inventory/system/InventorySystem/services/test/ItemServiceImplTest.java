@@ -11,14 +11,9 @@ import org.apache.log4j.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
-import org.mockito.exceptions.misusing.*;
 import org.mockito.junit.jupiter.*;
-import org.mockito.quality.*;
-import org.modelmapper.*;
-import org.springframework.boot.autoconfigure.liquibase.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -48,7 +43,6 @@ public class ItemServiceImplTest {
 
     @InjectMocks
     private ItemServiceImpl itemService;
-
 
     @Test
     public void addItem() {
@@ -94,7 +88,7 @@ public class ItemServiceImplTest {
     @Test
     public void deleteItemById() {
         int id = 1;
-        List<Item> itemList = Arrays.asList(mockData.getItem());
+        List<Item> itemList = List.of(mockData.getItem());
         itemList.forEach((i) -> {
             if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
@@ -119,8 +113,8 @@ public class ItemServiceImplTest {
     @Test
     public void getItemSizeById() {
         Set<InventoryDetail> inventoryDetails = Set.of(mockData.getInventoryDetail());
-        List<ItemSize> itemSizes= List.of(mockData.getItemSize());
-        itemSizes.forEach((size)-> when(globalMapper.itemSizeToItemSizeDto(size)).thenReturn(mockDtoData.getItemSizeDto()));
+        List<ItemSize> itemSizes = List.of(mockData.getItemSize());
+        itemSizes.forEach((size) -> when(globalMapper.itemSizeToItemSizeDto(size)).thenReturn(mockDtoData.getItemSizeDto()));
         int id = 1;
         List<Item> itemList = List.of(mockData.getItem());
         itemList.forEach((i) -> {
@@ -129,7 +123,6 @@ public class ItemServiceImplTest {
                 i.setInventory(inventoryDetails);
             }
         });
-
         when(itemDao.getItemSizeById(Constants.ACTIVE.getValue(), id)).thenReturn(itemSizes);
         assertEquals(List.of(mockDtoData.getItemSizeDto()), itemService.getItemSizeById(id));
     }
@@ -137,7 +130,7 @@ public class ItemServiceImplTest {
     @Test
     public void testItemNotFoundException() {
         int id = 4;
-        List<Item> items = Arrays.asList(mockData.getItem());
+        List<Item> items = List.of(mockData.getItem());
         items.forEach((i) -> {
             if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));

@@ -17,7 +17,7 @@ public class MockDtoData {
 
     //item dto
     public ItemDto getItemDto() {
-        return new ItemDto(1, "AdidasShoe", Constants.ACTIVE.getValue(),getBrandDetailDto(),getProductTypeDto());
+        return new ItemDto(1, "AdidasShoe", Constants.ACTIVE.getValue(), getBrandDetailDto(), getProductTypeDto());
     }
 
     //itemType dto`

@@ -1,8 +1,7 @@
 package com.inventory.system.InventorySystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
-import com.inventory.system.InventorySystem.entities.Warehouse;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
 
 public class AddressDto {
 

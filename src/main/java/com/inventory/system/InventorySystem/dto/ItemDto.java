@@ -1,7 +1,7 @@
 package com.inventory.system.InventorySystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
 
 import java.util.*;
 
@@ -19,7 +19,7 @@ public class ItemDto {
     public ItemDto() {
     }
 
-    public ItemDto(int itemId, String itemName, String status,BrandDetailDto brand,ProductTypeDto productType) {
+    public ItemDto(int itemId, String itemName, String status, BrandDetailDto brand, ProductTypeDto productType) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.status = status;

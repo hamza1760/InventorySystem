@@ -1,14 +1,9 @@
 package com.inventory.system.InventorySystem.services;
 
-import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
-import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
-import com.inventory.system.InventorySystem.dto.WarehouseDto;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.ItemQuantity;
-import com.inventory.system.InventorySystem.entities.Warehouse;
+import com.inventory.system.InventorySystem.dto.*;
+import com.inventory.system.InventorySystem.entities.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public interface WarehouseService {
 
@@ -27,5 +22,4 @@ public interface WarehouseService {
     List<ItemQuantityDto> getItemQuantityInAllWarehouses();
 
     void deleteWarehouseById(int warehouseId);
-
 }

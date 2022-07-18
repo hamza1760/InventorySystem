@@ -1,14 +1,13 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.*;
+import java.util.*;
 
 @Entity
 @Proxy(lazy = false)
@@ -27,7 +26,7 @@ public class Warehouse {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
-    private Set<InventoryDetail> inventory = new HashSet<>();
+    private final Set<InventoryDetail> inventory = new HashSet<>();
 
     public Warehouse() {
     }

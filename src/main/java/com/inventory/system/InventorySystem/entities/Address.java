@@ -1,8 +1,9 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
 
 @Entity
@@ -26,7 +27,7 @@ public class Address {
     public Address() {
     }
 
-    public Address(int addressId, long postalCode, String areaName, String street,String status) {
+    public Address(int addressId, long postalCode, String areaName, String street, String status) {
         this.addressId = addressId;
         this.postalCode = postalCode;
         this.areaName = areaName;

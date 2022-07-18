@@ -2,11 +2,9 @@ package com.inventory.system.InventorySystem.mapper;
 
 import com.inventory.system.InventorySystem.dto.*;
 import com.inventory.system.InventorySystem.entities.*;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
+import org.modelmapper.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Component
 public class GlobalMapper {
@@ -57,8 +55,8 @@ public class GlobalMapper {
     public AddressDto addressToAddressDto(Address address) {
         return modelMapper.map(address, AddressDto.class);
     }
+
     public ItemQuantityDto itemQuantityToItemQuantityDto(ItemQuantity itemQuantity) {
         return modelMapper.map(itemQuantity, ItemQuantityDto.class);
     }
-    
 }

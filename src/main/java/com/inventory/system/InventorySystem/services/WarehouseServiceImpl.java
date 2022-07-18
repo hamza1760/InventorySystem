@@ -1,26 +1,17 @@
 package com.inventory.system.InventorySystem.services;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import com.inventory.system.InventorySystem.dao.AddressDao;
-import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
-import com.inventory.system.InventorySystem.dao.WarehouseDao;
-import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
-import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
-import com.inventory.system.InventorySystem.dto.WarehouseDto;
-import com.inventory.system.InventorySystem.entities.Address;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.ItemQuantity;
-import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.exceptions.GlobalException;
-import com.inventory.system.InventorySystem.mapper.GlobalMapper;
-import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.inventory.system.InventorySystem.constant.*;
+import com.inventory.system.InventorySystem.dao.*;
+import com.inventory.system.InventorySystem.dto.*;
+import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.*;
+import com.inventory.system.InventorySystem.mapper.*;
+import org.apache.log4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {

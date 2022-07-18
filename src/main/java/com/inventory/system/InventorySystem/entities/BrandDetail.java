@@ -1,12 +1,10 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
@@ -24,7 +22,7 @@ public class BrandDetail {
     public BrandDetail() {
     }
 
-    public BrandDetail(int brandId, String brandName,String status) {
+    public BrandDetail(int brandId, String brandName, String status) {
         super();
         this.brandId = brandId;
         this.brandName = brandName;

@@ -1,10 +1,9 @@
 package com.inventory.system.InventorySystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CityDetailDto {
 

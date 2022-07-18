@@ -1,13 +1,11 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
@@ -28,7 +26,7 @@ public class ProductType {
     public ProductType() {
     }
 
-    public ProductType( int productTypeId, String productType,String status) {
+    public ProductType(int productTypeId, String productType, String status) {
         super();
         this.productTypeId = productTypeId;
         this.productType = productType;

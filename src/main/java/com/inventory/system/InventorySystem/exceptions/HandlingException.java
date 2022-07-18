@@ -1,27 +1,21 @@
 package com.inventory.system.InventorySystem.exceptions;
 
-import com.inventory.system.InventorySystem.api.response.ApiResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import com.inventory.system.InventorySystem.api.response.*;
+import org.slf4j.*;
+import org.springframework.http.*;
+import org.springframework.validation.*;
+import org.springframework.web.*;
+import org.springframework.web.bind.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /* Exception handling */
 @RestControllerAdvice
 public class HandlingException {
 
     static Logger logger = LoggerFactory.getLogger(HandlingException.class);
-
 
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<?> globalException(GlobalException ex) {

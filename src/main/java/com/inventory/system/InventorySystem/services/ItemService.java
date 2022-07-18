@@ -1,10 +1,8 @@
 package com.inventory.system.InventorySystem.services;
 
-import com.inventory.system.InventorySystem.dto.ItemDto;
-import com.inventory.system.InventorySystem.dto.ItemSizeDto;
-import com.inventory.system.InventorySystem.entities.Item;
+import com.inventory.system.InventorySystem.dto.*;
 
-import java.util.List;
+import java.util.*;
 
 public interface ItemService {
 
