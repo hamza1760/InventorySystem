@@ -14,7 +14,7 @@ public class BrandDetailDto {
     public BrandDetailDto() {
     }
 
-    public BrandDetailDto(String status, int brandId, String brandName) {
+    public BrandDetailDto(int brandId, String brandName,String status) {
         this.brandId = brandId;
         this.brandName = brandName;
         this.status = status;

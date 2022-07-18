@@ -1,10 +1,9 @@
 package com.inventory.system.InventorySystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class WarehouseDto {
     private int warehouseId;
@@ -12,6 +11,15 @@ public class WarehouseDto {
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
     private AddressDto address;
+
+    public WarehouseDto() {
+    }
+
+    public WarehouseDto(int warehouseId, String warehouseName, String status) {
+        this.warehouseId = warehouseId;
+        this.warehouseName = warehouseName;
+        this.status = status;
+    }
 
     private Set<InventoryDetailDto> inventory = new HashSet<>();
 

@@ -1,7 +1,7 @@
 package com.inventory.system.InventorySystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
 
 public class InventoryDetailDto {
     private int inventoryId;
@@ -13,11 +13,26 @@ public class InventoryDetailDto {
     private int quantityPerBox;
     private int reorderPoint;
     @JsonIgnore
-    private final String status = Constants.ACTIVE.getValue();
+    private String status = Constants.ACTIVE.getValue();
     private ItemDto item;
     private ItemTypeDto itemType;
     @JsonIgnore
     private WarehouseDto warehouse;
+
+    public InventoryDetailDto() {
+    }
+
+    public InventoryDetailDto(int inventoryId, String itemSize, int inStock, int avlQty, int inTransit, int minOrderQuantity, int quantityPerBox, int reorderPoint, String status) {
+        this.inventoryId = inventoryId;
+        this.itemSize = itemSize;
+        this.inStock = inStock;
+        this.avlQty = avlQty;
+        this.inTransit = inTransit;
+        this.minOrderQuantity = minOrderQuantity;
+        this.quantityPerBox = quantityPerBox;
+        this.reorderPoint = reorderPoint;
+        this.status = status;
+    }
 
     public int getInventoryId() {
         return inventoryId;

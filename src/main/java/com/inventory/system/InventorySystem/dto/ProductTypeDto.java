@@ -14,7 +14,7 @@ public class ProductTypeDto {
     public ProductTypeDto() {
     }
 
-    public ProductTypeDto(String status, int productTypeId, String productType) {
+    public ProductTypeDto( int productTypeId, String productType,String status) {
         this.productTypeId = productTypeId;
         this.productType = productType;
         this.status = status;

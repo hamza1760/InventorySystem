@@ -1,18 +1,26 @@
 package com.inventory.system.InventorySystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.fasterxml.jackson.annotation.*;
+import com.inventory.system.InventorySystem.constant.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ItemTypeDto {
     private int itemTypeId;
     private String itemType;
     @JsonIgnore
-    private final String status = Constants.ACTIVE.getValue();
+    private String status = Constants.ACTIVE.getValue();
     @JsonIgnore
     private final Set<InventoryDetailDto> inventory = new HashSet<>();
+
+    public ItemTypeDto() {
+    }
+
+    public ItemTypeDto(int itemTypeId, String itemType, String status) {
+        this.itemTypeId = itemTypeId;
+        this.itemType = itemType;
+        this.status = status;
+    }
 
     public int getItemTypeId() {
         return itemTypeId;

@@ -1,28 +1,19 @@
 package com.inventory.system.InventorySystem.services.test;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
-import com.inventory.system.InventorySystem.dao.ItemDao;
-import com.inventory.system.InventorySystem.dao.ItemTypeDao;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.ItemType;
-import com.inventory.system.InventorySystem.exceptions.GlobalException;
-import com.inventory.system.InventorySystem.services.InventoryServiceImpl;
-import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import com.inventory.system.InventorySystem.constant.*;
+import com.inventory.system.InventorySystem.dao.*;
+import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.*;
+import com.inventory.system.InventorySystem.services.*;
+import org.apache.log4j.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.mockito.*;
+import org.mockito.junit.jupiter.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +47,7 @@ public class InventoryServiceImplTest {
     Item item = new Item(1, "AdidasShoe", Constants.ACTIVE.getValue());
 
     //itemType entity
-    ItemType itemType = new ItemType(Constants.ACTIVE.getValue(), 3, "Finished Product");
+    ItemType itemType = new ItemType(3, "Finished Product", Constants.ACTIVE.getValue());
 
     MockData mockData = new MockData();
 
@@ -72,7 +63,7 @@ public class InventoryServiceImplTest {
 
     @Test
     public void getInventory() {
-        List<InventoryDetail> inventoryDetails = mockData.getInventoryDetails();
+        List<InventoryDetail> inventoryDetails = Arrays.asList(mockData.getInventoryDetail());
         inventoryDetails.forEach((i -> {
             if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("inventory not found with inventoryId: " + i.getInventoryId());

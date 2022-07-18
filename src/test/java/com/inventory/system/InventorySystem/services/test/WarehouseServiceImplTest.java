@@ -1,26 +1,19 @@
 package com.inventory.system.InventorySystem.services.test;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import com.inventory.system.InventorySystem.dao.AddressDao;
-import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
-import com.inventory.system.InventorySystem.dao.WarehouseDao;
-import com.inventory.system.InventorySystem.entities.Address;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.ItemQuantity;
-import com.inventory.system.InventorySystem.entities.Warehouse;
-import com.inventory.system.InventorySystem.exceptions.GlobalException;
-import com.inventory.system.InventorySystem.services.WarehouseServiceImpl;
-import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import com.inventory.system.InventorySystem.constant.*;
+import com.inventory.system.InventorySystem.dao.*;
+import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.*;
+import com.inventory.system.InventorySystem.services.*;
+import org.apache.log4j.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.mockito.*;
+import org.mockito.junit.jupiter.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +39,7 @@ public class WarehouseServiceImplTest {
     Warehouse warehouse3 = new Warehouse(3, "UK", Constants.ACTIVE.getValue());
 
     //address entity
-    Address address = new Address(Constants.ACTIVE.getValue(), 1, 75600, "clifton", "10A");
+    Address address = new Address(1, 75600, "clifton", "10A", Constants.ACTIVE.getValue());
 
     //inventory entity
     InventoryDetail inventory1 = new InventoryDetail(1, "small", 40, 20, 35, 70,
@@ -95,6 +88,7 @@ public class WarehouseServiceImplTest {
         });
         assertEquals(warehouse1, warehouseService.getWarehouseById(warehouse1));
     }
+
     @Test
     public void deleteWarehouseById() {
         int id = 1;

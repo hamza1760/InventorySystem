@@ -16,6 +16,17 @@ public class AddressDto {
     @JsonIgnore
     private WarehouseDto warehouse;
 
+    public AddressDto() {
+    }
+
+    public AddressDto(int addressId, long postalCode, String areaName, String street, String status) {
+        this.addressId = addressId;
+        this.postalCode = postalCode;
+        this.areaName = areaName;
+        this.street = street;
+        this.status = status;
+    }
+
     public int getAddressId() {
         return addressId;
     }

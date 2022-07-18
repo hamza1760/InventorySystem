@@ -9,6 +9,16 @@ public class ItemSizeDto {
     private String productType;
     private String brandName;
 
+    public ItemSizeDto(int inventoryId, int itemId, String itemSize, String itemName, String itemType, String productType, String brandName) {
+        this.inventoryId = inventoryId;
+        this.itemId = itemId;
+        this.itemSize = itemSize;
+        this.itemName = itemName;
+        this.itemType = itemType;
+        this.productType = productType;
+        this.brandName = brandName;
+    }
+
     public int getInventoryId() {
         return inventoryId;
     }

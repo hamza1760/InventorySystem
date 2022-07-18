@@ -27,7 +27,7 @@ public class ProductType {
     public ProductType() {
     }
 
-    public ProductType(String status, int productTypeId, String productType) {
+    public ProductType( int productTypeId, String productType,String status) {
         super();
         this.productTypeId = productTypeId;
         this.productType = productType;

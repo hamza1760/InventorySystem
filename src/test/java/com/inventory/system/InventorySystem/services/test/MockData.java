@@ -1,30 +1,29 @@
 package com.inventory.system.InventorySystem.services.test;
 
-import com.inventory.system.InventorySystem.constant.Constants;
+import com.inventory.system.InventorySystem.constant.*;
+import com.inventory.system.InventorySystem.dto.*;
 import com.inventory.system.InventorySystem.entities.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class MockData {
+
+    //brand entity
+    public BrandDetail getBrand() {
+        return new BrandDetail(1, "Adidas", Constants.ACTIVE.getValue());
+    }
+
+    //product entity
+    public ProductType getProduct() {
+        return new ProductType(1, "Shoe", Constants.ACTIVE.getValue());
+    }
 
     //item entity
     public Item getItem() {
         return new Item(1, "AdidasShoe", Constants.ACTIVE.getValue());
     }
 
-    public List<Item> getItems() {
-        return Arrays.asList(getItem());
-    }
-
-    //product entity
-    public ProductType getProduct() {
-        return new ProductType(Constants.ACTIVE.getValue(), 1, "Shoe");
-    }
-
-    //brand entity
-    public BrandDetail getBrand() {
-        return new BrandDetail(Constants.ACTIVE.getValue(), 1, "Adidas");
+    //itemType entity
+    public ItemType getItemType() {
+        return new ItemType(3, "Finished Product", Constants.ACTIVE.getValue());
     }
 
     //inventory entity
@@ -33,13 +32,71 @@ public class MockData {
                 10, 60, Constants.ACTIVE.getValue());
     }
 
-    public List<InventoryDetail> getInventoryDetails() {
-        return Arrays.asList(getInventoryDetail());
+    //warehouse entity
+    public Warehouse getWarehouse() {
+        return new Warehouse(1, "PAK", Constants.ACTIVE.getValue());
+    }
+
+    //address entity
+    public Address getAddress() {
+        return new Address(1, 75600, "clifton", "10A", Constants.ACTIVE.getValue());
     }
 
     //Item Size entity
     public ItemSize getItemSize() {
-       return new ItemSize(1, 1, "small", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
+        return new ItemSize(1, 1, "small", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
+    }
+
+    //item quantity entity
+    public ItemQuantity getItemQuantity() {
+        return new ItemQuantity(1, "PAK", "Clifton", "Karachi", "Pakistan", 1, "small", 40, 20, "AdidasShoe", 1, "Finished Product", "Shoe", "Adidas");
+    }
+
+    //brand dto
+    public BrandDetailDto getBrandDetailDto() {
+        return new BrandDetailDto(1, "Adidas", Constants.ACTIVE.getValue());
+    }
+
+    //product dto
+    public ProductTypeDto getProductTypeDto() {
+        return new ProductTypeDto(1, "Shoe", Constants.ACTIVE.getValue());
+    }
+
+    //item dto
+    public ItemDto getItemDto() {
+        return new ItemDto(1, "AdidasShoe", Constants.ACTIVE.getValue());
+    }
+
+    //itemType dto`
+    public ItemTypeDto getItemTypeDto() {
+        return new ItemTypeDto(3, "Finished Product", Constants.ACTIVE.getValue());
+    }
+
+    //inventory dto
+    public InventoryDetailDto getInventoryDetailDto() {
+        return new InventoryDetailDto(1, "small", 40, 20, 35, 70,
+                10, 60, Constants.ACTIVE.getValue());
+    }
+
+    //warehouse dto
+    public WarehouseDto getWarehouseDto() {
+        return new WarehouseDto(1, "PAK", Constants.ACTIVE.getValue());
+    }
+
+    //address dto
+    public AddressDto getAddressDto() {
+        return new AddressDto(1, 75600, "clifton", "10A", Constants.ACTIVE.getValue());
+    }
+
+    //Item Size dto
+    public ItemSizeDto getItemSizeDto() {
+        return new ItemSizeDto(1, 1, "small", "AdidasShoe", "Finished Product", "Shoe", "Adidas");
+    }
+
+    //item quantity dto
+    public ItemQuantityDto getItemQuantityDto() {
+        return new ItemQuantityDto(1, "PAK", "Clifton", "Karachi", "Pakistan", 1, "small", 40, 20, "AdidasShoe", 1, "Finished Product", "Shoe", "Adidas");
     }
 }
+
 

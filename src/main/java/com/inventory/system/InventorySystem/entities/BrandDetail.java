@@ -23,7 +23,7 @@ public class BrandDetail {
     public BrandDetail() {
     }
 
-    public BrandDetail(String status, int brandId, String brandName) {
+    public BrandDetail(int brandId, String brandName,String status) {
         super();
         this.brandId = brandId;
         this.brandName = brandName;

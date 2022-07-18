@@ -26,7 +26,7 @@ public class Address {
     public Address() {
     }
 
-    public Address(String status, int addressId, long postalCode, String areaName, String street) {
+    public Address(int addressId, long postalCode, String areaName, String street,String status) {
         this.addressId = addressId;
         this.postalCode = postalCode;
         this.areaName = areaName;
