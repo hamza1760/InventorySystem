@@ -39,4 +39,24 @@ public class GlobalMapper {
     public ItemSizeDto itemSizeToItemSizeDto(ItemSize itemSize) {
         return modelMapper.map(itemSize, ItemSizeDto.class);
     }
+
+    public ItemTypeDto itemTypeToItemTypeDto(ItemType itemType) {
+        return modelMapper.map(itemType, ItemTypeDto.class);
+    }
+
+    public WarehouseDto warehouseToWarehouseDto(Warehouse warehouse) {
+        return modelMapper.map(warehouse, WarehouseDto.class);
+    }
+
+    public Warehouse warehouseDtoToWarehouse(WarehouseDto warehouseDto) {
+        return modelMapper.map(warehouseDto, Warehouse.class);
+    }
+
+    public AddressDto addressToAddressDto(Address address) {
+        return modelMapper.map(address, AddressDto.class);
+    }
+    public ItemQuantityDto itemQuantityToItemQuantityDto(ItemQuantity itemQuantity) {
+        return modelMapper.map(itemQuantity, ItemQuantityDto.class);
+    }
+    
 }

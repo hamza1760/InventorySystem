@@ -11,7 +11,7 @@ public interface InventoryService {
 
     InventoryDetailDto getInventoryById(int inventoryId);
 
-    InventoryDetailDto addInventory(InventoryDetail inventoryDetail);
+    InventoryDetailDto addInventory(InventoryDetailDto inventoryDetail);
 
     InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetail);
 

@@ -11,7 +11,6 @@ import com.inventory.system.InventorySystem.entities.ItemType;
 import com.inventory.system.InventorySystem.exceptions.GlobalException;
 import com.inventory.system.InventorySystem.mapper.GlobalMapper;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +35,10 @@ public class InventoryServiceImpl implements InventoryService {
     GlobalMapper globalMapper;
 
     @Override
-    public InventoryDetailDto addInventory(InventoryDetail inventoryDetail) {
-        if (inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
+    public InventoryDetailDto addInventory(InventoryDetailDto inventoryDetailDto) {
+        if (inventoryDetailDto.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting item from request body");
-            int itemId = inventoryDetail.getItem().getItemId();
+            int itemId = inventoryDetailDto.getItem().getItemId();
             logger.info("Checking if item exists in database with itemId: " + itemId);
             Item item = itemDao.findById(itemId).orElseThrow(() -> {
                 logger.error("Item not found ", new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId));
@@ -53,7 +52,7 @@ public class InventoryServiceImpl implements InventoryService {
                 throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
             }
             logger.info("Getting itemTypeId from request body");
-            int itemTypeId = inventoryDetail.getItemType().getItemTypeId();
+            int itemTypeId = inventoryDetailDto.getItemType().getItemTypeId();
             logger.info("Checking if itemType exists in database with itemTypeId: " + itemTypeId);
             ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> {
                 logger.error("Item Type not found ", new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId));
@@ -67,7 +66,7 @@ public class InventoryServiceImpl implements InventoryService {
                 throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemTypeId);
             }
             logger.info("Getting inventoryId from request body");
-            int inventoryId = inventoryDetail.getInventoryId();
+            int inventoryId = inventoryDetailDto.getInventoryId();
             logger.info("Checking if inventory is already present in database with inventoryId: " + inventoryId);
             boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
             if (checkInventory) {
@@ -76,17 +75,18 @@ public class InventoryServiceImpl implements InventoryService {
                 throw new GlobalException(Constants.INVENTORY_ALREADY_EXISTS.getValue(), inventoryId);
             } else {
                 logger.info("Setting item to inventory");
-                inventoryDetail.setItem(item);
+                inventoryDetailDto.setItem(globalMapper.itemToItemDto(item));
                 logger.info("Setting itemType to inventory");
-                inventoryDetail.setItemType(itemType);
+                inventoryDetailDto.setItemType(globalMapper.itemTypeToItemTypeDto(itemType));
                 logger.info("Saving inventory in database with inventoryId: " + inventoryId + " itemId: " + itemId + " itemTypeId: " + itemTypeId);
+                InventoryDetail inventoryDetail = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
                 return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
             }
         }
-        if (inventoryDetail.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new GlobalException("Cannot add inventory with status Deleted", inventoryDetail.getInventoryId());
+        if (inventoryDetailDto.getStatus().equals(Constants.DELETED.getValue())) {
+            throw new GlobalException("Cannot add inventory with status Deleted", inventoryDetailDto.getInventoryId());
         } else {
-            throw new GlobalException("status not supported", inventoryDetail.getInventoryId());
+            throw new GlobalException("status not supported", inventoryDetailDto.getInventoryId());
         }
     }
 
@@ -143,6 +143,4 @@ public class InventoryServiceImpl implements InventoryService {
         logger.info("Setting status of inventory to " + Constants.DELETED.getValue());
         inventoryDetailDao.softDelete(Constants.DELETED.getValue(), inventoryId);
     }
-
-
 }

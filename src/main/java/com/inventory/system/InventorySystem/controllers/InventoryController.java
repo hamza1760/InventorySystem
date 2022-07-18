@@ -27,7 +27,7 @@ public class InventoryController {
     private ItemService itemService;
 
     @PostMapping("/inventory")
-    public InventoryDetailDto addInventory(@Valid @RequestBody InventoryDetail inventoryDetail) {
+    public InventoryDetailDto addInventory(@Valid @RequestBody InventoryDetailDto inventoryDetail) {
         logger.info("Calling addInventory method from controller");
         return inventoryService.addInventory(inventoryDetail);
     }

@@ -4,6 +4,7 @@ import com.inventory.system.InventorySystem.constant.Constants;
 import com.inventory.system.InventorySystem.dao.AddressDao;
 import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
 import com.inventory.system.InventorySystem.dao.WarehouseDao;
+import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
 import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
 import com.inventory.system.InventorySystem.dto.WarehouseDto;
 import com.inventory.system.InventorySystem.entities.Address;
@@ -11,6 +12,7 @@ import com.inventory.system.InventorySystem.entities.InventoryDetail;
 import com.inventory.system.InventorySystem.entities.ItemQuantity;
 import com.inventory.system.InventorySystem.entities.Warehouse;
 import com.inventory.system.InventorySystem.exceptions.GlobalException;
+import com.inventory.system.InventorySystem.mapper.GlobalMapper;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     private InventoryDetailDao inventoryDetailDao;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private GlobalMapper globalMapper;
 
     @Override
-    public WarehouseDto addWarehouse(Warehouse warehouse) {
-        if (warehouse.getStatus().equals(Constants.ACTIVE.getValue())) {
+    public WarehouseDto addWarehouse(WarehouseDto warehouseDto) {
+        if (warehouseDto.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting address from request body");
-            int addressId = warehouse.getAddress().getAddressId();
+            int addressId = warehouseDto.getAddress().getAddressId();
             logger.info("Checking if address is present in database with addressId: " + addressId);
             Address address = addressDao.findById(addressId).orElseThrow(() -> {
                 logger.error("Address not found", new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId));
@@ -54,7 +56,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                 logger.error("Address not found", new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId));
                 throw new GlobalException(Constants.ADDRESS_NOT_FOUND.getValue(), addressId);
             }
-            int warehouseId = warehouse.getWarehouseId();
+            int warehouseId = warehouseDto.getWarehouseId();
             boolean checkWarehouseId = warehouseDao.findById(warehouseId).isPresent();
             if (checkWarehouseId) {
                 logger.error("Warehouse already exist in database", new GlobalException(Constants.WAREHOUSE_ALREADY_EXISTS.getValue(), warehouseId));
@@ -63,9 +65,10 @@ public class WarehouseServiceImpl implements WarehouseService {
                 Warehouse warehouseInAddress = address.getWarehouse();
                 if (warehouseInAddress == null) {
                     logger.info("Adding address to warehouse with addressId: " + addressId);
-                    warehouse.setAddress(address);
+                    warehouseDto.setAddress(globalMapper.addressToAddressDto(address));
                     logger.info("Saving warehouse in database");
-                    return warehouseToWarehouseDto(warehouseDao.save(warehouse));
+                    Warehouse warehouse = globalMapper.warehouseDtoToWarehouse(warehouseDto);
+                    return globalMapper.warehouseToWarehouseDto((warehouseDao.save(warehouse)));
                 } else {
                     int warehouseIdInAddress = warehouseInAddress.getWarehouseId();
                     logger.error("Address is already assigned to warehouse", new GlobalException("Address is already assigned to warehouse", warehouseIdInAddress));
@@ -73,10 +76,10 @@ public class WarehouseServiceImpl implements WarehouseService {
                 }
             }
         }
-        if (warehouse.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new GlobalException("Cannot add warehouse with status Deleted", warehouse.getWarehouseId());
+        if (warehouseDto.getStatus().equals(Constants.DELETED.getValue())) {
+            throw new GlobalException("Cannot add warehouse with status Deleted", warehouseDto.getWarehouseId());
         } else {
-            throw new GlobalException("Status not supported", warehouse.getWarehouseId());
+            throw new GlobalException("Status not supported", warehouseDto.getWarehouseId());
         }
     }
 
@@ -90,7 +93,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             }
         }
         logger.info("Returning warehouse with status active");
-        return warehouseDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(this::warehouseToWarehouseDto).collect(Collectors.toList());
+        return warehouseDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(globalMapper::warehouseToWarehouseDto).collect(Collectors.toList());
     }
 
     @Override
@@ -106,10 +109,10 @@ public class WarehouseServiceImpl implements WarehouseService {
             throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         }
         logger.info("Returning warehouse with status active and id: " + warehouseId);
-        return warehouseToWarehouseDto(warehouseDao.findByStatusAndWarehouseId(Constants.ACTIVE.getValue(), warehouseId));
+        return globalMapper.warehouseToWarehouseDto(warehouseDao.findByStatusAndWarehouseId(Constants.ACTIVE.getValue(), warehouseId));
     }
 
-    public WarehouseDto putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails, int warehouseId) {
+    public WarehouseDto putInventoryInWarehouse(Set<InventoryDetailDto> inventoryDetails, int warehouseId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
             logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
@@ -120,7 +123,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
             throw new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId);
         } else {
-            for (InventoryDetail inventory1 : inventoryDetails) {
+            for (InventoryDetailDto inventory1 : inventoryDetails) {
                 int inventoryId = inventory1.getInventoryId();
                 logger.info("Checking if inventory exist in database with id: " + inventoryId);
                 InventoryDetail inventory = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
@@ -143,7 +146,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                 }
             }
         }
-        return warehouseToWarehouseDto(warehouse);
+        return globalMapper.warehouseToWarehouseDto((warehouse));
     }
 
     @Override
@@ -170,7 +173,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                 throw new GlobalException("This warehouse does not have any inventory", warehouseId);
             }
             logger.info("Returning itemQuantity in warehouse with warehouseId: " + warehouseId);
-            return warehouseDao.getItemQuantityInSingleWarehouse(Constants.ACTIVE.getValue(), warehouseId).stream().map(this::ItemQuantityToItemQuantityDto).collect(Collectors.toList());
+            return warehouseDao.getItemQuantityInSingleWarehouse(Constants.ACTIVE.getValue(), warehouseId).stream().map(globalMapper::itemQuantityToItemQuantityDto).collect(Collectors.toList());
         }
     }
 
@@ -198,7 +201,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                 throw new GlobalException("None of the warehouses has inventory", 0);
             }
             logger.info("Returning itemQuantity in all warehouses");
-            return warehouseDao.getItemQuantityAllWarehouses(Constants.ACTIVE.getValue()).stream().map(this::ItemQuantityToItemQuantityDto).collect(Collectors.toList());
+            return warehouseDao.getItemQuantityAllWarehouses(Constants.ACTIVE.getValue()).stream().map(globalMapper::itemQuantityToItemQuantityDto).collect(Collectors.toList());
         } else {
             logger.info("Inventory not found");
             logger.error("None of the warehouses has inventory", new GlobalException("None of the warehouses has inventory", 0));
@@ -207,7 +210,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId,
+    public WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId,
                                                          int inventoryId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
@@ -235,7 +238,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                     inventoryDetailDao.save(setItemQuantity);
                     logger.info("Saving warehouse in database");
                     logger.info("Returning warehouse with updated inventory");
-                    return warehouseToWarehouseDto(warehouseDao.save(warehouse));
+                    return globalMapper.warehouseToWarehouseDto(warehouseDao.save(warehouse));
                 }
             }
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
@@ -260,13 +263,5 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         logger.info("Setting status of warehouse to " + Constants.DELETED.getValue());
         warehouseDao.softDelete(Constants.DELETED.getValue(), warehouseId);
-    }
-
-    public WarehouseDto warehouseToWarehouseDto(Warehouse warehouse) {
-        return modelMapper.map(warehouse, WarehouseDto.class);
-    }
-
-    public ItemQuantityDto ItemQuantityToItemQuantityDto(ItemQuantity itemQuantity) {
-        return modelMapper.map(itemQuantity, ItemQuantityDto.class);
     }
 }

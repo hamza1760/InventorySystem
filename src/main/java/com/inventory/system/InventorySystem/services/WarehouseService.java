@@ -1,5 +1,6 @@
 package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.dto.InventoryDetailDto;
 import com.inventory.system.InventorySystem.dto.ItemQuantityDto;
 import com.inventory.system.InventorySystem.dto.WarehouseDto;
 import com.inventory.system.InventorySystem.entities.InventoryDetail;
@@ -11,15 +12,15 @@ import java.util.Set;
 
 public interface WarehouseService {
 
-    WarehouseDto addWarehouse(Warehouse warehouse);
+    WarehouseDto addWarehouse(WarehouseDto warehouse);
 
     List<WarehouseDto> getWarehouse();
 
     WarehouseDto getWarehouseById(Warehouse getWarehouse);
 
-    WarehouseDto putInventoryInWarehouse(Set<InventoryDetail> inventoryDetails, int warehouseId);
+    WarehouseDto putInventoryInWarehouse(Set<InventoryDetailDto> inventoryDetails, int warehouseId);
 
-    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetail inventory, int warehouseId, int inventoryId);
+    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId, int inventoryId);
 
     List<ItemQuantityDto> getItemQuantityInSingleWarehouse(int warehouseId);
 
@@ -27,7 +28,4 @@ public interface WarehouseService {
 
     void deleteWarehouseById(int warehouseId);
 
-    WarehouseDto warehouseToWarehouseDto(Warehouse warehouse);
-
-    ItemQuantityDto ItemQuantityToItemQuantityDto(ItemQuantity itemQuantity);
 }
