@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.*;
 
 @Entity
 @Proxy(lazy = false)
@@ -56,5 +57,18 @@ public class BrandDetail {
 
     public Item getItem() {
         return item;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BrandDetail that = (BrandDetail) o;
+        return brandId == that.brandId && Objects.equals(brandName, that.brandName) && Objects.equals(status, that.status) && Objects.equals(item, that.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brandId, brandName, status, item);
     }
 }

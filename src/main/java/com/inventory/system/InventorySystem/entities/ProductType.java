@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.*;
 
 @Entity
 @Proxy(lazy = false)
@@ -60,5 +61,18 @@ public class ProductType {
 
     public Item getItem() {
         return item;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductType that = (ProductType) o;
+        return productTypeId == that.productTypeId && Objects.equals(productType, that.productType) && Objects.equals(status, that.status) && Objects.equals(item, that.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productTypeId, productType, status, item);
     }
 }

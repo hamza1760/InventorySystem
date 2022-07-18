@@ -3,8 +3,7 @@ package com.inventory.system.InventorySystem.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.system.InventorySystem.constant.Constants;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ItemDto {
 
@@ -20,10 +19,12 @@ public class ItemDto {
     public ItemDto() {
     }
 
-    public ItemDto(int itemId, String itemName, String status) {
+    public ItemDto(int itemId, String itemName, String status,BrandDetailDto brand,ProductTypeDto productType) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.status = status;
+        this.productType = productType;
+        this.brand = brand;
     }
 
     public int getItemId() {
@@ -84,6 +85,19 @@ public class ItemDto {
                 ", brand=" + brand +
                 ", inventory=" + inventory +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemDto itemDto = (ItemDto) o;
+        return itemId == itemDto.itemId && Objects.equals(itemName, itemDto.itemName) && Objects.equals(status, itemDto.status) && Objects.equals(productType, itemDto.productType) && Objects.equals(brand, itemDto.brand) && Objects.equals(inventory, itemDto.inventory);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemId, itemName, status, productType, brand, inventory);
     }
 }
 

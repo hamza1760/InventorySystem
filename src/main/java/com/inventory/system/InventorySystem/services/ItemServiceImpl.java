@@ -162,7 +162,7 @@ public class ItemServiceImpl implements ItemService {
             throw new GlobalException("This item does not have any inventory ", itemId);
         }
         logger.info("Returning item size of item with itemId: " + itemId);
-        return itemDao.getItemSizeById(Constants.ACTIVE.getValue(), itemId).stream().map(globalMapper::itemSizeToItemSizeDto).collect(Collectors.toList());
+        return itemSizes.stream().map(globalMapper::itemSizeToItemSizeDto).collect(Collectors.toList());
     }
 
     @Override
@@ -179,6 +179,8 @@ public class ItemServiceImpl implements ItemService {
             throw new GlobalException("None of the Item has inventory", 0);
         }
         logger.info("Returning list of itemSize based on custom query");
-        return itemDao.getAllItemSize(Constants.ACTIVE.getValue()).stream().map(globalMapper::itemSizeToItemSizeDto).collect(Collectors.toList());
+        return itemSizes.stream().map(globalMapper::itemSizeToItemSizeDto).collect(Collectors.toList());
+
     }
+
 }

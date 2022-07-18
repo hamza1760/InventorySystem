@@ -125,4 +125,22 @@ public class InventoryDetailDto {
     public void setWarehouse(WarehouseDto warehouse) {
         this.warehouse = warehouse;
     }
+
+    @Override
+    public String toString() {
+        return "InventoryDetailDto{" +
+                "inventoryId=" + inventoryId +
+                ", itemSize='" + itemSize + '\'' +
+                ", inStock=" + inStock +
+                ", avlQty=" + avlQty +
+                ", inTransit=" + inTransit +
+                ", minOrderQuantity=" + minOrderQuantity +
+                ", quantityPerBox=" + quantityPerBox +
+                ", reorderPoint=" + reorderPoint +
+                ", status='" + status + '\'' +
+                ", item=" + item +
+                ", itemType=" + itemType +
+                ", warehouse=" + warehouse +
+                '}';
+    }
 }

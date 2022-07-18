@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.dto;
 
+import java.util.*;
+
 public class ItemSizeDto {
     private int inventoryId;
     private int itemId;
@@ -76,5 +78,31 @@ public class ItemSizeDto {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemSizeDto{" +
+                "inventoryId=" + inventoryId +
+                ", itemId=" + itemId +
+                ", itemSize='" + itemSize + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", itemType='" + itemType + '\'' +
+                ", productType='" + productType + '\'' +
+                ", brandName='" + brandName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemSizeDto that = (ItemSizeDto) o;
+        return inventoryId == that.inventoryId && itemId == that.itemId && Objects.equals(itemSize, that.itemSize) && Objects.equals(itemName, that.itemName) && Objects.equals(itemType, that.itemType) && Objects.equals(productType, that.productType) && Objects.equals(brandName, that.brandName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inventoryId, itemId, itemSize, itemName, itemType, productType, brandName);
     }
 }

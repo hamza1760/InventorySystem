@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
+import java.util.*;
+
 public class ItemSize {
     private int inventoryId;
     private int itemId;
@@ -76,6 +78,19 @@ public class ItemSize {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemSize itemSize1 = (ItemSize) o;
+        return inventoryId == itemSize1.inventoryId && itemId == itemSize1.itemId && Objects.equals(itemSize, itemSize1.itemSize) && Objects.equals(itemName, itemSize1.itemName) && Objects.equals(itemType, itemSize1.itemType) && Objects.equals(productType, itemSize1.productType) && Objects.equals(brandName, itemSize1.brandName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inventoryId, itemId, itemSize, itemName, itemType, productType, brandName);
     }
 }
 

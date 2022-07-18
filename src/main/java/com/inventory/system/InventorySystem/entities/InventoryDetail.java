@@ -1,10 +1,11 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 
 @Entity
 @Proxy(lazy = false)

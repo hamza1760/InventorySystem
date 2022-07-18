@@ -1,13 +1,13 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import org.hibernate.annotations.Proxy;
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.*;
+import java.util.*;
 
 @Entity
 @Table(name = "item")
@@ -33,14 +33,13 @@ public class Item {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
     private Set<InventoryDetail> inventory = new HashSet<>();
 
+    public Item() {
+    }
+
     public Item(int itemId, String itemName, String status) {
-        super();
         this.itemId = itemId;
         this.itemName = itemName;
         this.status = status;
-    }
-
-    public Item() {
     }
 
     public int getItemId() {
@@ -101,5 +100,18 @@ public class Item {
                 ", brand=" + brand +
                 ", inventory=" + inventory +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return itemId == item.itemId && Objects.equals(itemName, item.itemName) && Objects.equals(status, item.status) && Objects.equals(productType, item.productType) && Objects.equals(brand, item.brand) && Objects.equals(inventory, item.inventory);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemId, itemName, status, productType, brand, inventory);
     }
 }
