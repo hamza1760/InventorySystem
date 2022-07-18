@@ -1,40 +1,32 @@
 package com.inventory.system.InventorySystem.services.test;
 
-import com.inventory.system.InventorySystem.constant.Constants;
-import com.inventory.system.InventorySystem.dao.BrandDetailDao;
-import com.inventory.system.InventorySystem.dao.InventoryDetailDao;
-import com.inventory.system.InventorySystem.dao.ItemDao;
-import com.inventory.system.InventorySystem.dao.ProductTypeDao;
-import com.inventory.system.InventorySystem.dto.BrandDetailDto;
-import com.inventory.system.InventorySystem.dto.ItemDto;
-import com.inventory.system.InventorySystem.dto.ProductTypeDto;
-import com.inventory.system.InventorySystem.entities.InventoryDetail;
-import com.inventory.system.InventorySystem.entities.Item;
-import com.inventory.system.InventorySystem.entities.ItemSize;
-import com.inventory.system.InventorySystem.exceptions.GlobalException;
-import com.inventory.system.InventorySystem.mapper.GlobalMapper;
-import com.inventory.system.InventorySystem.services.ItemServiceImpl;
-import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
+import com.inventory.system.InventorySystem.constant.*;
+import com.inventory.system.InventorySystem.dao.*;
+import com.inventory.system.InventorySystem.dto.*;
+import com.inventory.system.InventorySystem.entities.*;
+import com.inventory.system.InventorySystem.exceptions.*;
+import com.inventory.system.InventorySystem.mapper.*;
+import com.inventory.system.InventorySystem.services.*;
+import org.apache.log4j.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.mockito.*;
+import org.mockito.junit.jupiter.*;
+import org.mockito.quality.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ItemServiceImplTest {
 
     static Logger logger = Logger.getLogger(ItemServiceImplTest.class);
 
     MockData mockData = new MockData();
+    MockDtoData mockDtoData = new MockDtoData();
 
     @Mock
     private ItemDao itemDao;
@@ -55,29 +47,23 @@ public class ItemServiceImplTest {
     private ItemServiceImpl itemService;
 
 
-    ItemDto itemDto = new ItemDto(1, "AdidasShoe", Constants.ACTIVE.getValue());
-
-    ProductTypeDto productTypeDto = new ProductTypeDto(Constants.ACTIVE.getValue(), 1, "Shoe");
-
-    BrandDetailDto brandDetailDto = new BrandDetailDto(Constants.ACTIVE.getValue(), 1, "Adidas");
-
     @Test
     public void addItem() {
         when(productTypeDao.findById(mockData.getProduct().getProductTypeId())).thenReturn(Optional.of(mockData.getProduct()));
         when(brandDetailDao.findById(mockData.getBrand().getBrandId())).thenReturn(Optional.of(mockData.getBrand()));
-        when(globalMapper.itemToItemDto(mockData.getItem())).thenReturn(itemDto);
-        when(globalMapper.productTypeToProductTypeDto(mockData.getProduct())).thenReturn(productTypeDto);
-        when(globalMapper.brandDetailToBrandDetailDto(mockData.getBrand())).thenReturn(brandDetailDto);
-        itemDto.setProductType(productTypeDto);
-        itemDto.setBrand(brandDetailDto);
-        when(globalMapper.itemDtoItem(itemDto)).thenReturn(mockData.getItem());
+        when(globalMapper.itemToItemDto(mockData.getItem())).thenReturn(mockDtoData.getItemDto());
+        when(globalMapper.productTypeToProductTypeDto(mockData.getProduct())).thenReturn(mockDtoData.getProductTypeDto());
+        when(globalMapper.brandDetailToBrandDetailDto(mockData.getBrand())).thenReturn(mockDtoData.getBrandDetailDto());
+        mockDtoData.getItemDto().setProductType(mockDtoData.getProductTypeDto());
+        mockDtoData.getItemDto().setBrand(mockDtoData.getBrandDetailDto());
+        when(globalMapper.itemDtoItem(mockDtoData.getItemDto())).thenReturn(mockData.getItem());
         when(itemDao.save(mockData.getItem())).thenReturn(mockData.getItem());
-        assertEquals(itemDto, itemService.addItem(itemDto));
+        assertEquals(mockDtoData.getItemDto(), itemService.addItem(mockDtoData.getItemDto()));
     }
 
     @Test
     public void getItem() {
-        List<Item> itemList = Arrays.asList(mockData.getItem());
+        List<Item> itemList = List.of(mockData.getItem());
         itemList.forEach((i) -> {
             if (Objects.equals(i.getStatus(), Constants.DELETED.getValue())) {
                 logger.info("item not found with itemId: " + i.getItemId());
@@ -91,14 +77,16 @@ public class ItemServiceImplTest {
     @Test
     public void getItemById() {
         int id = 1;
-        List<Item> items = Arrays.asList(mockData.getItem());
+        List<Item> items = List.of(mockData.getItem());
         items.forEach((i) -> {
             if (id == i.getItemId()) {
                 when(itemDao.findById(id)).thenReturn(Optional.of(i));
                 when(itemDao.findByStatusAndItemId(Constants.ACTIVE.getValue(), id)).thenReturn(i);
+                when(globalMapper.itemToItemDto(i)).thenReturn(mockDtoData.getItemDto());
             }
         });
-        assertEquals(mockData.getItem(), itemService.getItemById(id));
+
+        assertEquals(mockDtoData.getItemDto(), itemService.getItemById(id));
     }
 
     @Test

@@ -9,6 +9,9 @@ public class ItemSizeDto {
     private String productType;
     private String brandName;
 
+    public ItemSizeDto() {
+    }
+
     public ItemSizeDto(int inventoryId, int itemId, String itemSize, String itemName, String itemType, String productType, String brandName) {
         this.inventoryId = inventoryId;
         this.itemId = itemId;

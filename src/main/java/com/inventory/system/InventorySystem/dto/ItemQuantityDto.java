@@ -17,6 +17,9 @@ public class ItemQuantityDto {
     private String productType;
     private String brandName;
 
+    public ItemQuantityDto() {
+    }
+
     public ItemQuantityDto(int warehouseId, String warehouseName, String areaName, String cityName, String countryName, int inventoryId, String itemSize, int inStock, int avlQty, String itemName, int itemId, String itemType, String productType, String brandName) {
         this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;
