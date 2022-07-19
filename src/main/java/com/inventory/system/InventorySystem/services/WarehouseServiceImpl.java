@@ -201,8 +201,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId,
-                                                         int inventoryId) {
+    public WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId) {
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {
             logger.error("Warehouse not found", new GlobalException(Constants.WAREHOUSE_NOT_FOUND.getValue(), warehouseId));
@@ -215,25 +214,24 @@ public class WarehouseServiceImpl implements WarehouseService {
         } else {
             logger.info("Getting list of inventories from warehouse");
             Set<InventoryDetail> inventoryDetails = warehouse.getInventory();
-            for (InventoryDetail setItemQuantity : inventoryDetails) {
-                int inventoryIdInWarehouse = setItemQuantity.getInventoryId();
-                logger.info("Checking if inventory with inventoryId: " + inventoryId + " exist in warehouse with  warehouseId: " + warehouseId);
-                if (inventoryIdInWarehouse == inventoryId) {
-                    logger.info("Setting In Stock Quantity of item in database");
-                    setItemQuantity.setInStock(inventory.getInStock());
-                    logger.info("Setting Available Quantity of item in database");
-                    setItemQuantity.setAvlQty(inventory.getAvlQty());
-                    logger.info("Setting inventory in warehouse");
-                    warehouse.setInventory((setItemQuantity));
+            for (InventoryDetail updateInventory : inventoryDetails) {
+                int inventoryIdInWarehouse = updateInventory.getInventoryId();
+                logger.info("Checking if inventory with inventoryId: " + inventory.getInventoryId() + " exist in warehouse with  warehouseId: " + warehouseId);
+                if (inventoryIdInWarehouse == inventory.getInventoryId()) {
+                    inventory.setItem(globalMapper.itemToItemDto(updateInventory.getItem()));
+                    inventory.setItemType(globalMapper.itemTypeToItemTypeDto(updateInventory.getItemType()));
+                    inventory.setWarehouse(globalMapper.warehouseToWarehouseDto(updateInventory.getWarehouse()));
+                    updateInventory = globalMapper.inventoryDetailDtoToInventoryDetail(inventory);
+                    warehouse.setInventory((updateInventory));
                     logger.info("Saving inventory in database");
-                    inventoryDetailDao.save(setItemQuantity);
+                    inventoryDetailDao.save(updateInventory);
                     logger.info("Saving warehouse in database");
                     logger.info("Returning warehouse with updated inventory");
                     return globalMapper.warehouseToWarehouseDto(warehouseDao.save(warehouse));
                 }
             }
-            logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
-            throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
+            logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(),inventory.getInventoryId()));
+            throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventory.getInventoryId());
         }
     }
 

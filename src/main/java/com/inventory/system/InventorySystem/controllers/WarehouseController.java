@@ -69,9 +69,9 @@ public class WarehouseController {
         return warehouseService.putInventoryInWarehouse(inventoryDetails, warehouseId);
     }
 
-    @PutMapping("inventory/{inventoryId}/warehouse/{warehouseId}")
-    public WarehouseDto setItemQuantityInSingleWarehouse(@RequestBody InventoryDetailDto inventoryDetail, @PathVariable int inventoryId, @PathVariable int warehouseId) {
+    @PutMapping("/warehouse/{warehouseId}")
+    public WarehouseDto setItemQuantityInSingleWarehouse(@RequestBody InventoryDetailDto inventoryDetail, @PathVariable int warehouseId) {
         logger.info("Calling setItemQuantityInSingleWarehouse method from controller");
-        return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId, inventoryId);
+        return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId);
     }
 }
