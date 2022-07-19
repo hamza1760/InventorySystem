@@ -16,9 +16,7 @@ public class Item {
 
     @Id
     @Column(name = "item_id")
-    @Positive
     private int itemId;
-    @NotEmpty
     private String itemName;
     private String status = Constants.ACTIVE.getValue();
 

@@ -2,16 +2,24 @@ package com.inventory.system.InventorySystem.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
+import org.springframework.data.repository.cdi.*;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.*;
 
 public class WarehouseDto {
 
+    @Positive
     private int warehouseId;
+    @NotEmpty
     private String warehouseName;
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
     private AddressDto address;
+
+    private Set<InventoryDetailDto> inventory;
 
     public WarehouseDto() {
     }
@@ -21,8 +29,6 @@ public class WarehouseDto {
         this.warehouseName = warehouseName;
         this.status = status;
     }
-
-    private Set<InventoryDetailDto> inventory = new HashSet<>();
 
     public int getWarehouseId() {
         return warehouseId;

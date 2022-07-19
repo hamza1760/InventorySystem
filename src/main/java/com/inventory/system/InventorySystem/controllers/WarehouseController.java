@@ -38,7 +38,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/warehouseById")
-    public WarehouseDto getWarehouseById(@RequestBody Warehouse getWarehouse) {
+    public WarehouseDto getWarehouseById(@RequestBody WarehouseDto getWarehouse) {
         logger.info("Calling getWarehouseById method from controller");
         return warehouseService.getWarehouseById(getWarehouse);
     }

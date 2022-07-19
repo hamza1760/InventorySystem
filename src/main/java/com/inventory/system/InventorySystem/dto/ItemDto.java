@@ -3,11 +3,14 @@ package com.inventory.system.InventorySystem.dto;
 import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
 
+import javax.validation.constraints.*;
 import java.util.*;
 
 public class ItemDto {
 
+    @Positive
     private int itemId;
+    @NotEmpty
     private String itemName;
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();

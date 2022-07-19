@@ -88,7 +88,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseDto getWarehouseById(Warehouse getWarehouse) {
+    public WarehouseDto getWarehouseById(WarehouseDto getWarehouse) {
         int warehouseId = getWarehouse.getWarehouseId();
         logger.info("Checking if warehouse exists in database with id: " + warehouseId);
         Warehouse warehouse = warehouseDao.findById(warehouseId).orElseThrow(() -> {

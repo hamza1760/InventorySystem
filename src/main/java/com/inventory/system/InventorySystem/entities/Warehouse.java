@@ -14,9 +14,7 @@ import java.util.*;
 public class Warehouse {
 
     @Id
-    @Positive
     private int warehouseId;
-    @NotEmpty
     private String warehouseName;
     private String status = Constants.ACTIVE.getValue();
 
@@ -24,9 +22,8 @@ public class Warehouse {
     @JoinColumn(name = "address_id_fk")
     private Address address;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
-    private final Set<InventoryDetail> inventory = new HashSet<>();
+    private Set<InventoryDetail> inventory = new HashSet<>();
 
     public Warehouse() {
     }

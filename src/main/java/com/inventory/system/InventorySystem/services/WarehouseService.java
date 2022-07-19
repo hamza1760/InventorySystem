@@ -11,7 +11,7 @@ public interface WarehouseService {
 
     List<WarehouseDto> getWarehouse();
 
-    WarehouseDto getWarehouseById(Warehouse getWarehouse);
+    WarehouseDto getWarehouseById(WarehouseDto getWarehouse);
 
     WarehouseDto putInventoryInWarehouse(Set<InventoryDetailDto> inventoryDetails, int warehouseId);
 

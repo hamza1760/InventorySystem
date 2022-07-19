@@ -10,8 +10,8 @@ import javax.validation.constraints.*;
 @Entity
 @Proxy(lazy = false)
 public class InventoryDetail {
+
     @Id
-    @Positive
     private int inventoryId;
     private String itemSize;
     private int inStock;
@@ -30,7 +30,7 @@ public class InventoryDetail {
     @JoinColumn(name = "itemTypeId")
     private ItemType itemType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;
 
