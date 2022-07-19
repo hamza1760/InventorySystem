@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.api.response;
 
+import java.util.*;
+
 public class ApiResponse {
 
     String message;
@@ -24,5 +26,13 @@ public class ApiResponse {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ApiResponse that = (ApiResponse) o;
+        return id == that.id && Objects.equals(message, that.message);
     }
 }

@@ -20,6 +20,12 @@ public class ItemController {
     private ItemService itemService;
 
     /* Item Controller */
+    @PostMapping("/item/")
+    public ItemDto addItem(@Valid @RequestBody ItemDto item) {
+        logger.info("Calling addItem method from controller");
+        return itemService.addItem(item);
+    }
+
     @GetMapping("/item")
     public List<ItemDto> getItem() {
         logger.info("Calling getItem method from controller");
@@ -43,12 +49,6 @@ public class ItemController {
     public List<ItemSizeDto> getItemSizeById(@PathVariable int itemId) {
         logger.info("Calling getItemSizeById method from controller");
         return itemService.getItemSizeById(itemId);
-    }
-
-    @PostMapping("/item/")
-    public ItemDto addItem(@Valid @RequestBody ItemDto item) {
-        logger.info("Calling addItem method from controller");
-        return itemService.addItem(item);
     }
 
     @DeleteMapping("/item/{itemId}")
