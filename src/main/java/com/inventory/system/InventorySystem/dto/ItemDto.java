@@ -98,10 +98,6 @@ public class ItemDto {
         return itemId == itemDto.itemId && Objects.equals(itemName, itemDto.itemName) && Objects.equals(status, itemDto.status) && Objects.equals(productType, itemDto.productType) && Objects.equals(brand, itemDto.brand) && Objects.equals(inventory, itemDto.inventory);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(itemId, itemName, status, productType, brand, inventory);
-    }
 }
 
 

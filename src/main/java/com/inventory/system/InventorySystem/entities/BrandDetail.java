@@ -65,8 +65,4 @@ public class BrandDetail {
         return brandId == that.brandId && Objects.equals(brandName, that.brandName) && Objects.equals(status, that.status) && Objects.equals(item, that.item);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(brandId, brandName, status, item);
-    }
 }

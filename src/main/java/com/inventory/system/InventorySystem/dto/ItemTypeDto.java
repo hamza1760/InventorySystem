@@ -46,4 +46,12 @@ public class ItemTypeDto {
     public Set<InventoryDetailDto> getInventory() {
         return inventory;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemTypeDto that = (ItemTypeDto) o;
+        return itemTypeId == that.itemTypeId && Objects.equals(itemType, that.itemType) && Objects.equals(status, that.status) && Objects.equals(inventory, that.inventory);
+    }
 }

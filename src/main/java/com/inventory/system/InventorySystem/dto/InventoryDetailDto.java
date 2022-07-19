@@ -2,9 +2,9 @@ package com.inventory.system.InventorySystem.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
-import org.hibernate.annotations.*;
 
 import javax.validation.constraints.*;
+import java.util.*;
 
 public class InventoryDetailDto {
 
@@ -27,7 +27,7 @@ public class InventoryDetailDto {
     public InventoryDetailDto() {
     }
 
-    public InventoryDetailDto(int inventoryId, String itemSize, int inStock, int avlQty, int inTransit, int minOrderQuantity, int quantityPerBox, int reorderPoint, String status) {
+    public InventoryDetailDto(int inventoryId, String itemSize, int inStock, int avlQty, int inTransit, int minOrderQuantity, int quantityPerBox, int reorderPoint, String status, ItemDto item, ItemTypeDto itemType, WarehouseDto warehouse) {
         this.inventoryId = inventoryId;
         this.itemSize = itemSize;
         this.inStock = inStock;
@@ -37,6 +37,9 @@ public class InventoryDetailDto {
         this.quantityPerBox = quantityPerBox;
         this.reorderPoint = reorderPoint;
         this.status = status;
+        this.item = item;
+        this.itemType = itemType;
+        this.warehouse = warehouse;
     }
 
     public int getInventoryId() {
@@ -132,20 +135,10 @@ public class InventoryDetailDto {
     }
 
     @Override
-    public String toString() {
-        return "InventoryDetailDto{" +
-                "inventoryId=" + inventoryId +
-                ", itemSize='" + itemSize + '\'' +
-                ", inStock=" + inStock +
-                ", avlQty=" + avlQty +
-                ", inTransit=" + inTransit +
-                ", minOrderQuantity=" + minOrderQuantity +
-                ", quantityPerBox=" + quantityPerBox +
-                ", reorderPoint=" + reorderPoint +
-                ", status='" + status + '\'' +
-                ", item=" + item +
-                ", itemType=" + itemType +
-                ", warehouse=" + warehouse +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InventoryDetailDto that = (InventoryDetailDto) o;
+        return inventoryId == that.inventoryId && inStock == that.inStock && avlQty == that.avlQty && inTransit == that.inTransit && minOrderQuantity == that.minOrderQuantity && quantityPerBox == that.quantityPerBox && reorderPoint == that.reorderPoint && Objects.equals(itemSize, that.itemSize) && Objects.equals(status, that.status) && Objects.equals(item, that.item) && Objects.equals(itemType, that.itemType) && Objects.equals(warehouse, that.warehouse);
     }
 }

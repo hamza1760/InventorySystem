@@ -62,9 +62,4 @@ public class ProductTypeDto {
         ProductTypeDto that = (ProductTypeDto) o;
         return productTypeId == that.productTypeId && Objects.equals(productType, that.productType) && Objects.equals(status, that.status) && Objects.equals(item, that.item);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(productTypeId, productType, status, item);
-    }
 }

@@ -28,7 +28,7 @@ public class MockDtoData {
     //inventory dto
     public InventoryDetailDto getInventoryDetailDto() {
         return new InventoryDetailDto(1, "small", 40, 20, 35, 70,
-                10, 60, Constants.ACTIVE.getValue());
+                10, 60, Constants.ACTIVE.getValue(),getItemDto(),getItemTypeDto(),getWarehouseDto());
     }
 
     //warehouse dto

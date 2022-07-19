@@ -2,10 +2,7 @@ package com.inventory.system.InventorySystem.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
-import org.hibernate.annotations.*;
-import org.springframework.data.repository.cdi.*;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.*;
 
@@ -68,5 +65,13 @@ public class WarehouseDto {
 
     public void setInventory(Set<InventoryDetailDto> inventory) {
         this.inventory = inventory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WarehouseDto that = (WarehouseDto) o;
+        return warehouseId == that.warehouseId && Objects.equals(warehouseName, that.warehouseName) && Objects.equals(status, that.status) && Objects.equals(address, that.address) && Objects.equals(inventory, that.inventory);
     }
 }

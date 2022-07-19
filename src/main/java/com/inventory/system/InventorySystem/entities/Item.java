@@ -108,8 +108,4 @@ public class Item {
         return itemId == item.itemId && Objects.equals(itemName, item.itemName) && Objects.equals(status, item.status) && Objects.equals(productType, item.productType) && Objects.equals(brand, item.brand) && Objects.equals(inventory, item.inventory);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(itemId, itemName, status, productType, brand, inventory);
-    }
 }

@@ -58,4 +58,13 @@ public class ItemType {
     public Set<InventoryDetail> getInventory() {
         return inventory;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemType itemType1 = (ItemType) o;
+        return itemTypeId == itemType1.itemTypeId && Objects.equals(itemType, itemType1.itemType) && Objects.equals(status, itemType1.status) && Objects.equals(inventory, itemType1.inventory);
+    }
+
 }
