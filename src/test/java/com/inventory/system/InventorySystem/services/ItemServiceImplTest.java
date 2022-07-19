@@ -1,12 +1,12 @@
-package com.inventory.system.InventorySystem.services.test;
+package com.inventory.system.InventorySystem.services;
 
+import com.inventory.system.InventorySystem.*;
 import com.inventory.system.InventorySystem.constant.*;
 import com.inventory.system.InventorySystem.dao.*;
 import com.inventory.system.InventorySystem.dto.*;
 import com.inventory.system.InventorySystem.entities.*;
 import com.inventory.system.InventorySystem.exceptions.*;
 import com.inventory.system.InventorySystem.mapper.*;
-import com.inventory.system.InventorySystem.services.*;
 import org.apache.log4j.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;

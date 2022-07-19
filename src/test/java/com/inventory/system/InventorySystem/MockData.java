@@ -1,4 +1,4 @@
-package com.inventory.system.InventorySystem.services.test;
+package com.inventory.system.InventorySystem;
 
 import com.inventory.system.InventorySystem.constant.*;
 import com.inventory.system.InventorySystem.entities.*;
