@@ -49,8 +49,6 @@ public class InventoryServiceImplTest {
         when(globalMapper.itemTypeToItemTypeDto(mockData.getItemType())).thenReturn(mockDtoData.getItemTypeDto());
         when(globalMapper.inventoryDetailToInventoryDetailDto(mockData.getInventoryDetail())).thenReturn(mockDtoData.getInventoryDetailDto());
         when(globalMapper.inventoryDetailDtoToInventoryDetail(mockDtoData.getInventoryDetailDto())).thenReturn(mockData.getInventoryDetail());
-        mockData.getInventoryDetail().setItem(mockData.getItem());
-        mockData.getInventoryDetail().setItemType(mockData.getItemType());
         when(inventoryDetailDao.save(mockData.getInventoryDetail())).thenReturn(mockData.getInventoryDetail());
         assertEquals(mockDtoData.getInventoryDetailDto(), inventoryService.addInventory(mockDtoData.getInventoryDetailDto()));
     }

@@ -1,7 +1,6 @@
 package com.inventory.system.InventorySystem.services;
 
 import com.inventory.system.InventorySystem.dto.*;
-import com.inventory.system.InventorySystem.entities.*;
 
 import java.util.*;
 

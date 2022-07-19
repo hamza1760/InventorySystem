@@ -66,5 +66,4 @@ public class ItemType {
         ItemType itemType1 = (ItemType) o;
         return itemTypeId == itemType1.itemTypeId && Objects.equals(itemType, itemType1.itemType) && Objects.equals(status, itemType1.status) && Objects.equals(inventory, itemType1.inventory);
     }
-
 }

@@ -139,6 +139,6 @@ public class InventoryDetailDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InventoryDetailDto that = (InventoryDetailDto) o;
-        return inventoryId == that.inventoryId && inStock == that.inStock && avlQty == that.avlQty && inTransit == that.inTransit && minOrderQuantity == that.minOrderQuantity && quantityPerBox == that.quantityPerBox && reorderPoint == that.reorderPoint && Objects.equals(itemSize, that.itemSize) && Objects.equals(status, that.status) && Objects.equals(item, that.item) && Objects.equals(itemType, that.itemType) && Objects.equals(warehouse, that.warehouse);
+        return inventoryId == that.inventoryId && inStock == that.inStock && avlQty == that.avlQty && inTransit == that.inTransit && minOrderQuantity == that.minOrderQuantity && quantityPerBox == that.quantityPerBox && reorderPoint == that.reorderPoint && Objects.equals(itemSize, that.itemSize) && Objects.equals(status, that.status);
     }
 }

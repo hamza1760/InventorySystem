@@ -97,7 +97,6 @@ public class ItemDto {
         ItemDto itemDto = (ItemDto) o;
         return itemId == itemDto.itemId && Objects.equals(itemName, itemDto.itemName) && Objects.equals(status, itemDto.status) && Objects.equals(productType, itemDto.productType) && Objects.equals(brand, itemDto.brand) && Objects.equals(inventory, itemDto.inventory);
     }
-
 }
 
 

@@ -51,8 +51,6 @@ public class ItemServiceImplTest {
         when(globalMapper.itemToItemDto(mockData.getItem())).thenReturn(mockDtoData.getItemDto());
         when(globalMapper.productTypeToProductTypeDto(mockData.getProduct())).thenReturn(mockDtoData.getProductTypeDto());
         when(globalMapper.brandDetailToBrandDetailDto(mockData.getBrand())).thenReturn(mockDtoData.getBrandDetailDto());
-        mockDtoData.getItemDto().setProductType(mockDtoData.getProductTypeDto());
-        mockDtoData.getItemDto().setBrand(mockDtoData.getBrandDetailDto());
         when(globalMapper.itemDtoItem(mockDtoData.getItemDto())).thenReturn(mockData.getItem());
         when(itemDao.save(mockData.getItem())).thenReturn(mockData.getItem());
         assertEquals(mockDtoData.getItemDto(), itemService.addItem(mockDtoData.getItemDto()));

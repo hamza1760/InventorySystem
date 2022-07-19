@@ -67,5 +67,4 @@ public class ProductType {
         ProductType that = (ProductType) o;
         return productTypeId == that.productTypeId && Objects.equals(productType, that.productType) && Objects.equals(status, that.status) && Objects.equals(item, that.item);
     }
-
 }

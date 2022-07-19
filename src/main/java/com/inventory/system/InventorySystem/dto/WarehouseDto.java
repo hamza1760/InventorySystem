@@ -15,16 +15,16 @@ public class WarehouseDto {
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
     private AddressDto address;
-
     private Set<InventoryDetailDto> inventory;
 
     public WarehouseDto() {
     }
 
-    public WarehouseDto(int warehouseId, String warehouseName, String status) {
+    public WarehouseDto(int warehouseId, String warehouseName, String status, AddressDto address) {
         this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;
         this.status = status;
+        this.address = address;
     }
 
     public int getWarehouseId() {
@@ -72,6 +72,6 @@ public class WarehouseDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WarehouseDto that = (WarehouseDto) o;
-        return warehouseId == that.warehouseId && Objects.equals(warehouseName, that.warehouseName) && Objects.equals(status, that.status) && Objects.equals(address, that.address) && Objects.equals(inventory, that.inventory);
+        return warehouseId == that.warehouseId && Objects.equals(warehouseName, that.warehouseName) && Objects.equals(status, that.status);
     }
 }

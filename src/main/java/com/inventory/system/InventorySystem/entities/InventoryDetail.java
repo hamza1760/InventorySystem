@@ -5,7 +5,6 @@ import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.*;
 
 @Entity
@@ -170,11 +169,11 @@ public class InventoryDetail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InventoryDetail that = (InventoryDetail) o;
-        return inventoryId == that.inventoryId && inStock == that.inStock && avlQty == that.avlQty && inTransit == that.inTransit && minOrderQuantity == that.minOrderQuantity && quantityPerBox == that.quantityPerBox && reorderPoint == that.reorderPoint && Objects.equals(itemSize, that.itemSize) && Objects.equals(status, that.status) && Objects.equals(item, that.item) && Objects.equals(itemType, that.itemType) && Objects.equals(warehouse, that.warehouse);
+        return inventoryId == that.inventoryId && inStock == that.inStock && avlQty == that.avlQty && inTransit == that.inTransit && minOrderQuantity == that.minOrderQuantity && quantityPerBox == that.quantityPerBox && reorderPoint == that.reorderPoint && Objects.equals(itemSize, that.itemSize) && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(inventoryId, itemSize, inStock, avlQty, inTransit, minOrderQuantity, quantityPerBox, reorderPoint, status, item, itemType, warehouse);
+        return Objects.hash(inventoryId, itemSize, inStock, avlQty, inTransit, minOrderQuantity, quantityPerBox, reorderPoint, status);
     }
 }

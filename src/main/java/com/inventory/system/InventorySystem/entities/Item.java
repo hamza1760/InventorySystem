@@ -6,7 +6,6 @@ import org.hibernate.annotations.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.*;
 
 @Entity
@@ -107,5 +106,4 @@ public class Item {
         Item item = (Item) o;
         return itemId == item.itemId && Objects.equals(itemName, item.itemName) && Objects.equals(status, item.status) && Objects.equals(productType, item.productType) && Objects.equals(brand, item.brand) && Objects.equals(inventory, item.inventory);
     }
-
 }

@@ -28,12 +28,12 @@ public class MockDtoData {
     //inventory dto
     public InventoryDetailDto getInventoryDetailDto() {
         return new InventoryDetailDto(1, "small", 40, 20, 35, 70,
-                10, 60, Constants.ACTIVE.getValue(),getItemDto(),getItemTypeDto(),getWarehouseDto());
+                10, 60, Constants.ACTIVE.getValue(), getItemDto(), getItemTypeDto(), getWarehouseDto());
     }
 
     //warehouse dto
     public WarehouseDto getWarehouseDto() {
-        return new WarehouseDto(1, "PAK", Constants.ACTIVE.getValue());
+        return new WarehouseDto(1, "PAK", Constants.ACTIVE.getValue(), getAddressDto());
     }
 
     //address dto

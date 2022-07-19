@@ -64,5 +64,4 @@ public class BrandDetail {
         BrandDetail that = (BrandDetail) o;
         return brandId == that.brandId && Objects.equals(brandName, that.brandName) && Objects.equals(status, that.status) && Objects.equals(item, that.item);
     }
-
 }

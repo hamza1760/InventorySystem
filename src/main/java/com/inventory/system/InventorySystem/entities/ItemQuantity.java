@@ -1,5 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
+import java.util.*;
+
 public class ItemQuantity {
 
     private int warehouseId;
@@ -147,5 +149,13 @@ public class ItemQuantity {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemQuantity that = (ItemQuantity) o;
+        return warehouseId == that.warehouseId && inventoryId == that.inventoryId && inStock == that.inStock && avlQty == that.avlQty && itemId == that.itemId && Objects.equals(warehouseName, that.warehouseName) && Objects.equals(areaName, that.areaName) && Objects.equals(cityName, that.cityName) && Objects.equals(countryName, that.countryName) && Objects.equals(itemSize, that.itemSize) && Objects.equals(itemName, that.itemName) && Objects.equals(itemType, that.itemType) && Objects.equals(productType, that.productType) && Objects.equals(brandName, that.brandName);
     }
 }

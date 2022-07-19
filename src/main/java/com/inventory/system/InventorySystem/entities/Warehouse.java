@@ -1,12 +1,10 @@
 package com.inventory.system.InventorySystem.entities;
 
-import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.*;
 
 @Entity
@@ -23,7 +21,7 @@ public class Warehouse {
     private Address address;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
-    private Set<InventoryDetail> inventory = new HashSet<>();
+    private final Set<InventoryDetail> inventory = new HashSet<>();
 
     public Warehouse() {
     }
@@ -72,5 +70,13 @@ public class Warehouse {
 
     public Set<InventoryDetail> getInventory() {
         return inventory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Warehouse warehouse = (Warehouse) o;
+        return warehouseId == warehouse.warehouseId && Objects.equals(warehouseName, warehouse.warehouseName) && Objects.equals(status, warehouse.status);
     }
 }
