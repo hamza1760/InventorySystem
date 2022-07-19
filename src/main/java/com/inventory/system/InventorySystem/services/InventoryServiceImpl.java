@@ -88,9 +88,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<InventoryDetailDto> getInventory() {
+        int deleted = 0;
         List<InventoryDetail> inventoryDetail = inventoryDetailDao.findAll();
         for (InventoryDetail inventory : inventoryDetail) {
             if (inventory.getStatus().equals(Constants.DELETED.getValue())) {
+                deleted++;
+            }
+            if (deleted == inventoryDetail.size()) {
                 logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), 0));
                 throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), 0);
             }
