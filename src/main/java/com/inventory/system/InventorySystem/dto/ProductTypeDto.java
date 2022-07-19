@@ -6,6 +6,7 @@ import com.inventory.system.InventorySystem.constant.*;
 import java.util.*;
 
 public class ProductTypeDto {
+
     private int productTypeId;
     private String productType;
     @JsonIgnore

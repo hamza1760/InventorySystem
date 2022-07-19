@@ -6,6 +6,7 @@ import com.inventory.system.InventorySystem.constant.*;
 import java.util.*;
 
 public class WarehouseDto {
+
     private int warehouseId;
     private String warehouseName;
     @JsonIgnore

@@ -3,6 +3,7 @@ package com.inventory.system.InventorySystem.dto;
 import java.util.*;
 
 public class ItemSizeDto {
+
     private int inventoryId;
     private int itemId;
     private String itemSize;

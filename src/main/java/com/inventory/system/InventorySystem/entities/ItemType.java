@@ -11,6 +11,7 @@ import java.util.*;
 @Entity
 @Proxy(lazy = false)
 public class ItemType {
+
     @Id
     @Positive
     private int itemTypeId;

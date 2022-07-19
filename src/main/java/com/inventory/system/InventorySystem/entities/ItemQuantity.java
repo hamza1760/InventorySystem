@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.entities;
 
 public class ItemQuantity {
+
     private int warehouseId;
     private String warehouseName;
     private String areaName;

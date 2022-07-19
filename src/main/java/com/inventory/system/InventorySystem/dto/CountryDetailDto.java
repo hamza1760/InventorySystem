@@ -13,7 +13,6 @@ public class CountryDetailDto {
     private String countryName;
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
-
     @JsonIgnore
     private final Set<CityDetail> cityDetails = new HashSet<>();
 

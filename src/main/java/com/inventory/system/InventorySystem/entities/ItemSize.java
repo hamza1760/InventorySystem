@@ -3,6 +3,7 @@ package com.inventory.system.InventorySystem.entities;
 import java.util.*;
 
 public class ItemSize {
+
     private int inventoryId;
     private int itemId;
     private String itemSize;

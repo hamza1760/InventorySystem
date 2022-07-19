@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
 
 public class InventoryDetailDto {
+
     private int inventoryId;
     private String itemSize;
     private int inStock;

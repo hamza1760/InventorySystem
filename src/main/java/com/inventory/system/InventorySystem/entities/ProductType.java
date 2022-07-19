@@ -15,7 +15,6 @@ public class ProductType {
     @Id
     private int productTypeId;
     private String productType;
-
     @JsonIgnore
     private String status = Constants.ACTIVE.getValue();
 
