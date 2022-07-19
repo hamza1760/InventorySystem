@@ -1,6 +1,6 @@
 package com.inventory.system.InventorySystem.exceptions;
 
-import com.inventory.system.InventorySystem.api.response.*;
+import com.inventory.system.InventorySystem.apiresponse.*;
 import org.slf4j.*;
 import org.springframework.http.*;
 import org.springframework.validation.*;

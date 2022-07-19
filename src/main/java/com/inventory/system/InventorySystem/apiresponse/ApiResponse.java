@@ -1,4 +1,4 @@
-package com.inventory.system.InventorySystem.api.response;
+package com.inventory.system.InventorySystem.apiresponse;
 
 import java.util.*;
 

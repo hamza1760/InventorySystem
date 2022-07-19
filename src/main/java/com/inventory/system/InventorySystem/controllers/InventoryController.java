@@ -1,6 +1,6 @@
 package com.inventory.system.InventorySystem.controllers;
 
-import com.inventory.system.InventorySystem.api.response.*;
+import com.inventory.system.InventorySystem.apiresponse.*;
 import com.inventory.system.InventorySystem.dto.*;
 import com.inventory.system.InventorySystem.services.*;
 import org.apache.log4j.*;
