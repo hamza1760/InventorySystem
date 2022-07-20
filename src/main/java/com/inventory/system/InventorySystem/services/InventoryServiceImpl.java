@@ -126,16 +126,20 @@ public class InventoryServiceImpl implements InventoryService {
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         });
-        logger.info("setting item");
-        inventoryDetailDto.setItem(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
-        logger.info("setting itemType");
-        inventoryDetailDto.setItemType(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
-        logger.info("setting warehouse");
-        inventoryDetailDto.setWarehouse(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
-        logger.info("updating inventory");
-        InventoryDetail updatedInventory = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
-        logger.info("returning updated inventory");
-        return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
+        if(inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
+            logger.info("setting item");
+            inventoryDetailDto.setItem(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
+            logger.info("setting itemType");
+            inventoryDetailDto.setItemType(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
+            logger.info("setting warehouse");
+            inventoryDetailDto.setWarehouse(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
+            logger.info("updating inventory");
+            InventoryDetail updatedInventory = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
+            logger.info("returning updated inventory");
+            return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
+        }
+        logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
+        throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
     }
 
     @Override
