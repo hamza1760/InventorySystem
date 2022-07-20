@@ -1,6 +1,7 @@
 package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.apiresponse.*;
+import com.inventory.system.InventorySystem.constant.*;
 import com.inventory.system.InventorySystem.dto.*;
 import com.inventory.system.InventorySystem.services.*;
 import org.apache.log4j.*;
@@ -58,7 +59,7 @@ public class WarehouseController {
     public ResponseEntity<?> deleteWarehouseById(@PathVariable int warehouseId) {
         logger.info("Calling deleteWarehouse method from controller");
         warehouseService.deleteWarehouseById(warehouseId);
-        return new ResponseEntity<>(new ApiResponse("warehouse deleted succesfully", warehouseId),
+        return new ResponseEntity<>(new ApiResponse(Constants.WAREHOUSE_DELETED.getValue(), warehouseId),
                 HttpStatus.FOUND);
     }
 

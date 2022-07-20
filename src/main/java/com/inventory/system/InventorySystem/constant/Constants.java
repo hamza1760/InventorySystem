@@ -16,6 +16,11 @@ public enum Constants {
     ITEM_TYPE_NOT_FOUND("Item Type Not Found"),
     INVENTORY_NOT_FOUND("Inventory Not Found"),
 
+    //delete message
+    ITEM_DELETED("Item deleted"),
+    INVENTORY_DELETED("Inventory deleted"),
+    WAREHOUSE_DELETED("Warehouse deleted"),
+
     //Status constant
     ACTIVE("Active"),
     DELETED("Deleted");

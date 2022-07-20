@@ -1,11 +1,14 @@
 package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.*;
+import com.inventory.system.InventorySystem.apiresponse.*;
+import com.inventory.system.InventorySystem.constant.*;
 import com.inventory.system.InventorySystem.services.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;
 import org.mockito.junit.jupiter.*;
+import org.springframework.http.*;
 
 import java.util.*;
 
@@ -51,7 +54,7 @@ public class InventoryControllerTest {
     @Test
     public void deleteInventoryById() {
         int id = 1;
-        inventoryController.deleteInventoryById(id);
+        assertEquals(new ResponseEntity<>(new ApiResponse(Constants.INVENTORY_DELETED.getValue(), id), HttpStatus.FOUND), inventoryController.deleteInventoryById(id));
         verify(inventoryService, times(1)).deleteInventoryById(id);
     }
 }

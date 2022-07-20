@@ -1,6 +1,8 @@
 package com.inventory.system.InventorySystem.controllers;
 
 import com.inventory.system.InventorySystem.*;
+import com.inventory.system.InventorySystem.apiresponse.*;
+import com.inventory.system.InventorySystem.constant.*;
 import com.inventory.system.InventorySystem.services.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -14,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ItemControllerTest {
+public class
+ItemControllerTest {
 
     @Mock
     private ItemService itemService;
@@ -58,7 +61,7 @@ public class ItemControllerTest {
     @Test
     public void deleteItemById() {
         int id = 1;
-        itemController.deleteItemById(id);
+        assertEquals(new ResponseEntity<>(new ApiResponse(Constants.ITEM_DELETED.getValue(), id), HttpStatus.FOUND), itemController.deleteItemById(id));
         verify(itemService, times(1)).deleteItemById(id);
     }
 }
