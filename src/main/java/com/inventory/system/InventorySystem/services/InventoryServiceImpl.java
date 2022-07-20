@@ -18,18 +18,36 @@ public class InventoryServiceImpl implements InventoryService {
 
     static Logger logger = Logger.getLogger(InventoryServiceImpl.class);
 
+    /**
+     * Implementation of InventoryDetailDao to work with inventory database.
+     */
     @Autowired
     private InventoryDetailDao inventoryDetailDao;
 
+    /**
+     * Implementation of ItemDao to work with item database.
+     */
     @Autowired
     private ItemDao itemDao;
 
+    /**
+     * implementation of ItemTypeDao to work with item type database.
+     */
     @Autowired
     private ItemTypeDao itemTypeDao;
 
+    /**
+     * Implementation of GlobalMapper to map entities to dto and vice versa.
+     */
     @Autowired
     GlobalMapper globalMapper;
 
+    /**
+     * To add inventory in database.
+     *
+     * @param inventoryDetailDto The object of the InventoryDetailDto.
+     * @return inventory that is added to database.
+     */
     @Override
     public InventoryDetailDto addInventory(InventoryDetailDto inventoryDetailDto) {
         if (inventoryDetailDto.getStatus().equals(Constants.ACTIVE.getValue())) {
@@ -86,6 +104,11 @@ public class InventoryServiceImpl implements InventoryService {
         }
     }
 
+    /**
+     * Get the list of all inventories available in database.
+     *
+     * @return list of inventories.
+     */
     @Override
     public List<InventoryDetailDto> getInventory() {
         int deleted = 0;
@@ -103,6 +126,12 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryDetailDao.findByStatus(Constants.ACTIVE.getValue()).stream().map(globalMapper::inventoryDetailToInventoryDetailDto).collect(Collectors.toList());
     }
 
+    /**
+     * To get single inventory based on the id of inventory
+     *
+     * @param inventoryId The id of the inventory to search inventory in database
+     * @return Single inventory that matches the inventoryId
+     */
     @Override
     public InventoryDetailDto getInventoryById(int inventoryId) {
         logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
@@ -118,6 +147,12 @@ public class InventoryServiceImpl implements InventoryService {
         return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.findByStatusAndInventoryId(Constants.ACTIVE.getValue(), inventoryId));
     }
 
+    /**
+     * To update quantity of the item in all warehouses.
+     *
+     * @param inventoryDetailDto The object of the InventoryDetailDto.
+     * @return Single inventory that is updated.
+     */
     @Override
     public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetailDto) {
         int inventoryId = inventoryDetailDto.getInventoryId();
@@ -126,7 +161,7 @@ public class InventoryServiceImpl implements InventoryService {
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
         });
-        if(inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
+        if (inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("setting item");
             inventoryDetailDto.setItem(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
             logger.info("setting itemType");
@@ -142,6 +177,11 @@ public class InventoryServiceImpl implements InventoryService {
         throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
     }
 
+    /**
+     * Delete the particular inventory.
+     *
+     * @param inventoryId The id of the inventory to be deleted.
+     */
     @Override
     public void deleteInventoryById(int inventoryId) {
         logger.info("checking if the inventory is present in database with inventoryId: " + inventoryId);
