@@ -8,7 +8,7 @@ Inventory system application to manage inventory of products in different wareho
 - View the size of all products.
 - Store the product details in MySql database.
 
-**TOOLS USED**
+**TECHNOLOGIES**
 - **Angular:** Front-end.
 - **Spring Boot 2.0:** Back-end JAVA framework to build services using Spring Rest Controller, Spring Data JPA and Java 8.
 - **MySQL:** For saving product details in database.
