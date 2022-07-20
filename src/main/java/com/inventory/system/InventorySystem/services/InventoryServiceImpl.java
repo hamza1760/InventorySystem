@@ -19,19 +19,19 @@ public class InventoryServiceImpl implements InventoryService {
     static Logger logger = Logger.getLogger(InventoryServiceImpl.class);
 
     /**
-     * Implementation of InventoryDetailDao to work with inventory database.
+     * Implementation of InventoryDetailDao to work with InventoryDetail database.
      */
     @Autowired
     private InventoryDetailDao inventoryDetailDao;
 
     /**
-     * Implementation of ItemDao to work with item database.
+     * Implementation of ItemDao to work with Item database.
      */
     @Autowired
     private ItemDao itemDao;
 
     /**
-     * implementation of ItemTypeDao to work with item type database.
+     * implementation of ItemTypeDao to work with ItemType database.
      */
     @Autowired
     private ItemTypeDao itemTypeDao;
@@ -46,59 +46,59 @@ public class InventoryServiceImpl implements InventoryService {
      * To add inventory in database.
      *
      * @param inventoryDetailDto The object of the InventoryDetailDto.
-     * @return inventory that is added to database.
+     * @return Inventory that is added to database.
      */
     @Override
     public InventoryDetailDto addInventory(InventoryDetailDto inventoryDetailDto) {
-            logger.info("Getting item from request body");
-            int itemId = inventoryDetailDto.getItem().getItemId();
-            logger.info("Checking if item exists in database with itemId: " + itemId);
-            Item item = itemDao.findById(itemId).orElseThrow(() -> {
-                logger.error("Item not found ", new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId));
-                throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
-            });
-            logger.info("Item found in database");
-            logger.info("Checking item status");
-            if (item.getStatus().equals(Constants.DELETED.getValue())) {
-                logger.info("Item status is deleted");
-                logger.error("Item not found ", new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId));
-                throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
-            }
-            logger.info("Getting itemTypeId from request body");
-            int itemTypeId = inventoryDetailDto.getItemType().getItemTypeId();
-            logger.info("Checking if itemType exists in database with itemTypeId: " + itemTypeId);
-            ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> {
-                logger.error("Item Type not found ", new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId));
-                throw new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId);
-            });
-            logger.info("Item Type found in database");
-            logger.info("Checking itemType status");
-            if (itemType.getStatus().equals(Constants.DELETED.getValue())) {
-                logger.info("Item Type status is deleted");
-                logger.error("Item Type not found ", new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId));
-                throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemTypeId);
-            }
-            logger.info("Getting inventoryId from request body");
-            int inventoryId = inventoryDetailDto.getInventoryId();
-            logger.info("Checking if inventory is already present in database with inventoryId: " + inventoryId);
-            boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
-            if (checkInventory) {
-                logger.info("Inventory found in database");
-                logger.error("Inventory already exists", new GlobalException(Constants.INVENTORY_ALREADY_EXISTS.getValue(), inventoryId));
-                throw new GlobalException(Constants.INVENTORY_ALREADY_EXISTS.getValue(), inventoryId);
-            } else {
-                logger.info("Setting item to inventory");
-                inventoryDetailDto.setItem(globalMapper.itemToItemDto(item));
-                logger.info("Setting itemType to inventory");
-                inventoryDetailDto.setItemType(globalMapper.itemTypeToItemTypeDto(itemType));
-                logger.info("Saving inventory in database with inventoryId: " + inventoryId + " itemId: " + itemId + " itemTypeId: " + itemTypeId);
-                InventoryDetail inventoryDetail = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
-                return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
-            }
+        logger.info("Getting item from request body");
+        int itemId = inventoryDetailDto.getItem().getItemId();
+        logger.info("Checking if item exists in database with itemId: " + itemId);
+        Item item = itemDao.findById(itemId).orElseThrow(() -> {
+            logger.error("Item not found ", new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId));
+            throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
+        });
+        logger.info("Item found in database");
+        logger.info("Checking item status");
+        if (item.getStatus().equals(Constants.DELETED.getValue())) {
+            logger.info("Item status is deleted");
+            logger.error("Item not found ", new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId));
+            throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemId);
+        }
+        logger.info("Getting itemTypeId from request body");
+        int itemTypeId = inventoryDetailDto.getItemType().getItemTypeId();
+        logger.info("Checking if itemType exists in database with itemTypeId: " + itemTypeId);
+        ItemType itemType = itemTypeDao.findById(itemTypeId).orElseThrow(() -> {
+            logger.error("Item Type not found ", new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId));
+            throw new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId);
+        });
+        logger.info("Item Type found in database");
+        logger.info("Checking itemType status");
+        if (itemType.getStatus().equals(Constants.DELETED.getValue())) {
+            logger.info("Item Type status is deleted");
+            logger.error("Item Type not found ", new GlobalException(Constants.ITEM_TYPE_NOT_FOUND.getValue(), itemTypeId));
+            throw new GlobalException(Constants.ITEM_NOT_FOUND.getValue(), itemTypeId);
+        }
+        logger.info("Getting inventoryId from request body");
+        int inventoryId = inventoryDetailDto.getInventoryId();
+        logger.info("Checking if inventory is already present in database with inventoryId: " + inventoryId);
+        boolean checkInventory = inventoryDetailDao.findById(inventoryId).isPresent();
+        if (checkInventory) {
+            logger.info("Inventory found in database");
+            logger.error("Inventory already exists", new GlobalException(Constants.INVENTORY_ALREADY_EXISTS.getValue(), inventoryId));
+            throw new GlobalException(Constants.INVENTORY_ALREADY_EXISTS.getValue(), inventoryId);
+        } else {
+            logger.info("Setting item to inventory");
+            inventoryDetailDto.setItem(globalMapper.itemToItemDto(item));
+            logger.info("Setting itemType to inventory");
+            inventoryDetailDto.setItemType(globalMapper.itemTypeToItemTypeDto(itemType));
+            logger.info("Saving inventory in database with inventoryId: " + inventoryId + " itemId: " + itemId + " itemTypeId: " + itemTypeId);
+            InventoryDetail inventoryDetail = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
+            return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
+        }
     }
 
     /**
-     * Get the list of all inventories available in database.
+     * Get the list of inventories available in database.
      *
      * @return list of inventories.
      */
@@ -120,10 +120,10 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     /**
-     * To get single inventory based on the id of inventory
+     * To get single inventory based on the id of inventory.
      *
-     * @param inventoryId The id of the inventory to search inventory in database
-     * @return Single inventory that matches the inventoryId
+     * @param inventoryId The id of the inventory to search inventory in database.
+     * @return Single inventory that matches the inventoryId.
      */
     @Override
     public InventoryDetailDto getInventoryById(int inventoryId) {
@@ -144,7 +144,7 @@ public class InventoryServiceImpl implements InventoryService {
      * To update quantity of the item in all warehouses.
      *
      * @param inventoryDetailDto The object of the InventoryDetailDto.
-     * @return Single inventory that is updated.
+     * @return Inventory of item that is updated.
      */
     @Override
     public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetailDto) {
@@ -171,7 +171,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     /**
-     * Delete the particular inventory.
+     * Delete the particular inventory from database.
      *
      * @param inventoryId The id of the inventory to be deleted.
      */

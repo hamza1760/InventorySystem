@@ -6,11 +6,11 @@ import java.util.*;
 
 public interface InventoryService {
 
+    InventoryDetailDto addInventory(InventoryDetailDto inventoryDetail);
+
     List<InventoryDetailDto> getInventory();
 
     InventoryDetailDto getInventoryById(int inventoryId);
-
-    InventoryDetailDto addInventory(InventoryDetailDto inventoryDetail);
 
     InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetail);
 

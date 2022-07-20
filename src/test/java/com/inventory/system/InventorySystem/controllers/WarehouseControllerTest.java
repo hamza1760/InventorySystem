@@ -39,28 +39,9 @@ class WarehouseControllerTest {
 
     @Test
     void getWarehouseById() {
-        when(warehouseService.getWarehouseById(mockDtoData.getWarehouseDto())).thenReturn(mockDtoData.getWarehouseDto());
-        assertEquals(mockDtoData.getWarehouseDto(), warehouseController.getWarehouseById(mockDtoData.getWarehouseDto()));
-    }
-
-    @Test
-    void getItemQuantityInSingleWarehouse() {
         int id = 1;
-        when(warehouseService.getItemQuantityInSingleWarehouse(id)).thenReturn(List.of(mockDtoData.getItemQuantityDto()));
-        assertEquals(1, warehouseController.getItemQuantityInSingleWarehouse(id).size());
-    }
-
-    @Test
-    void getItemQuantityInAllWarehouses() {
-        when(warehouseService.getItemQuantityInAllWarehouses()).thenReturn(List.of(mockDtoData.getItemQuantityDto()));
-        assertEquals(1, warehouseController.getItemQuantityInAllWarehouses().size());
-    }
-
-    @Test
-    void deleteWarehouseById() {
-        int id = 1;
-        assertEquals(new ResponseEntity<>(new ApiResponse(Constants.WAREHOUSE_DELETED.getValue(), id), HttpStatus.FOUND), warehouseController.deleteWarehouseById(id));
-        verify(warehouseService, times(1)).deleteWarehouseById(id);
+        when(warehouseService.getWarehouseById(id)).thenReturn(mockDtoData.getWarehouseDto());
+        assertEquals(mockDtoData.getWarehouseDto(), warehouseController.getWarehouseById(id));
     }
 
     @Test
@@ -71,9 +52,29 @@ class WarehouseControllerTest {
     }
 
     @Test
+    void getItemQuantityInAllWarehouses() {
+        when(warehouseService.getItemQuantityInAllWarehouses()).thenReturn(List.of(mockDtoData.getItemQuantityDto()));
+        assertEquals(1, warehouseController.getItemQuantityInAllWarehouses().size());
+    }
+
+    @Test
+    void getItemQuantityInSingleWarehouse() {
+        int id = 1;
+        when(warehouseService.getItemQuantityInSingleWarehouse(id)).thenReturn(List.of(mockDtoData.getItemQuantityDto()));
+        assertEquals(1, warehouseController.getItemQuantityInSingleWarehouse(id).size());
+    }
+
+    @Test
     void setItemQuantityInSingleWarehouse() {
         int id = 1;
         when(warehouseService.setItemQuantityInSingleWarehouse(mockDtoData.getInventoryDetailDto(), id)).thenReturn(mockDtoData.getWarehouseDto());
         assertEquals(mockDtoData.getWarehouseDto(), warehouseController.setItemQuantityInSingleWarehouse(mockDtoData.getInventoryDetailDto(), id));
+    }
+
+    @Test
+    void deleteWarehouseById() {
+        int id = 1;
+        assertEquals(new ResponseEntity<>(new ApiResponse(Constants.WAREHOUSE_DELETED.getValue(), id), HttpStatus.FOUND), warehouseController.deleteWarehouseById(id));
+        verify(warehouseService, times(1)).deleteWarehouseById(id);
     }
 }

@@ -10,15 +10,15 @@ public interface WarehouseService {
 
     List<WarehouseDto> getWarehouse();
 
-    WarehouseDto getWarehouseById(WarehouseDto getWarehouse);
+    WarehouseDto getWarehouseById(int warehouseId);
 
     WarehouseDto putInventoryInWarehouse(Set<InventoryDetailDto> inventoryDetails, int warehouseId);
 
-    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId);
+    List<ItemQuantityDto> getItemQuantityInAllWarehouses();
 
     List<ItemQuantityDto> getItemQuantityInSingleWarehouse(int warehouseId);
 
-    List<ItemQuantityDto> getItemQuantityInAllWarehouses();
+    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId);
 
     void deleteWarehouseById(int warehouseId);
 }

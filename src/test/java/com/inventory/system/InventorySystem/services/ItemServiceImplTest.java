@@ -84,19 +84,6 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void deleteItemById() {
-        int id = 1;
-        List<Item> itemList = List.of(mockData.getItem());
-        itemList.forEach((i) -> {
-            if (id == i.getItemId()) {
-                when(itemDao.findById(id)).thenReturn(Optional.of(i));
-            }
-        });
-        itemService.deleteItemById(id);
-        verify(itemDao, times(1)).softDelete(Constants.DELETED.getValue(), id);
-    }
-
-    @Test
     public void getAllItemSize() {
         List<ItemSize> itemSizes = List.of(mockData.getItemSize());
         List<ItemSizeDto> itemSizesDto = List.of(mockDtoData.getItemSizeDto());
@@ -123,6 +110,19 @@ public class ItemServiceImplTest {
         });
         when(itemDao.getItemSizeById(Constants.ACTIVE.getValue(), id)).thenReturn(itemSizes);
         assertEquals(List.of(mockDtoData.getItemSizeDto()), itemService.getItemSizeById(id));
+    }
+
+    @Test
+    public void deleteItemById() {
+        int id = 1;
+        List<Item> itemList = List.of(mockData.getItem());
+        itemList.forEach((i) -> {
+            if (id == i.getItemId()) {
+                when(itemDao.findById(id)).thenReturn(Optional.of(i));
+            }
+        });
+        itemService.deleteItemById(id);
+        verify(itemDao, times(1)).softDelete(Constants.DELETED.getValue(), id);
     }
 
     @Test

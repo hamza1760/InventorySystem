@@ -10,11 +10,11 @@ public interface ItemService {
 
     ItemDto addItem(ItemDto item);
 
-    void deleteItemById(int itemId);
-
     ItemDto getItemById(int itemId);
+
+    List<ItemSizeDto> getAllItemSize();
 
     List<ItemSizeDto> getItemSizeById(int itemId);
 
-    List<ItemSizeDto> getAllItemSize();
+    void deleteItemById(int itemId);
 }
