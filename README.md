@@ -19,3 +19,5 @@ Inventory system application to manage inventory of products in different wareho
 2. Build the project the resolve maven dependencies.
 3. Run the application.
 4. Your application will be up and running on port 8080.
+
+## The frontend part of this project is: https://github.com/hamza1760/InventorySystemFrontAngular
