@@ -50,7 +50,6 @@ public class InventoryServiceImpl implements InventoryService {
      */
     @Override
     public InventoryDetailDto addInventory(InventoryDetailDto inventoryDetailDto) {
-        if (inventoryDetailDto.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting item from request body");
             int itemId = inventoryDetailDto.getItem().getItemId();
             logger.info("Checking if item exists in database with itemId: " + itemId);
@@ -96,12 +95,6 @@ public class InventoryServiceImpl implements InventoryService {
                 InventoryDetail inventoryDetail = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
                 return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(inventoryDetail));
             }
-        }
-        if (inventoryDetailDto.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new GlobalException("Cannot add inventory with status Deleted", inventoryDetailDto.getInventoryId());
-        } else {
-            throw new GlobalException("status not supported", inventoryDetailDto.getInventoryId());
-        }
     }
 
     /**

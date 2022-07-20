@@ -34,7 +34,6 @@ public class ItemServiceImpl implements ItemService {
     private GlobalMapper globalMapper;
 
     public ItemDto addItem(ItemDto itemDto) {
-        if (itemDto.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting product type id from request body");
             int productTypeId = itemDto.getProductType().getProductTypeId();
             logger.info("Checking if productType exists in database with productTypeId: " + productTypeId);
@@ -80,12 +79,6 @@ public class ItemServiceImpl implements ItemService {
                 Item item = globalMapper.itemDtoItem(itemDto);
                 return globalMapper.itemToItemDto(itemDao.save(item));
             }
-        }
-        if (itemDto.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new GlobalException("Cannot add item with status deleted", itemDto.getItemId());
-        } else {
-            throw new GlobalException("status not supported", itemDto.getItemId());
-        }
     }
 
     @Override

@@ -32,7 +32,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto addWarehouse(WarehouseDto warehouseDto) {
-        if (warehouseDto.getStatus().equals(Constants.ACTIVE.getValue())) {
             logger.info("Getting address from request body");
             int addressId = warehouseDto.getAddress().getAddressId();
             logger.info("Checking if address is present in database with addressId: " + addressId);
@@ -66,12 +65,6 @@ public class WarehouseServiceImpl implements WarehouseService {
                     throw new GlobalException("Address is already assigned to warehouse", warehouseIdInAddress);
                 }
             }
-        }
-        if (warehouseDto.getStatus().equals(Constants.DELETED.getValue())) {
-            throw new GlobalException("Cannot add warehouse with status Deleted", warehouseDto.getWarehouseId());
-        } else {
-            throw new GlobalException("Status not supported", warehouseDto.getWarehouseId());
-        }
     }
 
     @Override
