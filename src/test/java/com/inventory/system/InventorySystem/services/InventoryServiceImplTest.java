@@ -82,11 +82,12 @@ public class InventoryServiceImplTest {
 
     @Test
     public void setItemQuantityInAllWarehouses() {
+        int id =1;
         when(inventoryDetailDao.findById(mockData.getInventoryDetail().getInventoryId())).thenReturn(Optional.of(mockData.getInventoryDetail()));
         when(inventoryDetailDao.save(mockData.getInventoryDetail())).thenReturn(mockData.getInventoryDetail());
         when(globalMapper.inventoryDetailToInventoryDetailDto(mockData.getInventoryDetail())).thenReturn(mockDtoData.getInventoryDetailDto());
         when(globalMapper.inventoryDetailDtoToInventoryDetail(mockDtoData.getInventoryDetailDto())).thenReturn(mockData.getInventoryDetail());
-        assertEquals(mockDtoData.getInventoryDetailDto(), inventoryService.setItemQuantityInAllWarehouses(mockDtoData.getInventoryDetailDto()));
+        assertEquals(mockDtoData.getInventoryDetailDto(), inventoryService.setItemQuantityInAllWarehouses(mockDtoData.getInventoryDetailDto(),id));
     }
 
     @Test

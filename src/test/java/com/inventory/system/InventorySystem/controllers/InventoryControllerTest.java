@@ -47,8 +47,9 @@ public class InventoryControllerTest {
 
     @Test
     public void setItemQuantityInAllWarehouse() {
-        when(inventoryService.setItemQuantityInAllWarehouses(mockDtoData.getInventoryDetailDto())).thenReturn(mockDtoData.getInventoryDetailDto());
-        assertEquals(mockDtoData.getInventoryDetailDto(), inventoryController.setItemQuantityInAllWarehouses(mockDtoData.getInventoryDetailDto()));
+        int id = 1;
+        when(inventoryService.setItemQuantityInAllWarehouses(mockDtoData.getInventoryDetailDto(),id)).thenReturn(mockDtoData.getInventoryDetailDto());
+        assertEquals(mockDtoData.getInventoryDetailDto(), inventoryController.setItemQuantityInAllWarehouses(mockDtoData.getInventoryDetailDto(),id));
     }
 
     @Test

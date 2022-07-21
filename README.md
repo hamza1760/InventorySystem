@@ -16,7 +16,7 @@ Inventory system application to manage inventory of products in different wareho
 
 **Steps for executing the application using any IDE**
 1. Clone or download the repository in your local machine.
-2. Build the project the resolve maven dependencies.
+2. Build the project to resolve maven dependencies.
 3. Run the application.
 4. Your application will be up and running on port 8080.
 

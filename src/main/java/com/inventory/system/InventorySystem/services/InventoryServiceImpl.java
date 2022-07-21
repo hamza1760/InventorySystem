@@ -144,30 +144,33 @@ public class InventoryServiceImpl implements InventoryService {
      * To update quantity of the item in all warehouses.
      *
      * @param inventoryDetailDto The object of the InventoryDetailDto.
+     * @param inventoryId        The id of the inventory to search inventory in database.
      * @return Inventory of item that is updated.
      */
     @Override
-    public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetailDto) {
-        int inventoryId = inventoryDetailDto.getInventoryId();
-        logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
-        InventoryDetail inventoryDetail = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+    public InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetailDto, int inventoryId) {
+        if (inventoryDetailDto.getInventoryId() == inventoryId) {
+            logger.info("Checking if the inventory is present in database with inventoryId: " + inventoryId);
+            InventoryDetail inventoryDetail = inventoryDetailDao.findById(inventoryId).orElseThrow(() -> {
+                logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
+                throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
+            });
+            if (inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
+                logger.info("setting item");
+                inventoryDetailDto.setItem(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
+                logger.info("setting itemType");
+                inventoryDetailDto.setItemType(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
+                logger.info("setting warehouse");
+                inventoryDetailDto.setWarehouse(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
+                logger.info("updating inventory");
+                InventoryDetail updatedInventory = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
+                logger.info("returning updated inventory");
+                return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
+            }
             logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
             throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
-        });
-        if (inventoryDetail.getStatus().equals(Constants.ACTIVE.getValue())) {
-            logger.info("setting item");
-            inventoryDetailDto.setItem(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItem());
-            logger.info("setting itemType");
-            inventoryDetailDto.setItemType(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getItemType());
-            logger.info("setting warehouse");
-            inventoryDetailDto.setWarehouse(globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetail).getWarehouse());
-            logger.info("updating inventory");
-            InventoryDetail updatedInventory = globalMapper.inventoryDetailDtoToInventoryDetail(inventoryDetailDto);
-            logger.info("returning updated inventory");
-            return globalMapper.inventoryDetailToInventoryDetailDto(inventoryDetailDao.save(updatedInventory));
         }
-        logger.error("Inventory not found", new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId));
-        throw new GlobalException(Constants.INVENTORY_NOT_FOUND.getValue(), inventoryId);
+        throw new GlobalException("Cannot update Inventory Id",inventoryDetailDto.getInventoryId());
     }
 
     /**

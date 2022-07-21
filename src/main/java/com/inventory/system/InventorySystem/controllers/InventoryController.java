@@ -42,10 +42,10 @@ public class InventoryController {
         return inventoryService.getInventoryById(inventoryId);
     }
 
-    @PutMapping("/inventory/edit")
-    public InventoryDetailDto setItemQuantityInAllWarehouses(@RequestBody InventoryDetailDto inventoryDetail) {
+    @PutMapping("/inventory/{inventoryId}")
+    public InventoryDetailDto setItemQuantityInAllWarehouses(@RequestBody InventoryDetailDto inventoryDetail,@PathVariable int inventoryId) {
         logger.info("Calling setItemQuantityInAllWarehouses method from controller");
-        return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail);
+        return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail,inventoryId);
     }
 
     @DeleteMapping("/inventory/{inventoryId}")
