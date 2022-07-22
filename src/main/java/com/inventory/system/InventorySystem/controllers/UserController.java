@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> addUser(UserDto userDto){
