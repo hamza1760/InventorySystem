@@ -1,12 +1,15 @@
 package com.inventory.system.InventorySystem.dto;
 import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.entities.*;
+
+import java.util.*;
+
 public class RoleDto {
 
     private int roleId;
     private String roleName;
     @JsonIgnore
-    private User user;
+    private Set<User> user;
 
     public RoleDto() {
     }
@@ -32,11 +35,11 @@ public class RoleDto {
         this.roleName = roleName;
     }
 
-    public User getUser() {
+    public Set<User> getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Set<User> user) {
         this.user = user;
     }
 }

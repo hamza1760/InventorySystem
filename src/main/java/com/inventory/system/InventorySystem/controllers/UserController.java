@@ -14,9 +14,8 @@ public class UserController {
     UserServiceImpl userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> addUser(@RequestBody UserDto userDto) {
-        userService.addUser(userDto);
-        return new ResponseEntity<>(new ApiResponse("User Created Successfully", userDto.getId()), HttpStatus.ACCEPTED);
+    public UserDto addUser(@RequestBody UserDto userDto) {
+       return userService.addUser(userDto);
     }
 
 

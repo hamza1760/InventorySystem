@@ -1,4 +1,5 @@
 package com.inventory.system.InventorySystem.dto;
+import com.fasterxml.jackson.annotation.*;
 import com.inventory.system.InventorySystem.constant.*;
 import com.inventory.system.InventorySystem.entities.*;
 
@@ -15,7 +16,9 @@ public class UserDto {
     private String email;
     private int phone;
     private String status = Constants.ACTIVE.getValue();
-    private Set<Role> roles;
+
+    @JsonIgnore
+    private Role role;
 
     public UserDto() {
     }
@@ -95,11 +98,11 @@ public class UserDto {
         this.status = status;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -13,11 +13,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
+    @Autowired RoleDao roleDao;
+
     @Autowired
     GlobalMapper globalMapper;
 
     @Override
     public UserDto addUser(UserDto userDto) {
+        userDto.setRole(roleDao.findById(1).get());
         User user = globalMapper.UserDtoUser(userDto);
         return globalMapper.UserToUserDto(userDao.save(user));
     }

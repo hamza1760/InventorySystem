@@ -1,10 +1,13 @@
 package com.inventory.system.InventorySystem.entities;
-import com.inventory.system.InventorySystem.constant.*;
 
+import com.inventory.system.InventorySystem.constant.*;
+import org.hibernate.annotations.*;
+
+import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
+@Proxy(lazy = false)
 public class User {
 
     @Id
@@ -18,8 +21,9 @@ public class User {
     private int phone;
     private String status = Constants.ACTIVE.getValue();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public User() {
     }
@@ -95,11 +99,11 @@ public class User {
         this.status = status;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

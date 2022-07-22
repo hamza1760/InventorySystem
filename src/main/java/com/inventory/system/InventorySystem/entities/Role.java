@@ -3,6 +3,8 @@ import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.*;
+
 @Entity
 @Proxy(lazy = false)
 public class Role {
@@ -11,9 +13,8 @@ public class Role {
     private int roleId;
     private String roleName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "role")
+    private Set<User> users = new HashSet<>();
 
     public Role() {
     }
@@ -39,11 +40,11 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
