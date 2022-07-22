@@ -59,4 +59,14 @@ public class GlobalMapper {
     public ItemQuantityDto itemQuantityToItemQuantityDto(ItemQuantity itemQuantity) {
         return modelMapper.map(itemQuantity, ItemQuantityDto.class);
     }
+
+    public UserDto UserToUserDto(User user) {
+        return modelMapper.map(user, UserDto.class);
+    }
+
+    public User UserDtoUser(UserDto userDto) {
+        return modelMapper.map(userDto, User.class);
+    }
+    
+    
 }
