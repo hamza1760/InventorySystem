@@ -25,9 +25,9 @@ public class InventoryController {
     private ItemService itemService;
 
     @PostMapping("/inventory")
-    public InventoryDetailDto addInventory(@Valid @RequestBody InventoryDetailDto inventoryDetail) {
+    public InventoryDetailDto addInventory(@Valid @RequestBody InventoryDetailDto inventoryDetailDto) {
         logger.info("Calling addInventory method from controller");
-        return inventoryService.addInventory(inventoryDetail);
+        return inventoryService.addInventory(inventoryDetailDto);
     }
 
     @GetMapping("/inventory")
@@ -43,9 +43,9 @@ public class InventoryController {
     }
 
     @PutMapping("/inventory/{inventoryId}")
-    public InventoryDetailDto setItemQuantityInAllWarehouses(@RequestBody InventoryDetailDto inventoryDetail,@PathVariable int inventoryId) {
+    public InventoryDetailDto setItemQuantityInAllWarehouses(@RequestBody InventoryDetailDto inventoryDetailDto,@PathVariable int inventoryId) {
         logger.info("Calling setItemQuantityInAllWarehouses method from controller");
-        return inventoryService.setItemQuantityInAllWarehouses(inventoryDetail,inventoryId);
+        return inventoryService.setItemQuantityInAllWarehouses(inventoryDetailDto,inventoryId);
     }
 
     @DeleteMapping("/inventory/{inventoryId}")

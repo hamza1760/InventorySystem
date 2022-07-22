@@ -6,19 +6,19 @@ import java.util.*;
 
 public interface WarehouseService {
 
-    WarehouseDto addWarehouse(WarehouseDto warehouse);
+    WarehouseDto addWarehouse(WarehouseDto warehouseDto);
 
     List<WarehouseDto> getWarehouse();
 
     WarehouseDto getWarehouseById(int warehouseId);
 
-    WarehouseDto putInventoryInWarehouse(Set<InventoryDetailDto> inventoryDetails, int warehouseId);
+    WarehouseDto putInventoryInWarehouse(Set<InventoryDetailDto> inventoryDetailsDto, int warehouseId);
 
     List<ItemQuantityDto> getItemQuantityInAllWarehouses();
 
     List<ItemQuantityDto> getItemQuantityInSingleWarehouse(int warehouseId);
 
-    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventory, int warehouseId);
+    WarehouseDto setItemQuantityInSingleWarehouse(InventoryDetailDto inventoryDto, int warehouseId);
 
     void deleteWarehouseById(int warehouseId);
 }

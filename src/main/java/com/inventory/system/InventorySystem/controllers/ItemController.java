@@ -22,9 +22,9 @@ public class ItemController {
 
     /* Item Controller */
     @PostMapping("/item/")
-    public ItemDto addItem(@Valid @RequestBody ItemDto item) {
+    public ItemDto addItem(@Valid @RequestBody ItemDto itemDto) {
         logger.info("Calling addItem method from controller");
-        return itemService.addItem(item);
+        return itemService.addItem(itemDto);
     }
 
     @GetMapping("/item")

@@ -6,13 +6,13 @@ import java.util.*;
 
 public interface InventoryService {
 
-    InventoryDetailDto addInventory(InventoryDetailDto inventoryDetail);
+    InventoryDetailDto addInventory(InventoryDetailDto inventoryDetailDto);
 
     List<InventoryDetailDto> getInventory();
 
     InventoryDetailDto getInventoryById(int inventoryId);
 
-    InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetail,int inventoryId);
+    InventoryDetailDto setItemQuantityInAllWarehouses(InventoryDetailDto inventoryDetailDto,int inventoryId);
 
     void deleteInventoryById(int inventoryId);
 }

@@ -26,9 +26,9 @@ public class WarehouseController {
 
     /* Warehouse Controller */
     @PostMapping("/warehouse")
-    public WarehouseDto addWarehouse(@Valid @RequestBody WarehouseDto warehouse) {
+    public WarehouseDto addWarehouse(@Valid @RequestBody WarehouseDto warehouseDto) {
         logger.info("Calling addWarehouse function");
-        return warehouseService.addWarehouse(warehouse);
+        return warehouseService.addWarehouse(warehouseDto);
     }
 
     @GetMapping("/warehouse")
@@ -62,9 +62,9 @@ public class WarehouseController {
     }
 
     @PutMapping("/warehouse/{warehouseId}")
-    public WarehouseDto setItemQuantityInSingleWarehouse(@RequestBody InventoryDetailDto inventoryDetail, @PathVariable int warehouseId) {
+    public WarehouseDto setItemQuantityInSingleWarehouse(@RequestBody InventoryDetailDto inventoryDetailDto, @PathVariable int warehouseId) {
         logger.info("Calling setItemQuantityInSingleWarehouse method from controller");
-        return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetail, warehouseId);
+        return warehouseService.setItemQuantityInSingleWarehouse(inventoryDetailDto, warehouseId);
     }
 
     @DeleteMapping("/warehouse/{warehouseId}")
